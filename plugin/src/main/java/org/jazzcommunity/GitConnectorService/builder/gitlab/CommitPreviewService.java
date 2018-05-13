@@ -1,5 +1,7 @@
 package org.jazzcommunity.GitConnectorService.builder.gitlab;
 
+import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.type.gitlab.commit.Commit;
 import java.io.IOException;
 import java.net.URL;
 
@@ -10,12 +12,9 @@ import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.logging.Log;
-import org.apache.http.auth.AuthenticationException;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlParameters;
-import org.jazzcommunity.gitlib.gitlab.GitlabApi;
-import org.jazzcommunity.gitlib.type.gitlab.commit.Commit;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 

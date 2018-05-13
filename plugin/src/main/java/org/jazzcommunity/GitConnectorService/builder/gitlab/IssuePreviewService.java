@@ -1,5 +1,7 @@
 package org.jazzcommunity.GitConnectorService.builder.gitlab;
 
+import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
@@ -8,8 +10,6 @@ import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.html.MarkdownParser;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlParameters;
-import org.jazzcommunity.gitlib.gitlab.GitlabApi;
-import org.jazzcommunity.gitlib.type.gitlab.issue.Issue;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
