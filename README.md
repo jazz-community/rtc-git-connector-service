@@ -1,7 +1,6 @@
 # rtc-rich-hover-service
 Service providing server side functionality for the [RTC Git Connector](https://github.com/jazz-community/rtc-git-connector). Currently, this involves providing custom link styles and rich hover functionality for links to Gitlab artifacts.
 
--   [rtc-rich-hover-service](#rtc-rich-hover-service)
 -   [Setup](#setup)
     -   [Prerequisites](#prerequisites)
     -   [Installation](#installation)
