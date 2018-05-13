@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!-- https://jazz.net/wiki/bin/view/Main/JAFServiceFramework -->
+<plugin>
+    <extension
+            point="com.ibm.team.repository.common.components">
+        <component
+                id="org.jazzcommunity.GitConnectorService"
+                name="REST service">
+            <service
+                    name="REST Service"
+                    kind="MODELLED_REST"
+                    uri="org.jazzcommunity.GitConnectorService.IGitConnectorService"
+                    version="1">
+            </service>
+        </component>
+    </extension>
+    <extension
+            point="com.ibm.team.repository.service.serviceProvider">
+        <serviceProvider
+                componentId="org.jazzcommunity.GitConnectorService"
+                implementationClass="org.jazzcommunity.GitConnectorService.GitConnectorService">
+            <provides>
+                <providedService interface="org.jazzcommunity.GitConnectorService.IGitConnectorService"/>
+            </provides>
+            <prerequisites>
+                <requiredService interface="com.siemens.bt.jazz.services.PersonalTokenService.IPersonalTokenService"/>
+                <requiredService interface="com.ibm.team.repository.common.service.IContributorService"/>
+                <requiredService interface="com.ibm.team.repository.service.IRepositoryItemService"/>
+                <requiredService interface="com.ibm.team.repository.common.service.IQueryService"/>
+                <requiredService interface="com.ibm.team.repository.service.IServerQueryService"/>
+                <requiredService interface="com.ibm.team.build.internal.common.ITeamBuildService"/>
+            </prerequisites>
+        </serviceProvider>
+    </extension>
+</plugin>

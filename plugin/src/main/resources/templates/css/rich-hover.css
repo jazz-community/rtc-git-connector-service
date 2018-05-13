@@ -1,0 +1,17 @@
+body {
+    font-family: sans-serif;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+tr td:first-child {
+    padding-right: 10px;
+    font-weight: bold;
+    vertical-align: text-top;
+}
+
+.description {
+    font-size: 0.8em;
+}

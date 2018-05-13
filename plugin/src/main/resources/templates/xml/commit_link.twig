@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jp:CompactRendering
+        xmlns:jp="http://jazz.net/xmlns/prod/jazz/presentation/1.0/"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        rdf:about="{{ about }}"
+        xmlns:dcterms="http://purl.org/dc/terms/">
+    <dcterms:title>{{ title }}</dcterms:title>
+    <jp:icon rdf:resource="{{ icon }}"/>
+    <jp:abbreviation>{{ comment }}</jp:abbreviation>
+    <jp:smallPreview
+            jp:preferred_height="200"
+            jp:preferred_width="600"
+            rdf:resource="{{ resourceSmall }}"/>
+    <jp:largePreview
+            jp:preferred_height="400"
+            jp:preferred_width="600"
+            rdf:resource="{{ resourceLarge }}"/>
+</jp:CompactRendering>

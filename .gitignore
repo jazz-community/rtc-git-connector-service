@@ -1,0 +1,6 @@
+**/target
+.idea
+*.iml
+payload.xml
+.jazzignore
+*.swp

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>org.jazzcommunity.GitConnectorService</artifactId>
+    <packaging>eclipse-plugin</packaging>
+
+    <parent>
+        <groupId>org.jazzcommunity.GitConnectorService</groupId>
+        <artifactId>org.jazzcommunity.GitConnectorService.parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>Generated Payloads</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/target/java-gen</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+          <!--Purposely commented out until link presentation api is implemented -->
+            <!--<plugin>-->
+                <!--<groupId>org.jsonschema2pojo</groupId>-->
+                <!--<artifactId>jsonschema2pojo-maven-plugin</artifactId>-->
+                <!--<version>0.5.1</version>-->
+                <!--<configuration>-->
+                    <!--<addCompileSourceRoot>true</addCompileSourceRoot>-->
+                    <!--<annotationStyle>gson</annotationStyle>-->
+                    <!--<includeHashcodeAndEquals>false</includeHashcodeAndEquals>-->
+                    <!--<includeToString>false</includeToString>-->
+                    <!--<sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory>-->
+                    <!--<sourceType>json</sourceType>-->
+                    <!--<targetPackage>org.jazzcommunity.GitConnectorService.type</targetPackage>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>generate</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+        </plugins>
+    </build>
+
+</project>

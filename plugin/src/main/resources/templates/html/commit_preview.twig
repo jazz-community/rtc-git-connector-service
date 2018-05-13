@@ -1,0 +1,33 @@
+<html>
+<head>
+    <style>
+        {% include "../css/rich-hover.css" %}
+    </style>
+</head>
+</html>
+<body>
+    <h1>{{ title }}</h1>
+    <table>
+        <tr>
+            <td>Message:</td>
+            <td>{{ message }}</td>
+        </tr>
+        <tr>
+            <td>Created by:</td>
+            <td>{{ authorName }}</td>
+        </tr>
+        <tr>
+            <td>Commited by:</td>
+            <td>{{ commitAuthor }}</td>
+        </tr>
+        <tr>
+            <td>Commited at:</td>
+            <td>{{ commitDate }}</td>
+        </tr>
+        <tr>
+            <td>Sha:</td>
+            <td>{{ sha }}</td>
+        </tr>
+    </table>
+</body>
+</html>
