@@ -2,17 +2,22 @@ package org.jazzcommunity.GitConnectorService.builder.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
+import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.net.UrlParameters;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
+import org.modelmapper.ModelMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +43,14 @@ public class IssueLinkService extends AbstractRestService {
         }
     }
 
-    private void sendOslcResponse(Issue issue, UrlParameters parameters) {
+    private void sendOslcResponse(Issue issue, UrlParameters parameters) throws IOException {
+        // what might I need parameters for here?
+        ModelMapper mapper = new ModelMapper();
+        OslcIssue oslcPayload = mapper.map(issue, OslcIssue.class);
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(oslcPayload);
+        response.setContentType(ContentType.APPLICATION_JSON.toString());
+        response.getWriter().write(json);
     }
 
     private void sendLinkResponse(Issue issue, UrlParameters parameters) throws IOException {
