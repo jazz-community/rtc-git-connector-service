@@ -18,6 +18,7 @@ import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +47,15 @@ public class IssueLinkService extends AbstractRestService {
     private void sendOslcResponse(Issue issue, UrlParameters parameters) throws IOException {
         // what might I need parameters for here?
         ModelMapper mapper = new ModelMapper();
+
+        mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
+            @Override
+            protected void configure() {
+                map().setDctermsTitle(source.getTitle());
+                map().setDctermsDescription(source.getDescription());
+            }
+        });
+
         OslcIssue oslcPayload = mapper.map(issue, OslcIssue.class);
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(oslcPayload);
