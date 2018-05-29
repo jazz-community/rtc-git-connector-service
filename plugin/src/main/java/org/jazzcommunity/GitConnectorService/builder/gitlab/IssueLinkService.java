@@ -31,9 +31,14 @@ public class IssueLinkService extends AbstractRestService {
 
         if (Request.isLinkRequest(request)) {
             sendLinkResponse(issue, parameters);
+        } else if(Request.isOslcRequest(request)) {
+            sendOslcResponse(issue, parameters);
         } else {
             response.sendRedirect(issue.getWebUrl());
         }
+    }
+
+    private void sendOslcResponse(Issue issue, UrlParameters parameters) {
     }
 
     private void sendLinkResponse(Issue issue, UrlParameters parameters) throws IOException {
