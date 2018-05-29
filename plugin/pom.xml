@@ -32,28 +32,27 @@
                     </execution>
                 </executions>
             </plugin>
-          <!--Purposely commented out until link presentation api is implemented -->
-            <!--<plugin>-->
-                <!--<groupId>org.jsonschema2pojo</groupId>-->
-                <!--<artifactId>jsonschema2pojo-maven-plugin</artifactId>-->
-                <!--<version>0.5.1</version>-->
-                <!--<configuration>-->
-                    <!--<addCompileSourceRoot>true</addCompileSourceRoot>-->
-                    <!--<annotationStyle>gson</annotationStyle>-->
-                    <!--<includeHashcodeAndEquals>false</includeHashcodeAndEquals>-->
-                    <!--<includeToString>false</includeToString>-->
-                    <!--<sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory>-->
-                    <!--<sourceType>json</sourceType>-->
-                    <!--<targetPackage>org.jazzcommunity.GitConnectorService.type</targetPackage>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>generate</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.jsonschema2pojo</groupId>
+                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+                <version>0.5.1</version>
+                <configuration>
+                    <addCompileSourceRoot>true</addCompileSourceRoot>
+                    <annotationStyle>gson</annotationStyle>
+                    <includeHashcodeAndEquals>false</includeHashcodeAndEquals>
+                    <includeToString>false</includeToString>
+                    <sourceDirectory>${basedir}/src/main/resources/schemas/oslc</sourceDirectory>
+                    <sourceType>json</sourceType>
+                    <targetPackage>org.jazzcommunity.GitConnectorService.olsc.type</targetPackage>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
