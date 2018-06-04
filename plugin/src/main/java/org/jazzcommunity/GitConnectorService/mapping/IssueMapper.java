@@ -62,7 +62,6 @@ public class IssueMapper {
 
                 // dates left out for now.
 
-                // does this need a custom converter?
                 using(stateConverter).map(source.getClosedAt()).setOslcCmClosed(null);
 
                 // Todos skipped
