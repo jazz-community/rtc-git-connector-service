@@ -15,6 +15,7 @@ public class StringJoiner {
     }
 
     public static String join(Collection<String> strings, String on) {
+        // I'm fairly sure this is unnecessary
         if (strings == null || strings.size() == 0) {
             return "";
         }
