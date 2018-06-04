@@ -15,17 +15,14 @@ public class StringJoiner {
     }
 
     public static String join(Collection<String> strings, String on) {
-        // I'm fairly sure this is unnecessary
-        if (strings == null || strings.size() == 0) {
-            return "";
-        }
-
         StringBuilder builder = new StringBuilder();
+
         for (String string : strings) {
             builder.append(string);
             builder.append(on);
         }
-//        builder.delete(builder.length() - on.length() - 1, builder.length() - 1);
+
+        builder.delete(builder.length() - on.length(), builder.length());
         return builder.toString();
     }
 }

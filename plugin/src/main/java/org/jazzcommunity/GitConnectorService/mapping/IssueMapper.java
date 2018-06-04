@@ -39,6 +39,8 @@ public class IssueMapper {
                  */
                 using(labelConverter).map(source.getLabels()).setDctermsSubject(null);
                 map().setGitCmLabels(source.getLabels());
+
+                // dates left out for now.
             }
         });
 
