@@ -46,9 +46,9 @@ public class IssueLinkService extends AbstractRestService {
 
     private void sendOslcResponse(Issue issue, UrlParameters parameters) throws IOException {
         // what might I need parameters for here?
-        ModelMapper mapper = IssueMapper.get();
         // instead of get, IssueMapper should just export a 'map' function anyway...
-        OslcIssue oslcPayload = mapper.map(issue, OslcIssue.class);
+        OslcIssue oslcPayload =
+                IssueMapper.map(issue, UrlBuilder.getLinkUrl(parentService, parameters, "issue"));
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(oslcPayload);
         response.setContentType(ContentType.APPLICATION_JSON.toString());

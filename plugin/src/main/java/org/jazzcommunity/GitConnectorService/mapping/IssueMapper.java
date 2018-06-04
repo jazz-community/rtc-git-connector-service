@@ -6,12 +6,13 @@ import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
+import java.net.URL;
 import java.util.Collection;
 
 public class IssueMapper {
     private IssueMapper(){}
 
-    public static ModelMapper get() {
+    public static OslcIssue map(Issue issue, URL self) {
         final ModelMapper mapper = new ModelMapper();
 
         // I think a log of these converters can be extracted and reused, especially the ones that will
@@ -96,6 +97,6 @@ public class IssueMapper {
             }
         });
 
-        return mapper;
+        return mapper.map(issue, OslcIssue.class);
     }
 }
