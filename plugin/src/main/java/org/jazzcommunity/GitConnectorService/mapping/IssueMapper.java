@@ -3,7 +3,6 @@ package org.jazzcommunity.GitConnectorService.mapping;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.modelmapper.AbstractConverter;
-import org.modelmapper.AbstractProvider;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
@@ -60,13 +59,18 @@ public class IssueMapper {
                 using(listToString).map(source.getLabels()).setDctermsSubject(null);
                 map().setGitCmLabels(source.getLabels());
 
-                // self should probably be in a provider
                 map().setRdfAbout(link);
 
                 // rdf:about needs to be the url of this link, so something like
                 // https://localhost:7443/jazz/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/gitlab/code.siemens.com/project/13027/issue/9/link
 
                 // dates left out for now.
+                // jazz dates need to just be utc, while github dates are ISO with timezone
+                // for converting to utc, I'll probably want to use the threeten backport:
+                // http://www.threeten.org/threetenbp/
+
+                map().setGitCmCreatedAt(source.getCreatedAt());
+                map().setGitCmUpdatedAt(source.getUpdatedAt());
 
                 using(stateConverter).map(source.getClosedAt()).setOslcCmClosed(null);
 
