@@ -41,6 +41,13 @@ public class IssueMapper {
             }
         };
 
+        AbstractConverter<String, String> toUtc = new AbstractConverter<String, String>() {
+            @Override
+            protected String convert(String datetime) {
+                return null;
+            }
+        };
+
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
             @Override
             protected void configure() {
