@@ -15,6 +15,10 @@ public class StringJoiner {
     }
 
     public static String join(Collection<String> strings, String on) {
+        if (strings == null || strings.size() <= 0) {
+            return "";
+        }
+
         StringBuilder builder = new StringBuilder();
 
         for (String string : strings) {

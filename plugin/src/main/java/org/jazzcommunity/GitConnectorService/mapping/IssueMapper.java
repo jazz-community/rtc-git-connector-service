@@ -3,6 +3,7 @@ package org.jazzcommunity.GitConnectorService.mapping;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.modelmapper.AbstractConverter;
+import org.modelmapper.AbstractProvider;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
@@ -12,7 +13,8 @@ import java.util.Collection;
 public class IssueMapper {
     private IssueMapper(){}
 
-    public static OslcIssue map(Issue issue, URL self) {
+    public static OslcIssue map(Issue issue, final URL self) {
+        final String link = self.toString();
         final ModelMapper mapper = new ModelMapper();
 
         // I think a log of these converters can be extracted and reused, especially the ones that will
@@ -57,6 +59,9 @@ public class IssueMapper {
                  */
                 using(listToString).map(source.getLabels()).setDctermsSubject(null);
                 map().setGitCmLabels(source.getLabels());
+
+                // self should probably be in a provider
+                map().setRdfAbout(link);
 
                 // rdf:about needs to be the url of this link, so something like
                 // https://localhost:7443/jazz/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/gitlab/code.siemens.com/project/13027/issue/9/link
