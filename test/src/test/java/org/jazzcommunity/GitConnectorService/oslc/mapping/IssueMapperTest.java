@@ -20,6 +20,15 @@ public class IssueMapperTest {
     private OslcIssue oslcIssue;
 
     @Test
+    public void checkDueDateIsUtc() {
+        ZonedDateTime expected = ZonedDateTime.parse(
+                "2018-09-29T00:00:00Z",
+                DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+        Assert.assertEquals(expected.toString(), oslcIssue.getRtcCmDue());
+    }
+
+    @Test
     public void checkLinks() {
         GitCmLinks expected = new GitCmLinks();
         expected.setSelf("https://git.lab/api/v4/projects/13027/issues/9");
@@ -64,6 +73,11 @@ public class IssueMapperTest {
     @Test
     public void checkUserNotesCount() {
         Assert.assertEquals(new Integer(6), oslcIssue.getGitCmUserNotesCount());
+    }
+
+    @Test
+    public void checkClosedAt() {
+        Assert.assertEquals(null, oslcIssue.getGitCmClosedAt());
     }
 
     @Test
@@ -213,7 +227,7 @@ public class IssueMapperTest {
                 "        \"user_notes_count\": 6,\n" +
                 "        \"upvotes\": 0,\n" +
                 "        \"downvotes\": 0,\n" +
-                "        \"due_date\": null,\n" +
+                "        \"due_date\": \"2018-09-29\",\n" +
                 "        \"confidential\": false,\n" +
                 "        \"discussion_locked\": null,\n" +
                 "        \"web_url\": \"https://git.lab/user.1/unit-test-project/issues/9\",\n" +

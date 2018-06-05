@@ -91,7 +91,7 @@ public class IssueMapper {
 
                 using(shortTitleConverter).map(source.getIid()).setOslcShortTitle(null);
 
-                // Lots of properties skipped which are not definitively defined
+                map().setRtcCmDue(source.getDueDate());
 
                 map().setGitCmProjectId(source.getProjectId());
 
