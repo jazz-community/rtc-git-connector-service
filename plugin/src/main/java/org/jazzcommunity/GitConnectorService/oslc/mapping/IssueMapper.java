@@ -48,7 +48,7 @@ public class IssueMapper {
         final AbstractConverter<Links, GitCmLinks> linkConverter = new AbstractConverter<Links, GitCmLinks>() {
             @Override
             protected GitCmLinks convert(Links links) {
-                return LinksMapper.map(links);
+                return new ModelMapper().map(links, GitCmLinks.class);
             }
         };
 
