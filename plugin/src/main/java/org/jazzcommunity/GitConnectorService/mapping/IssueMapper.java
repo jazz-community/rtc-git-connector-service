@@ -79,6 +79,11 @@ public class IssueMapper {
                 using(stateConverter).map(source.getClosedAt()).setOslcCmClosed(null);
 
                 // Todos skipped
+                map().setGitCmClosedAt(source.getClosedAt());
+                map().setOslcCmStatus(source.getState());
+                map().setGitCmState(source.getState());
+                map().setOslcShortId(source.getIid().toString());
+                map().setDctermsIdentifier(source.getId().toString());
 
                 map().setGitCmId(source.getId());
                 map().setGitCmIid(source.getIid());
