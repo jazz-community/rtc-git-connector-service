@@ -5,6 +5,8 @@ import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.net.URL;
 import java.util.Collection;
@@ -41,10 +43,12 @@ public class IssueMapper {
             }
         };
 
-        AbstractConverter<String, String> toUtc = new AbstractConverter<String, String>() {
+        final AbstractConverter<String, String> toUtc = new AbstractConverter<String, String>() {
             @Override
             protected String convert(String datetime) {
-                return null;
+                LocalDateTime parsed = LocalDateTime.parse(datetime);
+                // actually, just confirm that those are utc times...
+                return parsed.toString();
             }
         };
 
@@ -72,12 +76,12 @@ public class IssueMapper {
                 // https://localhost:7443/jazz/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/gitlab/code.siemens.com/project/13027/issue/9/link
 
                 // dates left out for now.
-                // jazz dates need to just be utc, while github dates are ISO with timezone
-                // for converting to utc, I'll probably want to use the threeten backport:
-                // http://www.threeten.org/threetenbp/
+                // All dates are utc anyway... No need to convert anything
 
                 map().setGitCmCreatedAt(source.getCreatedAt());
                 map().setGitCmUpdatedAt(source.getUpdatedAt());
+
+                using(toUtc).map(source.getCreatedAt()).setDctermsCreated(null);
 
                 using(stateConverter).map(source.getClosedAt()).setOslcCmClosed(null);
 
@@ -107,6 +111,10 @@ public class IssueMapper {
                 map().setGitCmWebUrl(source.getWebUrl());
 
                 // time stats skipped, deep mapping undefined
+
+                // this is for the due date, which is just a datestring "2018-09-11"
+                // for converting to utc, I'll probably want to use the threeten backport:
+                // http://www.threeten.org/threetenbp/
 
                 // links skipped, deep mapping not implemented
                 map().setGitCmSubscribed(source.getSubscribed());
