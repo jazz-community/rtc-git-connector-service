@@ -86,7 +86,8 @@ public class IssueMapper {
             }
         };
 
-        AbstractConverter<Author, GitCmAuthor> authorConverter = new AbstractConverter<Author, GitCmAuthor>() {
+        // extract this to a general "userconverter" that can be passed a typetoken.
+        final AbstractConverter<Author, GitCmAuthor> authorConverter = new AbstractConverter<Author, GitCmAuthor>() {
             @Override
             protected GitCmAuthor convert(Author from) {
                 return new ModelMapper().map(from, GitCmAuthor.class);
@@ -138,8 +139,8 @@ public class IssueMapper {
 
                 // milestone skipped because deep object not defined yet
                 // same with assignees and author
+                using(authorConverter).map(source.getAuthor()).setGitCmAuthor(null);
                 
-
                 map().setGitCmUserNotesCount(source.getUserNotesCount());
                 map().setGitCmUpvotes(source.getUpvotes());
                 map().setGitCmDownvotes(source.getDownvotes());
