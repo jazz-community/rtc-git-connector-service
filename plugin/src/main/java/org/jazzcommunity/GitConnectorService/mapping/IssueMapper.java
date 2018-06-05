@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Issue;
+import com.google.common.base.Joiner;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
@@ -24,7 +25,7 @@ public class IssueMapper {
                 new AbstractConverter<Collection<String>, String>() {
                     @Override
                     protected String convert(Collection<String> strings) {
-                        return StringJoiner.join(strings, ", ");
+                        return Joiner.on(", ").join(strings);
                     }
                 };
 
