@@ -3,6 +3,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmAuthor;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmLinks;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmTimeStats;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
@@ -19,6 +20,20 @@ import java.net.URL;
 public class IssueMapperTest {
 
     private OslcIssue oslcIssue;
+
+    @Test
+    public void checkAuthorMapping() {
+        GitCmAuthor expected = new GitCmAuthor();
+        expected.setId(150);
+        expected.setName("User 2");
+        expected.setUsername("user.2");
+        expected.setState("active");
+        expected.setAvatarUrl(null);
+        expected.setWebUrl("https://git.lab/user.2");
+
+        Assert.assertTrue(
+                EqualsBuilder.reflectionEquals(expected, oslcIssue.getGitCmAuthor()));
+    }
 
     @Test
     public void checkCmTimeStats() {
