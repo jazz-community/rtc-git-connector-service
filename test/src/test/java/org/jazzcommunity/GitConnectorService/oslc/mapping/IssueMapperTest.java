@@ -14,11 +14,16 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.spi.DateFormatProvider;
 
 public class IssueMapperTest {
 
     private OslcIssue oslcIssue;
+
+    @Test
+    public void checkCmTimeStats() {
+        Assert.assertEquals("0", oslcIssue.getRtcCmEstimate());
+        Assert.assertEquals(String.valueOf(3600 * 1000), oslcIssue.getRtcCmTimeSpent());
+    }
 
     @Test
     public void checkDueDateIsUtc() {
