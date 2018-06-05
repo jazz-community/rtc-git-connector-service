@@ -53,8 +53,8 @@
     "name": "Bajohr Rayk adbara10",
     "username": "adbara10",
     "state": "active",
-    "avatar_url": null,
-    "web_url": "https://code.siemens.com/adbara10"
+    "avatar_url": "https://git.lab/uploads/-/system/user/avatar/115/avatar.png",
+    "web_url": "https://git.lab/adbara10"
   },
   "git_cm:closed_by" : null,
   "git_cm:user_notes_count": 0,
@@ -64,7 +64,7 @@
   "git_cm:confidential": false,
   "git_cm:weight": null,
   "git_cm:discussion_locked": null,
-  "git_cm:web_url": "https://code.siemens.com/sisuite/sisuite-infrastructure-as-code/issues/42",
+  "git_cm:web_url": "https://git.lab/sisuite/sisuite-infrastructure-as-code/issues/42",
   "git_cm:time_stats": {
     "time_estimate": 0,
     "total_time_spent": 0,
@@ -72,10 +72,10 @@
     "human_total_time_spent": null
   },
   "git_cm:_links": {
-    "self": "http://code.siemens.com/api/v4/projects/23862/issues/42",
-    "notes": "http://code.siemens.com/api/v4/projects/23862/issues/42/notes",
-    "award_emoji": "http://code.siemens.com/api/v4/projects/23862/issues/42/award_emoji",
-    "project": "http://code.siemens.com/api/v4/projects/23862"
+    "self": "http://git.lab/api/v4/projects/23862/issues/42",
+    "notes": "http://git.lab/api/v4/projects/23862/issues/42/notes",
+    "award_emoji": "http://git.lab/api/v4/projects/23862/issues/42/award_emoji",
+    "project": "http://git.lab/api/v4/projects/23862"
   },
   "git_cm:subscribed": false
 }
