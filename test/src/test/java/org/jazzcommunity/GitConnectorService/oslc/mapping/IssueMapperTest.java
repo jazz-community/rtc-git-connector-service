@@ -6,6 +6,8 @@ import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,25 +17,55 @@ public class IssueMapperTest {
     private OslcIssue oslcIssue;
 
     @Test
+    public void checkUtcDateTimeMapping() {
+        ZonedDateTime created = ZonedDateTime.parse(
+                "2018-03-13T15:24:48.339+01:00",
+                DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+        ZonedDateTime modified = ZonedDateTime.parse(
+                "2018-06-04T15:28:20.376+02:00",
+                DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+        created.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+        Assert.assertEquals(created.toString(), oslcIssue.getDctermsCreated());
+        Assert.assertEquals(created.toString(), oslcIssue.getGitCmCreatedAt());
+        Assert.assertEquals(modified.toString(), oslcIssue.getDctermsModified());
+        Assert.assertEquals(modified.toString(), oslcIssue.getGitCmUpdatedAt());
+        Assert.assertEquals(null, oslcIssue.getGitCmClosedAt());
+    }
+
+    @Test
+    public void checkAboutIsUrl() {
+        Assert.assertEquals("http://link-to-myself.ch", oslcIssue.getRdfAbout());
+    }
+
+    @Test
+    public void checkLabelsAreMapped() {
+        String[] strings = {"Label1", "Label2"};
+        Assert.assertArrayEquals(strings, oslcIssue.getGitCmLabels().toArray());
+    }
+
+    @Test
     public void checkSubjectIsCommaSeparatedString() {
-        Assert.assertEquals(oslcIssue.getDctermsSubject(), "Label1, Label2");
+        Assert.assertEquals("Label1, Label2", oslcIssue.getDctermsSubject());
     }
 
     @Test
     public void checkDescriptionIsMapped() {
-        Assert.assertEquals(oslcIssue.getDctermsDescription(), "This issue is used in rtc-git-connector-service unit tests");
-        Assert.assertEquals(oslcIssue.getGitCmDescription(), "This issue is used in rtc-git-connector-service unit tests");
+        Assert.assertEquals("This issue is used in rtc-git-connector-service unit tests", oslcIssue.getDctermsDescription());
+        Assert.assertEquals("This issue is used in rtc-git-connector-service unit tests", oslcIssue.getGitCmDescription());
     }
 
     @Test
     public void checkTypeIsIssue() {
-        Assert.assertEquals(oslcIssue.getDctermsType(), "Issue");
+        Assert.assertEquals("Issue", oslcIssue.getDctermsType());
     }
 
     @Test
     public void checkTitlesAreMapped() {
-        Assert.assertEquals(oslcIssue.getGitCmTitle(), "Unit Test Issue");
-        Assert.assertEquals(oslcIssue.getDctermsTitle(), "Unit Test Issue");
+        Assert.assertEquals("Unit Test Issue", oslcIssue.getGitCmTitle());
+        Assert.assertEquals("Unit Test Issue", oslcIssue.getDctermsTitle());
     }
 
     @Before
