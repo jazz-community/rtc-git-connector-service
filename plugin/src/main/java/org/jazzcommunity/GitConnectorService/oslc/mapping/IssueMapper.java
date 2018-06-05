@@ -1,9 +1,10 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Issue;
+import ch.sbi.minigit.type.gitlab.issue.Links;
 import com.google.common.base.Joiner;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmLinks;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.Prefixes;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
@@ -44,6 +45,13 @@ public class IssueMapper {
             }
         };
 
+        final AbstractConverter<Links, GitCmLinks> linkConverter = new AbstractConverter<Links, GitCmLinks>() {
+            @Override
+            protected GitCmLinks convert(Links links) {
+                return LinksMapper.map(links);
+            }
+        };
+
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
             @Override
             protected void configure() {
@@ -61,14 +69,7 @@ public class IssueMapper {
                  */
                 using(listToString).map(source.getLabels()).setDctermsSubject(null);
                 map().setGitCmLabels(source.getLabels());
-
                 map().setRdfAbout(link);
-
-                // rdf:about needs to be the url of this link, so something like
-                // https://localhost:7443/jazz/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/gitlab/code.siemens.com/project/13027/issue/9/link
-
-                // dates left out for now.
-                // All dates are utc anyway... No need to convert anything
 
                 map().setGitCmCreatedAt(source.getCreatedAt());
                 map().setGitCmUpdatedAt(source.getUpdatedAt());
@@ -79,7 +80,6 @@ public class IssueMapper {
 
                 using(stateConverter).map(source.getClosedAt()).setOslcCmClosed(null);
 
-                // Todos skipped
                 map().setGitCmClosedAt(source.getClosedAt());
                 map().setOslcCmStatus(source.getState());
                 map().setGitCmState(source.getState());
@@ -88,8 +88,6 @@ public class IssueMapper {
 
                 map().setGitCmId(source.getId());
                 map().setGitCmIid(source.getIid());
-
-                // prefixes skipped, this will need to be a custom object defined separately
 
                 using(shortTitleConverter).map(source.getIid()).setOslcShortTitle(null);
 
@@ -114,6 +112,8 @@ public class IssueMapper {
                 // this is for the due date, which is just a datestring "2018-09-11"
                 // for converting to utc, I'll probably want to use the threeten backport:
                 // http://www.threeten.org/threetenbp/
+
+                using(linkConverter).map(source.getLinks()).setGitCmLinks(null);
 
                 // links skipped, deep mapping not implemented
                 map().setGitCmSubscribed(source.getSubscribed());

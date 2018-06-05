@@ -3,8 +3,8 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmLinks;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.Prefixes;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,6 +18,19 @@ import java.net.URL;
 public class IssueMapperTest {
 
     private OslcIssue oslcIssue;
+
+    @Test
+    public void checkLinks() {
+        GitCmLinks expected = new GitCmLinks();
+        expected.setSelf("https://git.lab/api/v4/projects/13027/issues/9");
+        expected.setNotes("https://git.lab/api/v4/projects/13027/issues/9/notes");
+        expected.setAwardEmoji("https://git.lab/api/v4/projects/13027/issues/9/award_emoji");
+        expected.setProject("https://git.lab/api/v4/projects/13027");
+
+        Assert.assertTrue(
+                EqualsBuilder.reflectionEquals(expected, oslcIssue.getGitCmLinks())
+        );
+    }
 
     @Test
     public void checkPrefixes() {
