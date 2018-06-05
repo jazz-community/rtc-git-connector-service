@@ -3,10 +3,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmAuthor;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmLinks;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmTimeStats;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,6 +17,24 @@ import java.net.URL;
 public class IssueMapperTest {
 
     private OslcIssue oslcIssue;
+
+    @Test
+    public void checkMilestoneMapping() {
+        GitCmMilestone expected = new GitCmMilestone();
+        expected.setId(5607);
+        expected.setIid(1);
+        expected.setProjectId(13027);
+        expected.setTitle("Unit testing milestone");
+        expected.setDescription("This is a mile stone for unit testing.\\r\\n\\r\\n# It can have Markdown!\\r\\n\\r\\n[and_attachments.txt](/uploads/50395a5a72794a9f4f1c629ce95ebaf2/and_attachments.txt)");
+        expected.setState("active");
+        expected.setCreatedAt("2018-06-05T16:19:05.023+02:00");
+        expected.setUpdatedAt("2018-06-05T16:19:05.023+02:00");
+        expected.setDueDate("2019-06-01");
+        expected.setStartDate("2018-06-01");
+
+        Assert.assertTrue(
+                EqualsBuilder.reflectionEquals(expected, oslcIssue.getGitCmMilestone()));
+    }
 
     @Test
     public void checkAuthorMapping() {
@@ -230,7 +245,18 @@ public class IssueMapperTest {
                 "        \"Label1\",\n" +
                 "    \"Label2\"\n" +
                 "        ],\n" +
-                "    \"milestone\": null,\n" +
+                "    \"milestone\": {\n" +
+                "    \"id\": 5607,\n" +
+                "    \"iid\": 1,\n" +
+                "    \"project_id\": 13027,\n" +
+                "    \"title\": \"Unit testing milestone\",\n" +
+                "    \"description\": \"This is a mile stone for unit testing.\\r\\n\\r\\n# It can have Markdown!\\r\\n\\r\\n[and_attachments.txt](/uploads/50395a5a72794a9f4f1c629ce95ebaf2/and_attachments.txt)\",\n" +
+                "    \"state\": \"active\",\n" +
+                "    \"created_at\": \"2018-06-05T16:19:05.023+02:00\",\n" +
+                "    \"updated_at\": \"2018-06-05T16:19:05.023+02:00\",\n" +
+                "    \"due_date\": \"2019-06-01\",\n" +
+                "    \"start_date\": \"2018-06-01\"\n" +
+                "  },\n" +
                 "    \"assignees\": [\n" +
                 "    {\n" +
                 "        \"id\": 115,\n" +
