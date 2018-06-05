@@ -7,8 +7,6 @@ import org.jazzcommunity.GitConnectorService.olsc.type.issue.Prefixes;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 
 import java.net.URL;
 import java.util.Collection;
