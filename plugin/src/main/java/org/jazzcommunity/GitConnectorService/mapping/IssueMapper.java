@@ -43,15 +43,6 @@ public class IssueMapper {
             }
         };
 
-        final AbstractConverter<String, String> toUtc = new AbstractConverter<String, String>() {
-            @Override
-            protected String convert(String datetime) {
-                LocalDateTime parsed = LocalDateTime.parse(datetime);
-                // actually, just confirm that those are utc times...
-                return parsed.toString();
-            }
-        };
-
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
             @Override
             protected void configure() {
@@ -80,8 +71,9 @@ public class IssueMapper {
 
                 map().setGitCmCreatedAt(source.getCreatedAt());
                 map().setGitCmUpdatedAt(source.getUpdatedAt());
+                map().setDctermsCreated(source.getCreatedAt());
+                map().setDctermsModified(source.getUpdatedAt());
 
-                using(toUtc).map(source.getCreatedAt()).setDctermsCreated(null);
 
                 using(stateConverter).map(source.getClosedAt()).setOslcCmClosed(null);
 
