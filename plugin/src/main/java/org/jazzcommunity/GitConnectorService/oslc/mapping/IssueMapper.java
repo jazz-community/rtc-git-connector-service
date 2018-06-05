@@ -8,9 +8,8 @@ import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmLinks;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmTimeStats;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
+import org.modelmapper.*;
+import org.modelmapper.spi.MappingContext;
 import org.threeten.bp.*;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -59,6 +58,10 @@ public class IssueMapper {
         final AbstractConverter<String, String> toUtc = new AbstractConverter<String, String>() {
             @Override
             protected String convert(String from) {
+                if (from == null) {
+                    return null;
+                }
+
                 LocalDate date = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
                 ZonedDateTime dateTime = ZonedDateTime.of(date, LocalTime.MIDNIGHT, ZoneOffset.UTC);
                 return dateTime.toString();
