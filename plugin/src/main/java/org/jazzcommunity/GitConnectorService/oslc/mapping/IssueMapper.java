@@ -9,6 +9,8 @@ import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.threeten.bp.*;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.net.URL;
 import java.util.Collection;
@@ -52,6 +54,15 @@ public class IssueMapper {
             }
         };
 
+        final AbstractConverter<String, String> toUtc = new AbstractConverter<String, String>() {
+            @Override
+            protected String convert(String from) {
+                LocalDate date = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
+                ZonedDateTime dateTime = ZonedDateTime.of(date, LocalTime.MIDNIGHT, ZoneOffset.UTC);
+                return dateTime.toString();
+            }
+        };
+
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
             @Override
             protected void configure() {
@@ -91,7 +102,7 @@ public class IssueMapper {
 
                 using(shortTitleConverter).map(source.getIid()).setOslcShortTitle(null);
 
-                map().setRtcCmDue(source.getDueDate());
+                using(toUtc).map(source.getDueDate()).setRtcCmDue(null);
 
                 map().setGitCmProjectId(source.getProjectId());
 

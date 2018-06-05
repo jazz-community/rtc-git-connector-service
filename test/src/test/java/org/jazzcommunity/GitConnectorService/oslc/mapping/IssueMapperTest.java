@@ -9,11 +9,12 @@ import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.*;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.spi.DateFormatProvider;
 
 public class IssueMapperTest {
 
