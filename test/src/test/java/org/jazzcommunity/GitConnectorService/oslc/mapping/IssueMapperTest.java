@@ -17,6 +17,78 @@ public class IssueMapperTest {
     private OslcIssue oslcIssue;
 
     @Test
+    public void checkSubscribed() {
+        Assert.assertFalse(oslcIssue.getGitCmSubscribed());
+    }
+
+    @Test
+    public void checkWebUrl() {
+        Assert.assertEquals(
+                "https://git.lab/user.1/unit-test-project/issues/9",
+                oslcIssue.getGitCmWebUrl());
+    }
+
+    @Test
+    public void checkConfidential() {
+        Assert.assertFalse(oslcIssue.getGitCmConfidential());
+    }
+
+    @Test
+    public void checkVoteStats() {
+        Assert.assertEquals(new Integer(0), oslcIssue.getGitCmUpvotes());
+        Assert.assertEquals(new Integer(0), oslcIssue.getGitCmDownvotes());
+    }
+
+    @Test
+    public void checkUserNotesCount() {
+        Assert.assertEquals(new Integer(6), oslcIssue.getGitCmUserNotesCount());
+    }
+
+    @Test
+    public void checkClosedBy() {
+        Assert.assertFalse(oslcIssue.getOslcCmClosed());
+        Assert.assertNull(oslcIssue.getGitCmClosedBy());
+    }
+
+    @Test
+    public void checkProjectId() {
+        Assert.assertEquals(new Integer(13027), oslcIssue.getGitCmProjectId());
+    }
+
+    @Test
+    public void checkShortTitle() {
+        Assert.assertEquals("Issue 9", oslcIssue.getOslcShortTitle());
+    }
+
+    @Test
+    public void checkGitCmIds() {
+        Assert.assertEquals(new Integer(81560), oslcIssue.getGitCmId());
+        Assert.assertEquals(new Integer(9), oslcIssue.getGitCmIid());
+    }
+
+    @Test
+    public void checkDcTermsIdentifier() {
+        Assert.assertEquals("81560", oslcIssue.getDctermsIdentifier());
+    }
+
+    @Test
+    public void checkShortIdMapping() {
+        Assert.assertEquals("9", oslcIssue.getOslcShortId());
+    }
+
+    @Test
+    public void checkStateMapping() {
+        Assert.assertEquals("opened", oslcIssue.getOslcCmStatus());
+        Assert.assertEquals("opened", oslcIssue.getGitCmState());
+    }
+
+    @Test
+    public void checkCmClosedMapsToClosedAt() {
+        Assert.assertNull(oslcIssue.getGitCmClosedAt());
+        Assert.assertFalse(oslcIssue.getOslcCmClosed());
+    }
+
+    @Test
     public void checkUtcDateTimeMapping() {
         ZonedDateTime created = ZonedDateTime.parse(
                 "2018-03-13T15:24:48.339+01:00",
@@ -53,8 +125,12 @@ public class IssueMapperTest {
 
     @Test
     public void checkDescriptionIsMapped() {
-        Assert.assertEquals("This issue is used in rtc-git-connector-service unit tests", oslcIssue.getDctermsDescription());
-        Assert.assertEquals("This issue is used in rtc-git-connector-service unit tests", oslcIssue.getGitCmDescription());
+        Assert.assertEquals(
+                "This issue is used in rtc-git-connector-service unit tests",
+                oslcIssue.getDctermsDescription());
+        Assert.assertEquals(
+                "This issue is used in rtc-git-connector-service unit tests",
+                oslcIssue.getGitCmDescription());
     }
 
     @Test
