@@ -1,4 +1,4 @@
-package org.jazzcommunity.GitConnectorService.mapping;
+package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.common.base.Joiner;

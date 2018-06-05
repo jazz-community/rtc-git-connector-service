@@ -11,14 +11,13 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
-import org.jazzcommunity.GitConnectorService.mapping.IssueMapper;
+import org.jazzcommunity.GitConnectorService.oslc.mapping.IssueMapper;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.net.UrlParameters;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
-import org.modelmapper.ModelMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
