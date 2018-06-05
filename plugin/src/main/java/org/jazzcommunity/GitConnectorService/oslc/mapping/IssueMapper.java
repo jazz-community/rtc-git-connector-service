@@ -73,6 +73,14 @@ public class IssueMapper {
             }
         };
 
+        final AbstractConverter<Integer, Integer> toRtcTimeStamp =
+                new AbstractConverter<Integer, Integer>() {
+            @Override
+            protected Integer convert(Integer timeStamp) {
+                return timeStamp * 1000;
+            }
+        };
+
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
             @Override
             protected void configure() {
@@ -128,16 +136,17 @@ public class IssueMapper {
                 map().setGitCmDiscussionLocked(source.getDiscussionLocked());
                 map().setGitCmWebUrl(source.getWebUrl());
 
-                // time stats skipped, deep mapping undefined
                 using(timeStatsConverter).map(source.getTimeStats()).setGitCmTimeStats(null);
+                using(toRtcTimeStamp)
+                        .map(source.getTimeStats().getTimeEstimate())
+                        .setRtcCmEstimate(null);
 
-                // this is for the due date, which is just a datestring "2018-09-11"
-                // for converting to utc, I'll probably want to use the threeten backport:
-                // http://www.threeten.org/threetenbp/
+                using(toRtcTimeStamp)
+                        .map(source.getTimeStats().getTotalTimeSpent())
+                        .setRtcCmTimeSpent(null);
 
                 using(linkConverter).map(source.getLinks()).setGitCmLinks(null);
 
-                // links skipped, deep mapping not implemented
                 map().setGitCmSubscribed(source.getSubscribed());
             }
         });

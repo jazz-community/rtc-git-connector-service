@@ -22,8 +22,8 @@ public class IssueMapperTest {
 
     @Test
     public void checkCmTimeStats() {
-        Assert.assertEquals("0", oslcIssue.getRtcCmEstimate());
-        Assert.assertEquals(String.valueOf(3600 * 1000), oslcIssue.getRtcCmTimeSpent());
+        Assert.assertEquals(Integer.valueOf(0), oslcIssue.getRtcCmEstimate());
+        Assert.assertEquals(Integer.valueOf(3600 * 1000), oslcIssue.getRtcCmTimeSpent());
     }
 
     @Test
