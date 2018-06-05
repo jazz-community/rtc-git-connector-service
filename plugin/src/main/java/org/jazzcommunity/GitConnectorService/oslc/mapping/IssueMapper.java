@@ -2,8 +2,10 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.issue.Links;
+import ch.sbi.minigit.type.gitlab.issue.TimeStats;
 import com.google.common.base.Joiner;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmLinks;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmTimeStats;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.modelmapper.AbstractConverter;
@@ -63,6 +65,14 @@ public class IssueMapper {
             }
         };
 
+        final AbstractConverter<TimeStats, GitCmTimeStats> timeStatsConverter =
+                new AbstractConverter<TimeStats, GitCmTimeStats>() {
+            @Override
+            protected GitCmTimeStats convert(TimeStats timeStats) {
+                return new ModelMapper().map(timeStats, GitCmTimeStats.class);
+            }
+        };
+
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
             @Override
             protected void configure() {
@@ -119,6 +129,7 @@ public class IssueMapper {
                 map().setGitCmWebUrl(source.getWebUrl());
 
                 // time stats skipped, deep mapping undefined
+                using(timeStatsConverter).map(source.getTimeStats()).setGitCmTimeStats(null);
 
                 // this is for the due date, which is just a datestring "2018-09-11"
                 // for converting to utc, I'll probably want to use the threeten backport:

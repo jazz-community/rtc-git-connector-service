@@ -4,6 +4,7 @@ import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmLinks;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmTimeStats;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.junit.Assert;
@@ -26,6 +27,18 @@ public class IssueMapperTest {
     }
 
     @Test
+    public void checkGitLabTimeStats() {
+        GitCmTimeStats expected = new GitCmTimeStats();
+        expected.setTimeEstimate(0);
+        expected.setTotalTimeSpent(3600);
+        expected.setHumanTimeEstimate(null);
+        expected.setHumanTotalTimeSpent("1h");
+
+        Assert.assertTrue(
+                EqualsBuilder.reflectionEquals(expected, oslcIssue.getGitCmTimeStats()));
+    }
+
+    @Test
     public void checkDueDateIsUtc() {
         ZonedDateTime expected = ZonedDateTime.parse(
                 "2018-09-29T00:00:00Z",
@@ -43,8 +56,7 @@ public class IssueMapperTest {
         expected.setProject("https://git.lab/api/v4/projects/13027");
 
         Assert.assertTrue(
-                EqualsBuilder.reflectionEquals(expected, oslcIssue.getGitCmLinks())
-        );
+                EqualsBuilder.reflectionEquals(expected, oslcIssue.getGitCmLinks()));
     }
 
     @Test
@@ -239,9 +251,9 @@ public class IssueMapperTest {
                 "        \"web_url\": \"https://git.lab/user.1/unit-test-project/issues/9\",\n" +
                 "        \"time_stats\": {\n" +
                 "            \"time_estimate\": 0,\n" +
-                "            \"total_time_spent\": 0,\n" +
+                "            \"total_time_spent\": 3600,\n" +
                 "            \"human_time_estimate\": null,\n" +
-                "            \"human_total_time_spent\": null\n" +
+                "            \"human_total_time_spent\": \"1h\"\n" +
                 "        },\n" +
                 "        \"_links\": {\n" +
                 "            \"self\": \"https://git.lab/api/v4/projects/13027/issues/9\",\n" +
