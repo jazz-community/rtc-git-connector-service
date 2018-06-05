@@ -3,6 +3,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.gson.Gson;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.Prefixes;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +18,13 @@ public class IssueMapperTest {
     private OslcIssue oslcIssue;
 
     @Test
+    public void checkPrefixes() {
+        Assert.assertEquals(new Prefixes(), oslcIssue.getPrefixes());
+    }
+
+    @Test
     public void checkSubscribed() {
-        Assert.assertFalse(oslcIssue.getGitCmSubscribed());
+        Assert.assertTrue(oslcIssue.getGitCmSubscribed());
     }
 
     @Test
