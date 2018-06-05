@@ -35,7 +35,7 @@ Require-Bundle:
  com.ibm.team.build.service
 Bundle-ClassPath: target/dependency/gson-2.8.2.jar,
  target/dependency/com.siemens.bt.jazz.services.base-2.0.1-SNAPSHOT.jar,
- target/dependency/com.siemens.bt.jazz.services.PersonalTokenService-1.0.1-SNAPSHOT.jar,
+ target/dependency/com.siemens.bt.jazz.services.PersonalTokenService-1.0.2-SNAPSHOT.jar,
  target/dependency/asm-5.0.3.jar,
  target/dependency/asm-analysis-5.0.3.jar,
  target/dependency/asm-tree-5.0.3.jar,

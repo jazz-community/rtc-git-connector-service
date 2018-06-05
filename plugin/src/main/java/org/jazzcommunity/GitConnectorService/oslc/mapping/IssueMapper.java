@@ -3,6 +3,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.common.base.Joiner;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.Prefixes;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -75,6 +76,7 @@ public class IssueMapper {
                 map().setDctermsCreated(source.getCreatedAt());
                 map().setDctermsModified(source.getUpdatedAt());
 
+                map().setPrefixes(new Prefixes());
 
                 using(stateConverter).map(source.getClosedAt()).setOslcCmClosed(null);
 
