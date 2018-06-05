@@ -1,14 +1,8 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
-import ch.sbi.minigit.type.gitlab.issue.Author;
-import ch.sbi.minigit.type.gitlab.issue.Issue;
-import ch.sbi.minigit.type.gitlab.issue.Links;
-import ch.sbi.minigit.type.gitlab.issue.TimeStats;
+import ch.sbi.minigit.type.gitlab.issue.*;
 import com.google.common.base.Joiner;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmAuthor;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmLinks;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmTimeStats;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.modelmapper.*;
 import org.modelmapper.spi.MappingContext;
@@ -86,6 +80,17 @@ public class IssueMapper {
             }
         };
 
+        final AbstractConverter<Milestone, GitCmMilestone> milestoneConverter =
+                new AbstractConverter<Milestone, GitCmMilestone>() {
+            @Override
+            protected GitCmMilestone convert(Milestone milestone) {
+                if (milestone == null) {
+                    return null;
+                }
+                return new ModelMapper().map(milestone, GitCmMilestone.class);
+            }
+        };
+
         // extract this to a general "userconverter" that can be passed a typetoken.
         final AbstractConverter<Author, GitCmAuthor> authorConverter = new AbstractConverter<Author, GitCmAuthor>() {
             @Override
@@ -138,6 +143,7 @@ public class IssueMapper {
                 map().setGitCmProjectId(source.getProjectId());
 
                 // milestone skipped because deep object not defined yet
+                using(milestoneConverter).map(source.getMilestone()).setGitCmMilestone(null);
                 // same with assignees and author
                 using(authorConverter).map(source.getAuthor()).setGitCmAuthor(null);
                 

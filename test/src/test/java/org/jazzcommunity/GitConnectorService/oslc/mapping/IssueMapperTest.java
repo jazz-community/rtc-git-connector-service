@@ -25,7 +25,7 @@ public class IssueMapperTest {
         expected.setIid(1);
         expected.setProjectId(13027);
         expected.setTitle("Unit testing milestone");
-        expected.setDescription("This is a mile stone for unit testing.\\r\\n\\r\\n# It can have Markdown!\\r\\n\\r\\n[and_attachments.txt](/uploads/50395a5a72794a9f4f1c629ce95ebaf2/and_attachments.txt)");
+        expected.setDescription("This is a milestone for unit testing.");
         expected.setState("active");
         expected.setCreatedAt("2018-06-05T16:19:05.023+02:00");
         expected.setUpdatedAt("2018-06-05T16:19:05.023+02:00");
@@ -250,7 +250,7 @@ public class IssueMapperTest {
                 "    \"iid\": 1,\n" +
                 "    \"project_id\": 13027,\n" +
                 "    \"title\": \"Unit testing milestone\",\n" +
-                "    \"description\": \"This is a mile stone for unit testing.\\r\\n\\r\\n# It can have Markdown!\\r\\n\\r\\n[and_attachments.txt](/uploads/50395a5a72794a9f4f1c629ce95ebaf2/and_attachments.txt)\",\n" +
+                "    \"description\": \"This is a milestone for unit testing.\",\n" +
                 "    \"state\": \"active\",\n" +
                 "    \"created_at\": \"2018-06-05T16:19:05.023+02:00\",\n" +
                 "    \"updated_at\": \"2018-06-05T16:19:05.023+02:00\",\n" +
