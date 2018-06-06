@@ -8,8 +8,8 @@ import org.modelmapper.*;
 import org.threeten.bp.*;
 import org.threeten.bp.format.DateTimeFormatter;
 
+import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -99,12 +99,8 @@ public class IssueMapper {
                     return null;
                 }
 
-                ModelMapper mapper = new ModelMapper();
-                List<GitCmAssignee> converted = new ArrayList<>(assignees.size());
-                for (Assignee assignee : assignees) {
-                    converted.add(mapper.map(assignee, GitCmAssignee.class));
-                }
-                return converted;
+                Type converted = new TypeToken<List<GitCmAssignee>>() {}.getType();
+                return mapper.map(assignees, converted);
             }
         };
 
