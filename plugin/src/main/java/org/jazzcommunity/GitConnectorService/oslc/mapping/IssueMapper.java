@@ -90,6 +90,8 @@ public class IssueMapper {
             }
         };
 
+//        new AbstractConverter<List<Assignee>, List<>>()
+
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
             @Override
             protected void configure() {

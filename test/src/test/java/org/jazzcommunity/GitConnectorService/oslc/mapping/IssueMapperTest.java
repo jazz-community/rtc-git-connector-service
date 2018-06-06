@@ -19,6 +19,27 @@ public class IssueMapperTest {
     private OslcIssue oslcIssue;
 
     @Test
+    public void checkAssigneeMapping() {
+        GitCmAuthor expected = new GitCmAuthor();
+        expected.setId(115);
+        expected.setName("User 1");
+        expected.setUsername("user.1");
+        expected.setState("active");
+        expected.setAvatarUrl("https://repo.git.com/uploads/-/system/user/avatar/115/avatar.png");
+        expected.setWebUrl("https://git.lab/user.1");
+
+        // in gitlab ce, assignees is always a collection of exactly one user,
+        // which is why this test currently only checks for a single assignee.
+        Assert.assertNotNull(oslcIssue.getGitCmAssignees());
+        Assert.assertFalse(oslcIssue.getGitCmAssignees().isEmpty());
+        Assert.assertNotNull(oslcIssue.getGitCmAssignees().get(0));
+
+        Object assignee = oslcIssue.getGitCmAssignees().get(0);
+        Assert.assertTrue(
+                EqualsBuilder.reflectionEquals(expected, assignee));
+    }
+
+    @Test
     public void checkMilestoneMapping() {
         GitCmMilestone expected = new GitCmMilestone();
         expected.setId(5607);

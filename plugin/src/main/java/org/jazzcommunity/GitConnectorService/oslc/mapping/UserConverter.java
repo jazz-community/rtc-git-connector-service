@@ -13,6 +13,10 @@ public final class UserConverter {
         return new AbstractConverter<From, To>() {
             @Override
             protected To convert(From from) {
+                if (from == null) {
+                    return null;
+                }
+
                 return new ModelMapper().map(from, to);
             }
         };
