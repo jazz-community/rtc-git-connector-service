@@ -10,7 +10,6 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.Collection;
 import java.util.List;
 
 public class IssueMapper {
@@ -20,28 +19,11 @@ public class IssueMapper {
         final String link = self.toString();
         final ModelMapper mapper = new ModelMapper();
 
-        // I think a log of these converters can be extracted and reused, especially the ones that will
-        // need to be written for deep mapping of objects like links etc.
-        final AbstractConverter<Collection<String>, String> listToString =
-                new AbstractConverter<Collection<String>, String>() {
-                    @Override
-                    protected String convert(Collection<String> strings) {
-                        return Joiner.on(", ").join(strings);
-                    }
-                };
-
         final AbstractConverter<Integer, String> shortTitleConverter =
                 new AbstractConverter<Integer, String>() {
             @Override
             protected String convert(Integer iid) {
                 return "Issue " + iid;
-            }
-        };
-
-        final AbstractConverter<String, Boolean> stateConverter = new AbstractConverter<String, Boolean>() {
-            @Override
-            protected Boolean convert(String state) {
-                return state != null;
             }
         };
 
@@ -119,7 +101,7 @@ public class IssueMapper {
                  * see http://modelmapper.org/user-manual/property-mapping/ for documentation on the convention
                  * of passing null when using a custom converter.
                  */
-                using(listToString).map(source.getLabels()).setDctermsSubject(null);
+                using(Converters.listToString()).map(source.getLabels()).setDctermsSubject(null);
                 map().setGitCmLabels(source.getLabels());
                 map().setRdfAbout(link);
 
@@ -130,7 +112,7 @@ public class IssueMapper {
 
                 map().setPrefixes(PrefixBuilder.get());
 
-                using(stateConverter).map(source.getClosedAt()).setOslcCmClosed(null);
+                using(Converters.state()).map(source.getClosedAt()).setOslcCmClosed(null);
 
                 map().setGitCmClosedAt(source.getClosedAt());
                 map().setOslcCmStatus(source.getState());
