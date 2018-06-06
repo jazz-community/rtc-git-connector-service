@@ -5,7 +5,6 @@ import com.google.common.base.Joiner;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.modelmapper.*;
-import org.modelmapper.spi.MappingContext;
 import org.threeten.bp.*;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -91,14 +90,6 @@ public class IssueMapper {
             }
         };
 
-        // extract this to a general "userconverter" that can be passed a typetoken.
-        final AbstractConverter<Author, GitCmAuthor> authorConverter = new AbstractConverter<Author, GitCmAuthor>() {
-            @Override
-            protected GitCmAuthor convert(Author from) {
-                return new ModelMapper().map(from, GitCmAuthor.class);
-            }
-        };
-
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
             @Override
             protected void configure() {
@@ -145,8 +136,10 @@ public class IssueMapper {
                 // milestone skipped because deep object not defined yet
                 using(milestoneConverter).map(source.getMilestone()).setGitCmMilestone(null);
                 // same with assignees and author
-                using(authorConverter).map(source.getAuthor()).setGitCmAuthor(null);
-                
+                using(UserConverter.to(GitCmAuthor.class))
+                        .map(source.getAuthor())
+                        .setGitCmAuthor(null);
+
                 map().setGitCmUserNotesCount(source.getUserNotesCount());
                 map().setGitCmUpvotes(source.getUpvotes());
                 map().setGitCmDownvotes(source.getDownvotes());
