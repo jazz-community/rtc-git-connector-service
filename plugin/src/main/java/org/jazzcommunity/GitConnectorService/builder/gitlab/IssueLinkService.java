@@ -48,7 +48,7 @@ public class IssueLinkService extends AbstractRestService {
         // instead of get, IssueMapper should just export a 'map' function anyway...
         OslcIssue oslcPayload =
                 IssueMapper.map(issue, UrlBuilder.getLinkUrl(parentService, parameters, "issue"));
-        Gson gson = new GsonBuilder().create();
+        Gson gson = new GsonBuilder().serializeNulls().create();
         String json = gson.toJson(oslcPayload);
         response.setContentType(ContentType.APPLICATION_JSON.toString());
         response.getWriter().write(json);
