@@ -48,7 +48,14 @@
     "id" : 17,
     "updated_at" : "2016-01-04T15:31:39.996Z"
   },
-  "git_cm:assignees": [],
+  "git_cm:assignees": [{
+      "id": 3537,
+      "name": "Bajohr Rayk adbara10",
+      "username": "adbara10",
+      "state": "active",
+      "avatar_url": "https://git.lab/uploads/-/system/user/avatar/115/avatar.png",
+      "web_url": "https://git.lab/adbara10"
+  }],
   "git_cm:author": {
     "id": 3537,
     "name": "Bajohr Rayk adbara10",

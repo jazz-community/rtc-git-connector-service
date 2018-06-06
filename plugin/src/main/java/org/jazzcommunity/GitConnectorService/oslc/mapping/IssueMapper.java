@@ -9,7 +9,9 @@ import org.threeten.bp.*;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class IssueMapper {
     private IssueMapper(){}
@@ -90,7 +92,21 @@ public class IssueMapper {
             }
         };
 
-//        new AbstractConverter<List<Assignee>, List<>>()
+        final AbstractConverter<List<Assignee>, List<GitCmAssignee>> assigneeConverter = new AbstractConverter<List<Assignee>, List<GitCmAssignee>>() {
+            @Override
+            protected List<GitCmAssignee> convert(List<Assignee> assignees) {
+                if (assignees == null) {
+                    return null;
+                }
+
+                ModelMapper mapper = new ModelMapper();
+                List<GitCmAssignee> converted = new ArrayList<>(assignees.size());
+                for (Assignee assignee : assignees) {
+                    converted.add(mapper.map(assignee, GitCmAssignee.class));
+                }
+                return converted;
+            }
+        };
 
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
             @Override
@@ -141,6 +157,8 @@ public class IssueMapper {
                 using(UserConverter.to(GitCmAuthor.class))
                         .map(source.getAuthor())
                         .setGitCmAuthor(null);
+
+                using(assigneeConverter).map(source.getAssignees()).setGitCmAssignees(null);
 
                 map().setGitCmUserNotesCount(source.getUserNotesCount());
                 map().setGitCmUpvotes(source.getUpvotes());

@@ -20,9 +20,9 @@ public class IssueMapperTest {
 
     @Test
     public void checkAssigneeMapping() {
-        GitCmAuthor expected = new GitCmAuthor();
+        GitCmAssignee expected = new GitCmAssignee();
         expected.setId(115);
-        expected.setName("User 1");
+        expected.setName("User 1 user1");
         expected.setUsername("user.1");
         expected.setState("active");
         expected.setAvatarUrl("https://repo.git.com/uploads/-/system/user/avatar/115/avatar.png");
@@ -34,7 +34,8 @@ public class IssueMapperTest {
         Assert.assertFalse(oslcIssue.getGitCmAssignees().isEmpty());
         Assert.assertNotNull(oslcIssue.getGitCmAssignees().get(0));
 
-        Object assignee = oslcIssue.getGitCmAssignees().get(0);
+
+        GitCmAssignee assignee = oslcIssue.getGitCmAssignees().get(0);
         Assert.assertTrue(
                 EqualsBuilder.reflectionEquals(expected, assignee));
     }
