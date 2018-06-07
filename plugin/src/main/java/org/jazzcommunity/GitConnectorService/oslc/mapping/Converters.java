@@ -6,7 +6,8 @@ import org.modelmapper.AbstractConverter;
 import java.util.Collection;
 
 public final class Converters {
-    private Converters() {}
+    private Converters() {
+    }
 
     public static AbstractConverter<Collection<String>, String> listToString() {
         return new AbstractConverter<Collection<String>, String>() {
@@ -22,6 +23,15 @@ public final class Converters {
             @Override
             protected Boolean convert(String state) {
                 return state != null;
+            }
+        };
+    }
+
+    public static AbstractConverter<Integer, String> toShortTitle() {
+        return new AbstractConverter<Integer, String>() {
+            @Override
+            protected String convert(Integer iid) {
+                return "Issue " + iid;
             }
         };
     }

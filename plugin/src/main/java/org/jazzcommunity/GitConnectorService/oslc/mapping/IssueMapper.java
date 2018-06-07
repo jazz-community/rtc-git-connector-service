@@ -19,14 +19,6 @@ public class IssueMapper {
         final String link = self.toString();
         final ModelMapper mapper = new ModelMapper();
 
-        final AbstractConverter<Integer, String> shortTitleConverter =
-                new AbstractConverter<Integer, String>() {
-            @Override
-            protected String convert(Integer iid) {
-                return "Issue " + iid;
-            }
-        };
-
         final AbstractConverter<Links, GitCmLinks> linkConverter = new AbstractConverter<Links, GitCmLinks>() {
             @Override
             protected GitCmLinks convert(Links links) {
@@ -123,7 +115,7 @@ public class IssueMapper {
                 map().setGitCmId(source.getId());
                 map().setGitCmIid(source.getIid());
 
-                using(shortTitleConverter).map(source.getIid()).setOslcShortTitle(null);
+                using(Converters.toShortTitle()).map(source.getIid()).setOslcShortTitle(null);
 
                 using(toUtc).map(source.getDueDate()).setRtcCmDue(null);
 
