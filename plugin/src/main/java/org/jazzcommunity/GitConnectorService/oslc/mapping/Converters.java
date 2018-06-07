@@ -1,6 +1,8 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
+import ch.sbi.minigit.type.gitlab.issue.Author;
 import com.google.common.base.Joiner;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.DctermsContributor;
 import org.modelmapper.AbstractConverter;
 
 import java.util.Collection;
@@ -32,6 +34,18 @@ public final class Converters {
             @Override
             protected String convert(Integer iid) {
                 return "Issue " + iid;
+            }
+        };
+    }
+
+    public static AbstractConverter<Author, DctermsContributor> authorToContributor() {
+        return new AbstractConverter<Author, DctermsContributor>() {
+            @Override
+            protected DctermsContributor convert(Author author) {
+                DctermsContributor contributor = new DctermsContributor();
+                contributor.setFoafName(author.getName());
+                contributor.setRdfAbout(author.getWebUrl());
+                return contributor;
             }
         };
     }

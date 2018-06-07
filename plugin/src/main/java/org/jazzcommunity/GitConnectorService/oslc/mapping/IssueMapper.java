@@ -124,6 +124,10 @@ public class IssueMapper {
                 // milestone skipped because deep object not defined yet
                 using(milestoneConverter).map(source.getMilestone()).setGitCmMilestone(null);
                 // same with assignees and author
+                using(Converters.authorToContributor())
+                        .map(source.getAuthor())
+                        .setDctermsContributor(null);
+
                 using(UserConverter.to(GitCmAuthor.class))
                         .map(source.getAuthor())
                         .setGitCmAuthor(null);

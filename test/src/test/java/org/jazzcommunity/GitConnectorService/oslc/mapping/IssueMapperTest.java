@@ -19,6 +19,16 @@ public class IssueMapperTest {
     private OslcIssue oslcIssue;
 
     @Test
+    public void checkDcTermsContributorIsAuthor() {
+        DctermsContributor contributor = new DctermsContributor();
+        contributor.setFoafName("User 2");
+        contributor.setRdfAbout("https://git.lab/user.2");
+
+        Assert.assertTrue(
+                EqualsBuilder.reflectionEquals(contributor, oslcIssue.getDctermsContributor()));
+    }
+
+    @Test
     public void checkAssigneeMapping() {
         GitCmAssignee expected = new GitCmAssignee();
         expected.setId(115);
