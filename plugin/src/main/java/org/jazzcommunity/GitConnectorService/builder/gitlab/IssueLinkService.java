@@ -51,6 +51,7 @@ public class IssueLinkService extends AbstractRestService {
         Gson gson = new GsonBuilder().serializeNulls().create();
         String json = gson.toJson(oslcPayload);
         response.setContentType(ContentType.APPLICATION_JSON.toString());
+        response.setHeader("OSLC-Core-Version", "2.0");
         response.getWriter().write(json);
     }
 
