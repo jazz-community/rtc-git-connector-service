@@ -1,12 +1,9 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.*;
-import com.google.common.base.Joiner;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.modelmapper.*;
-import org.threeten.bp.*;
-import org.threeten.bp.format.DateTimeFormatter;
 
 import java.lang.reflect.Type;
 import java.net.URL;
@@ -18,33 +15,6 @@ public class IssueMapper {
     public static OslcIssue map(Issue issue, final URL self) {
         final String link = self.toString();
         final ModelMapper mapper = new ModelMapper();
-
-        final AbstractConverter<TimeStats, GitCmTimeStats> timeStatsConverter =
-                new AbstractConverter<TimeStats, GitCmTimeStats>() {
-            @Override
-            protected GitCmTimeStats convert(TimeStats timeStats) {
-                return new ModelMapper().map(timeStats, GitCmTimeStats.class);
-            }
-        };
-
-        final AbstractConverter<Integer, Integer> toRtcTimeStamp =
-                new AbstractConverter<Integer, Integer>() {
-            @Override
-            protected Integer convert(Integer timeStamp) {
-                return timeStamp * 1000;
-            }
-        };
-
-        final AbstractConverter<Milestone, GitCmMilestone> milestoneConverter =
-                new AbstractConverter<Milestone, GitCmMilestone>() {
-            @Override
-            protected GitCmMilestone convert(Milestone milestone) {
-                if (milestone == null) {
-                    return null;
-                }
-                return new ModelMapper().map(milestone, GitCmMilestone.class);
-            }
-        };
 
         final AbstractConverter<List<Assignee>, List<GitCmAssignee>> assigneeConverter = new AbstractConverter<List<Assignee>, List<GitCmAssignee>>() {
             @Override
@@ -102,7 +72,7 @@ public class IssueMapper {
                 map().setGitCmProjectId(source.getProjectId());
 
                 // milestone skipped because deep object not defined yet
-                using(milestoneConverter).map(source.getMilestone()).setGitCmMilestone(null);
+                using(Converters.milestone()).map(source.getMilestone()).setGitCmMilestone(null);
                 // same with assignees and author
                 using(Converters.authorToContributor())
                         .map(source.getAuthor())
@@ -123,12 +93,12 @@ public class IssueMapper {
                 map().setGitCmDiscussionLocked(source.getDiscussionLocked());
                 map().setGitCmWebUrl(source.getWebUrl());
 
-                using(timeStatsConverter).map(source.getTimeStats()).setGitCmTimeStats(null);
-                using(toRtcTimeStamp)
+                using(Converters.timeStats()).map(source.getTimeStats()).setGitCmTimeStats(null);
+                using(Converters.timeStamp())
                         .map(source.getTimeStats().getTimeEstimate())
                         .setRtcCmEstimate(null);
 
-                using(toRtcTimeStamp)
+                using(Converters.timeStamp())
                         .map(source.getTimeStats().getTotalTimeSpent())
                         .setRtcCmTimeSpent(null);
 

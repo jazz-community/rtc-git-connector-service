@@ -2,10 +2,10 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Author;
 import ch.sbi.minigit.type.gitlab.issue.Links;
+import ch.sbi.minigit.type.gitlab.issue.Milestone;
+import ch.sbi.minigit.type.gitlab.issue.TimeStats;
 import com.google.common.base.Joiner;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.DctermsContributor;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmLinks;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.RdfType;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.threeten.bp.LocalDate;
@@ -86,6 +86,37 @@ public final class Converters {
                 LocalDate date = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
                 ZonedDateTime dateTime = ZonedDateTime.of(date, LocalTime.MIDNIGHT, ZoneOffset.UTC);
                 return dateTime.toString();
+            }
+        };
+    }
+
+    public static AbstractConverter<TimeStats, GitCmTimeStats> timeStats() {
+        return new AbstractConverter<TimeStats, GitCmTimeStats>() {
+            @Override
+            protected GitCmTimeStats convert(TimeStats timeStats) {
+                return new ModelMapper().map(timeStats, GitCmTimeStats.class);
+            }
+        };
+    }
+
+    public static AbstractConverter<Integer, Integer> timeStamp() {
+        return new AbstractConverter<Integer, Integer>() {
+            @Override
+            protected Integer convert(Integer timeStamp) {
+                return timeStamp * 1000;
+            }
+        };
+    }
+
+    public static AbstractConverter<Milestone, GitCmMilestone> milestone() {
+        return new AbstractConverter<Milestone, GitCmMilestone>() {
+            @Override
+            protected GitCmMilestone convert(Milestone milestone) {
+                if (milestone == null) {
+                    return null;
+                }
+
+                return new ModelMapper().map(milestone, GitCmMilestone.class);
             }
         };
     }
