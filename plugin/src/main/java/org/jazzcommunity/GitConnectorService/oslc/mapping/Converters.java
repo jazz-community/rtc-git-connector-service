@@ -3,8 +3,10 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 import ch.sbi.minigit.type.gitlab.issue.Author;
 import com.google.common.base.Joiner;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.DctermsContributor;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.RdfType;
 import org.modelmapper.AbstractConverter;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public final class Converters {
@@ -42,7 +44,13 @@ public final class Converters {
         return new AbstractConverter<Author, DctermsContributor>() {
             @Override
             protected DctermsContributor convert(Author author) {
+                RdfType type = new RdfType();
+                type.setRdfResource("http://xmlns.com/foaf/0.1/Person");
+                ArrayList<RdfType> types = new ArrayList<>();
+                types.add(type);
+
                 DctermsContributor contributor = new DctermsContributor();
+                contributor.setRdfType(types);
                 contributor.setFoafName(author.getName());
                 contributor.setRdfAbout(author.getWebUrl());
                 return contributor;

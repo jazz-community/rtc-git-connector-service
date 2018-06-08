@@ -13,6 +13,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class IssueMapperTest {
 
@@ -20,12 +21,21 @@ public class IssueMapperTest {
 
     @Test
     public void checkDcTermsContributorIsAuthor() {
-        DctermsContributor contributor = new DctermsContributor();
-        contributor.setFoafName("User 2");
-        contributor.setRdfAbout("https://git.lab/user.2");
+        RdfType type = new RdfType();
+        type.setRdfResource("http://xmlns.com/foaf/0.1/Person");
+        ArrayList<RdfType> types = new ArrayList<>();
+        types.add(type);
 
-        Assert.assertTrue(
-                EqualsBuilder.reflectionEquals(contributor, oslcIssue.getDctermsContributor()));
+        DctermsContributor expected = new DctermsContributor();
+        expected.setRdfType(types);
+        expected.setFoafName("User 2");
+        expected.setRdfAbout("https://git.lab/user.2");
+
+        Assert.assertEquals(expected.getFoafName(), oslcIssue.getDctermsContributor().getFoafName());
+        Assert.assertEquals(expected.getRdfAbout(), oslcIssue.getDctermsContributor().getRdfAbout());
+        Assert.assertEquals(
+                expected.getRdfType().get(0).getRdfResource(),
+                oslcIssue.getDctermsContributor().getRdfType().get(0).getRdfResource());
     }
 
     @Test
@@ -38,7 +48,7 @@ public class IssueMapperTest {
         expected.setAvatarUrl("https://repo.git.com/uploads/-/system/user/avatar/115/avatar.png");
         expected.setWebUrl("https://git.lab/user.1");
 
-        // in gitlab ce, assignees is always a collection of exactly one user,
+        // in gitlab ce, assignees is always a collection of at most one user,
         // which is why this test currently only checks for a single assignee.
         Assert.assertNotNull(oslcIssue.getGitCmAssignees());
         Assert.assertFalse(oslcIssue.getGitCmAssignees().isEmpty());
