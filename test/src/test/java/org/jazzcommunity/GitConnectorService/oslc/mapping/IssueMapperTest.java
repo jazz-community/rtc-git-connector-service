@@ -8,7 +8,7 @@ import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.threeten.bp.*;
+import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.net.MalformedURLException;
@@ -31,8 +31,12 @@ public class IssueMapperTest {
         expected.setFoafName("User 2");
         expected.setRdfAbout("https://git.lab/user.2");
 
-        Assert.assertEquals(expected.getFoafName(), oslcIssue.getDctermsContributor().getFoafName());
-        Assert.assertEquals(expected.getRdfAbout(), oslcIssue.getDctermsContributor().getRdfAbout());
+        Assert.assertEquals(
+                expected.getFoafName(),
+                oslcIssue.getDctermsContributor().getFoafName());
+        Assert.assertEquals(
+                expected.getRdfAbout(),
+                oslcIssue.getDctermsContributor().getRdfAbout());
         Assert.assertEquals(
                 expected.getRdfType().get(0).getRdfResource(),
                 oslcIssue.getDctermsContributor().getRdfType().get(0).getRdfResource());
