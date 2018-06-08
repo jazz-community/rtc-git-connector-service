@@ -129,7 +129,8 @@ public final class Converters {
                     return null;
                 }
 
-                Type converted = new TypeToken<List<GitCmAssignee>>() {}.getType();
+                Type converted = new TypeToken<List<GitCmAssignee>>() {
+                }.getType();
                 return new ModelMapper().map(assignees, converted);
             }
         };

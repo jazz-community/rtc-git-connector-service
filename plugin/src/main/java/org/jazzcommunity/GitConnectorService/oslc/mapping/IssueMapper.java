@@ -1,16 +1,17 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
-import ch.sbi.minigit.type.gitlab.issue.*;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
+import ch.sbi.minigit.type.gitlab.issue.Issue;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmAuthor;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
-import org.modelmapper.*;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 
-import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.List;
 
 public class IssueMapper {
-    private IssueMapper(){}
+    private IssueMapper() {
+    }
 
     public static OslcIssue map(Issue issue, final URL self) {
         final String link = self.toString();
