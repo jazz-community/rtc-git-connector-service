@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class Request {
     public static boolean isLinkRequest(HttpServletRequest request) {
         return request.getHeader("Accept").contains("application/x-jazz-compact-rendering")
-            || request.getHeader("Accept").contains("application/x-oslc-compact+xml");
+                || request.getHeader("Accept").contains("application/x-oslc-compact+xml");
     }
 
     public static boolean isOslcRequest(HttpServletRequest request) {

@@ -2,12 +2,6 @@ package org.jazzcommunity.GitConnectorService.builder.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.commit.Commit;
-import java.io.IOException;
-import java.net.URL;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
@@ -17,6 +11,11 @@ import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlParameters;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URL;
 
 public class CommitPreviewService extends AbstractRestService {
 

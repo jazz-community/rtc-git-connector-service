@@ -3,11 +3,11 @@ package org.jazzcommunity.GitConnectorService.data;
 import com.ibm.team.repository.common.IContributor;
 import com.ibm.team.repository.common.TeamRepositoryException;
 import com.ibm.team.repository.service.TeamRawService;
-import org.jazzcommunity.GitConnectorService.buildsecret.security.Crypto;
 import org.jazzcommunity.GitConnectorService.buildsecret.internal.BuildSecretsHelper;
 import org.jazzcommunity.GitConnectorService.buildsecret.internal.BuildSecretsReader;
 import org.jazzcommunity.GitConnectorService.buildsecret.jazz.AdvancedProperties;
 import org.jazzcommunity.GitConnectorService.buildsecret.jazz.User;
+import org.jazzcommunity.GitConnectorService.buildsecret.security.Crypto;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;

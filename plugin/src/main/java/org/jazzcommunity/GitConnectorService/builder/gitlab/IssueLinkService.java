@@ -2,15 +2,20 @@ package org.jazzcommunity.GitConnectorService.builder.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
+import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.net.UrlParameters;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
+import org.jazzcommunity.GitConnectorService.oslc.mapping.IssueMapper;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -31,9 +36,23 @@ public class IssueLinkService extends AbstractRestService {
 
         if (Request.isLinkRequest(request)) {
             sendLinkResponse(issue, parameters);
+        } else if (Request.isOslcRequest(request)) {
+            sendOslcResponse(issue, parameters);
         } else {
             response.sendRedirect(issue.getWebUrl());
         }
+    }
+
+    private void sendOslcResponse(Issue issue, UrlParameters parameters) throws IOException {
+        // what might I need parameters for here?
+        // instead of get, IssueMapper should just export a 'map' function anyway...
+        OslcIssue oslcPayload =
+                IssueMapper.map(issue, UrlBuilder.getLinkUrl(parentService, parameters, "issue"));
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        String json = gson.toJson(oslcPayload);
+        response.setContentType(ContentType.APPLICATION_JSON.toString());
+        response.setHeader("OSLC-Core-Version", "2.0");
+        response.getWriter().write(json);
     }
 
     private void sendLinkResponse(Issue issue, UrlParameters parameters) throws IOException {
