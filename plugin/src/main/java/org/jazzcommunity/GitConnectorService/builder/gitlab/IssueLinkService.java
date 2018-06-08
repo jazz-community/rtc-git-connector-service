@@ -11,11 +11,11 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
-import org.jazzcommunity.GitConnectorService.oslc.mapping.IssueMapper;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.net.UrlParameters;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
+import org.jazzcommunity.GitConnectorService.oslc.mapping.IssueMapper;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -36,7 +36,7 @@ public class IssueLinkService extends AbstractRestService {
 
         if (Request.isLinkRequest(request)) {
             sendLinkResponse(issue, parameters);
-        } else if(Request.isOslcRequest(request)) {
+        } else if (Request.isOslcRequest(request)) {
             sendOslcResponse(issue, parameters);
         } else {
             response.sendRedirect(issue.getWebUrl());

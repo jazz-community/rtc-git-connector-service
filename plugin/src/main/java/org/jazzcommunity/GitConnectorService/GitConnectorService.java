@@ -6,7 +6,10 @@ import com.siemens.bt.jazz.services.base.rest.RestAction;
 import com.siemens.bt.jazz.services.base.rest.RestActionBuilder;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import com.siemens.bt.jazz.services.base.router.factory.RestFactory;
-import org.jazzcommunity.GitConnectorService.builder.gitlab.*;
+import org.jazzcommunity.GitConnectorService.builder.gitlab.IssueLinkService;
+import org.jazzcommunity.GitConnectorService.builder.gitlab.IssuePreviewService;
+import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestLinkService;
+import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestPreviewService;
 import org.jazzcommunity.GitConnectorService.router.CustomRouter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +53,7 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
 //        router.addService(HttpMethod.GET, ".*/gitlab/[a-zA-Z.]+/project/[0-9]+/commit/[^\\/]+/preview.*",
 //                new RestFactory(CommitPreviewService.class));
     }
+
     @Override
     public void perform_GET(String uri, HttpServletRequest request, HttpServletResponse response) throws IOException {
         performAction(uri, request, response);
@@ -69,7 +73,7 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
             // This will need extra logging, but we quench it for now to allow non-authorized requests
             // without spamming the server log. Sorry :-*
             //throw e;
-        }  catch (Exception e) {
+        } catch (Exception e) {
             // catch everything and log. Makes sure that there is no checked exception from our service back
             // to jazz, except for the expected IOException when the response isn't writable. We need to make
             // sure that our plug-in conforms to the contract that no exceptions bubble out into the system.

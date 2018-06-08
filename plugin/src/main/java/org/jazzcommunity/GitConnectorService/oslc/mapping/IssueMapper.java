@@ -9,7 +9,7 @@ import org.modelmapper.PropertyMap;
 
 import java.net.URL;
 
-public class IssueMapper {
+public final class IssueMapper {
     private IssueMapper() {
     }
 
