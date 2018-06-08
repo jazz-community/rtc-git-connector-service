@@ -171,13 +171,24 @@ public class IssueMapperTest {
 
     @Test
     public void checkClosedAt() {
-        Assert.assertEquals(null, oslcIssue.getGitCmClosedAt());
+        Assert.assertEquals("2018-06-08T15:28:20.376+02:00", oslcIssue.getGitCmClosedAt());
     }
 
     @Test
     public void checkClosedBy() {
-        Assert.assertFalse(oslcIssue.getOslcCmClosed());
-        Assert.assertNull(oslcIssue.getGitCmClosedBy());
+        Assert.assertTrue(oslcIssue.getOslcCmClosed());
+        Assert.assertNotNull(oslcIssue.getGitCmClosedBy());
+
+        GitCmClosedBy expected = new GitCmClosedBy();
+        expected.setId(150);
+        expected.setName("User 2");
+        expected.setUsername("user.2");
+        expected.setState("active");
+        expected.setAvatarUrl(null);
+        expected.setWebUrl("https://git.lab/user.2");
+
+        Assert.assertTrue(
+                EqualsBuilder.reflectionEquals(expected, oslcIssue.getGitCmClosedBy()));
     }
 
     @Test
@@ -214,8 +225,8 @@ public class IssueMapperTest {
 
     @Test
     public void checkCmClosedMapsToClosedAt() {
-        Assert.assertNull(oslcIssue.getGitCmClosedAt());
-        Assert.assertFalse(oslcIssue.getOslcCmClosed());
+        Assert.assertNotNull(oslcIssue.getGitCmClosedAt());
+        Assert.assertTrue(oslcIssue.getOslcCmClosed());
     }
 
     @Test
@@ -228,13 +239,15 @@ public class IssueMapperTest {
                 "2018-06-04T15:28:20.376+02:00",
                 DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
-        created.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        ZonedDateTime closed = ZonedDateTime.parse(
+                "2018-06-08T15:28:20.376+02:00",
+                DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
         Assert.assertEquals(created.toString(), oslcIssue.getDctermsCreated());
         Assert.assertEquals(created.toString(), oslcIssue.getGitCmCreatedAt());
         Assert.assertEquals(modified.toString(), oslcIssue.getDctermsModified());
         Assert.assertEquals(modified.toString(), oslcIssue.getGitCmUpdatedAt());
-        Assert.assertEquals(null, oslcIssue.getGitCmClosedAt());
+        Assert.assertEquals(closed.toString(), oslcIssue.getGitCmClosedAt());
     }
 
     @Test
@@ -285,8 +298,15 @@ public class IssueMapperTest {
                 "    \"state\": \"opened\",\n" +
                 "    \"created_at\": \"2018-03-13T15:24:48.339+01:00\",\n" +
                 "    \"updated_at\": \"2018-06-04T15:28:20.376+02:00\",\n" +
-                "    \"closed_at\": null,\n" +
-                "    \"closed_by\": null,\n" +
+                "    \"closed_at\": \"2018-06-08T15:28:20.376+02:00\",\n" +
+                "    \"closed_by\": {\n" +
+                "            \"id\": 150,\n" +
+                "            \"name\": \"User 2\",\n" +
+                "            \"username\": \"user.2\",\n" +
+                "            \"state\": \"active\",\n" +
+                "            \"avatar_url\": null,\n" +
+                "            \"web_url\": \"https://git.lab/user.2\"\n" +
+                "        },\n" +
                 "    \"labels\": [\n" +
                 "        \"Label1\",\n" +
                 "    \"Label2\"\n" +
