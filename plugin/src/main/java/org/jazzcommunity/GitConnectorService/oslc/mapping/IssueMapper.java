@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmAuthor;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmClosedBy;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.modelmapper.ModelMapper;
@@ -57,9 +58,9 @@ public final class IssueMapper {
                 map().setDctermsModified(source.getUpdatedAt());
                 // Entity state
                 using(Converters.state()).map(source.getClosedAt()).setOslcCmClosed(null);
-                map().setGitCmClosedAt(source.getClosedAt());
                 map().setOslcCmStatus(source.getState());
                 map().setGitCmState(source.getState());
+                map().setGitCmClosedAt(source.getClosedAt());
                 // Identifiers
                 map().setOslcShortId(source.getIid().toString());
                 map().setDctermsIdentifier(source.getId().toString());
@@ -88,8 +89,11 @@ public final class IssueMapper {
                 using(UserConverter.to(GitCmAuthor.class))
                         .map(source.getAuthor())
                         .setGitCmAuthor(null);
-                // TODO: Add
                 // Closed by
+                using(UserConverter.to(GitCmClosedBy.class))
+                        .map(source.getClosedBy())
+                        .setGitCmClosedBy(null);
+                // TODO: Add
                 // Comment and vote statistics
                 map().setGitCmUserNotesCount(source.getUserNotesCount());
                 map().setGitCmUpvotes(source.getUpvotes());

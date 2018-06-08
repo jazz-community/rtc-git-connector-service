@@ -72,7 +72,14 @@
     "avatar_url": "https://git.lab/uploads/-/system/user/avatar/115/avatar.png",
     "web_url": "https://git.lab/adbara10"
   },
-  "git_cm:closed_by" : null,
+  "git_cm:closed_by" : {
+    "id": 3537,
+    "name": "Bajohr Rayk adbara10",
+    "username": "adbara10",
+    "state": "active",
+    "avatar_url": "https://git.lab/uploads/-/system/user/avatar/115/avatar.png",
+    "web_url": "https://git.lab/adbara10"
+  },
   "git_cm:user_notes_count": 0,
   "git_cm:upvotes": 0,
   "git_cm:downvotes": 0,
