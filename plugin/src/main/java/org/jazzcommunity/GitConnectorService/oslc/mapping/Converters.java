@@ -1,21 +1,21 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
-import ch.sbi.minigit.type.gitlab.issue.Author;
-import ch.sbi.minigit.type.gitlab.issue.Links;
-import ch.sbi.minigit.type.gitlab.issue.Milestone;
-import ch.sbi.minigit.type.gitlab.issue.TimeStats;
+import ch.sbi.minigit.type.gitlab.issue.*;
 import com.google.common.base.Joiner;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public final class Converters {
     private Converters() {
@@ -117,6 +117,20 @@ public final class Converters {
                 }
 
                 return new ModelMapper().map(milestone, GitCmMilestone.class);
+            }
+        };
+    }
+
+    public static AbstractConverter<List<Assignee>, List<GitCmAssignee>> assignees() {
+        return new AbstractConverter<List<Assignee>, List<GitCmAssignee>>() {
+            @Override
+            protected List<GitCmAssignee> convert(List<Assignee> assignees) {
+                if (assignees == null) {
+                    return null;
+                }
+
+                Type converted = new TypeToken<List<GitCmAssignee>>() {}.getType();
+                return new ModelMapper().map(assignees, converted);
             }
         };
     }

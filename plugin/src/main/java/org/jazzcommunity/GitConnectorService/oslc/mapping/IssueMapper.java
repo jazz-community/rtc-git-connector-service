@@ -14,19 +14,7 @@ public class IssueMapper {
 
     public static OslcIssue map(Issue issue, final URL self) {
         final String link = self.toString();
-        final ModelMapper mapper = new ModelMapper();
-
-        final AbstractConverter<List<Assignee>, List<GitCmAssignee>> assigneeConverter = new AbstractConverter<List<Assignee>, List<GitCmAssignee>>() {
-            @Override
-            protected List<GitCmAssignee> convert(List<Assignee> assignees) {
-                if (assignees == null) {
-                    return null;
-                }
-
-                Type converted = new TypeToken<List<GitCmAssignee>>() {}.getType();
-                return mapper.map(assignees, converted);
-            }
-        };
+        ModelMapper mapper = new ModelMapper();
 
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
             @Override
@@ -82,7 +70,7 @@ public class IssueMapper {
                         .map(source.getAuthor())
                         .setGitCmAuthor(null);
 
-                using(assigneeConverter).map(source.getAssignees()).setGitCmAssignees(null);
+                using(Converters.assignees()).map(source.getAssignees()).setGitCmAssignees(null);
 
                 map().setGitCmUserNotesCount(source.getUserNotesCount());
                 map().setGitCmUpvotes(source.getUpvotes());
