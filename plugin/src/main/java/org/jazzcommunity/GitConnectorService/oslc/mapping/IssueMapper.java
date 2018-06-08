@@ -93,7 +93,6 @@ public final class IssueMapper {
                 using(UserConverter.to(GitCmClosedBy.class))
                         .map(source.getClosedBy())
                         .setGitCmClosedBy(null);
-                // TODO: Add
                 // Comment and vote statistics
                 map().setGitCmUserNotesCount(source.getUserNotesCount());
                 map().setGitCmUpvotes(source.getUpvotes());
@@ -102,8 +101,6 @@ public final class IssueMapper {
                 map().setGitCmDueDate(source.getDueDate());
                 // Confidentiality
                 map().setGitCmConfidential(source.getConfidential());
-                // TODO: Add?
-                // Weight skipped, EE feature only. Not sure if we need this.
                 // Discussion state
                 map().setGitCmDiscussionLocked(source.getDiscussionLocked());
                 // Web url of issue in gitlab

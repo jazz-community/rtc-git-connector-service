@@ -85,7 +85,6 @@
   "git_cm:downvotes": 0,
   "git_cm:due_date": null,
   "git_cm:confidential": false,
-  "git_cm:weight": null,
   "git_cm:discussion_locked": null,
   "git_cm:web_url": "https://git.lab/sisuite/sisuite-infrastructure-as-code/issues/42",
   "git_cm:time_stats": {
