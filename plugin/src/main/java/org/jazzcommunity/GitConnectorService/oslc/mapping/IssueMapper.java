@@ -19,26 +19,6 @@ public class IssueMapper {
         final String link = self.toString();
         final ModelMapper mapper = new ModelMapper();
 
-        final AbstractConverter<Links, GitCmLinks> linkConverter = new AbstractConverter<Links, GitCmLinks>() {
-            @Override
-            protected GitCmLinks convert(Links links) {
-                return new ModelMapper().map(links, GitCmLinks.class);
-            }
-        };
-
-        final AbstractConverter<String, String> toUtc = new AbstractConverter<String, String>() {
-            @Override
-            protected String convert(String from) {
-                if (from == null) {
-                    return null;
-                }
-
-                LocalDate date = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
-                ZonedDateTime dateTime = ZonedDateTime.of(date, LocalTime.MIDNIGHT, ZoneOffset.UTC);
-                return dateTime.toString();
-            }
-        };
-
         final AbstractConverter<TimeStats, GitCmTimeStats> timeStatsConverter =
                 new AbstractConverter<TimeStats, GitCmTimeStats>() {
             @Override
@@ -117,7 +97,7 @@ public class IssueMapper {
 
                 using(Converters.toShortTitle()).map(source.getIid()).setOslcShortTitle(null);
 
-                using(toUtc).map(source.getDueDate()).setRtcCmDue(null);
+                using(Converters.dateToUtc()).map(source.getDueDate()).setRtcCmDue(null);
 
                 map().setGitCmProjectId(source.getProjectId());
 
@@ -152,7 +132,7 @@ public class IssueMapper {
                         .map(source.getTimeStats().getTotalTimeSpent())
                         .setRtcCmTimeSpent(null);
 
-                using(linkConverter).map(source.getLinks()).setGitCmLinks(null);
+                using(Converters.links()).map(source.getLinks()).setGitCmLinks(null);
 
                 map().setGitCmSubscribed(source.getSubscribed());
             }
