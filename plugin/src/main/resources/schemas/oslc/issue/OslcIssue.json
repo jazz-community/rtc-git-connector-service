@@ -43,7 +43,6 @@
   "rtc_cm:due": "2018-04-19T10:00:00.000Z",
   "rtc_cm:estimate": 18000000,
   "rtc_cm:timeSpent": 10800000,
-  "git_cm:details": "<rdf:about URI>/details",
   "git_cm:project_id": 23862,
   "git_cm:milestone": {
     "project_id" : 23862,

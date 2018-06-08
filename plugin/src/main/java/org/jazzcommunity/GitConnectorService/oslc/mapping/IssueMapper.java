@@ -78,10 +78,6 @@ public final class IssueMapper {
                 using(Converters.timeStamp())
                         .map(source.getTimeStats().getTotalTimeSpent())
                         .setRtcCmTimeSpent(null);
-
-                // TODO: Add
-                // Git cm details
-
                 // Project id
                 map().setGitCmProjectId(source.getProjectId());
                 // Milestone object
