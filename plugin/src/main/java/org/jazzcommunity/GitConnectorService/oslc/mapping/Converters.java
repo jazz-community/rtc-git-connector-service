@@ -18,6 +18,8 @@ import java.util.Collection;
 import java.util.List;
 
 public final class Converters {
+    private static final int RTC_TIME_FACTOR = 1000;
+
     private Converters() {
     }
 
@@ -103,7 +105,7 @@ public final class Converters {
         return new AbstractConverter<Integer, Integer>() {
             @Override
             protected Integer convert(Integer timeStamp) {
-                return timeStamp * 1000;
+                return timeStamp * RTC_TIME_FACTOR;
             }
         };
     }
