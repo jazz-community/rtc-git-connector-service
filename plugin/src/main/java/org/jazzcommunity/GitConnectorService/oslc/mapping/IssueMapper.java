@@ -28,7 +28,7 @@ public final class IssueMapper {
      * @param self  The web link to the current entity
      * @return An Oslc representation of 'issue'
      */
-    public static OslcIssue map(Issue issue, final URL self) {
+    public static OslcIssue map(Issue issue, URL self, final String baseUrl) {
         final String link = self.toString();
         ModelMapper mapper = new ModelMapper();
 
@@ -81,7 +81,7 @@ public final class IssueMapper {
                         .map(source.getTimeStats().getTotalTimeSpent())
                         .setRtcCmTimeSpent(null);
                 // rtc_cm:type for icon link
-                map().setRtcCmType(TypeBuilder.get());
+                map().setRtcCmType(TypeBuilder.get(baseUrl));
                 // Project id
                 map().setGitCmProjectId(source.getProjectId());
                 // Milestone object

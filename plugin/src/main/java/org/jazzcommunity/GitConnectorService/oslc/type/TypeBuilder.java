@@ -10,7 +10,7 @@ public class TypeBuilder {
     private TypeBuilder() {
     }
 
-    public static RtcCmType get() {
+    public static RtcCmType get(String baseUrl) {
         RdfType_ rdfType = new RdfType_();
         rdfType.setRdfResource("http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/Type");
 
@@ -21,7 +21,8 @@ public class TypeBuilder {
         type.setDctermsIdentifier("issue");
         type.setDctermsTitle("Issue");
         type.setRdfType(rdfCollection);
-        type.setRtcCmIconUrl("https://localhost:7443/jazz/web/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif");
+        String iconUrl = String.format("%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif", baseUrl);
+        type.setRtcCmIconUrl(iconUrl);
 
         return type;
     }

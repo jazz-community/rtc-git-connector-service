@@ -372,6 +372,9 @@ public class IssueMapperTest {
                 "}\n";
 
         Issue issue = new Gson().fromJson(json, Issue.class);
-        this.oslcIssue = IssueMapper.map(issue, new URL("http://link-to-myself.ch"));
+        this.oslcIssue = IssueMapper.map(
+                issue,
+                new URL("http://link-to-myself.ch"),
+                "https://localhost:7443/jazz/web/");
     }
 }
