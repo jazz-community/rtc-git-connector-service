@@ -78,6 +78,38 @@ public class MergeRequestMapper {
                 map().setGitCmWebUrl(source.getWebUrl());
                 // Time statistics object
                 // TODO: generify time converter for use here
+                // User subscription
+                map().setGitCmSubscribed(source.getSubscribed());
+                // Branch information
+                map().setGitCmTargetBranch(source.getTargetBranch());
+                map().setGitCmSourceBranch(source.getSourceBranch());
+                map().setGitCmSourceProjectId(source.getSourceProjectId());
+                map().setGitCmTargetProjectId(source.getTargetProjectId());
+                // Work in progress
+                map().setGitCmWorkInProgress(source.getWorkInProgress());
+                // Pipeline
+                map().setGitCmMergeWhenPipelineSucceeds(source.getMergeWhenPipelineSucceeds());
+                // TODO: add pipeline information
+                // Merge status
+                map().setGitCmMergeStatus(source.getMergeStatus());
+                // TODO: merged_by
+                // TODO: merged_at
+                // Sha information
+                map().setGitCmSha(source.getSha());
+                map().setGitCmMergeCommitSha(source.getMergeCommitSha());
+                // Branch removal
+                map().setGitCmShouldRemoveSourceBranch(source.getShouldRemoveSourceBranch());
+                map().setGitCmForceRemoveSourceBranch(source.getForceRemoveSourceBranch());
+                // Changes
+                map().setGitCmChangesCount(source.getChangesCount());
+                // Latest build
+                map().setGitCmLatestBuildStartedAt(source.getLatestBuildStartedAt());
+                map().setGitCmLatestBuildFinishedAt(source.getLatestBuildFinishedAt());
+                // Deployed to production
+                map().setGitCmFirstDeployedToProductionAt(source.getFirstDeployedToProductionAt());
+                // Diff refs
+                // TODO: create diff refs mapping object
+
             }
         });
 
