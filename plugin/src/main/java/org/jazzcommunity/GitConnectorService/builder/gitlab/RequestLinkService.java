@@ -2,15 +2,20 @@ package org.jazzcommunity.GitConnectorService.builder.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
+import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.net.UrlParameters;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcMergeRequest;
+import org.jazzcommunity.GitConnectorService.oslc.mapping.MergeRequestMapper;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -27,13 +32,24 @@ public class RequestLinkService extends AbstractRestService {
     @Override
     public void execute() throws Exception {
         UrlParameters parameters = Request.getParameters(request);
-        MergeRequest request = getMergeRequest(parameters);
+        MergeRequest mergeRequest = getMergeRequest(parameters);
 
         if (Request.isLinkRequest(this.request)) {
-            sendLinkResponse(request, parameters);
+            sendLinkResponse(mergeRequest, parameters);
+        } else if (Request.isOslcRequest(request)) {
+            sendOslcResponse(mergeRequest, parameters);
         } else {
-            response.sendRedirect(request.getWebUrl());
+            response.sendRedirect(mergeRequest.getWebUrl());
         }
+    }
+
+    private void sendOslcResponse(MergeRequest mergeRequest, UrlParameters parameters) throws IOException {
+        OslcMergeRequest oslcRequest = MergeRequestMapper.map(mergeRequest);
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        String json = gson.toJson(oslcRequest);
+        response.setContentType(ContentType.APPLICATION_JSON.toString());
+        response.setHeader("OSLC-Core-Version", "2.0");
+        response.getWriter().write(json);
     }
 
     private void sendLinkResponse(MergeRequest request, UrlParameters parameters) throws IOException {
