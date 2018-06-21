@@ -5,6 +5,7 @@ import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmAuthor;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.GitCmClosedBy;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
+import org.jazzcommunity.GitConnectorService.oslc.type.TypeBuilder;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
@@ -79,6 +80,8 @@ public final class IssueMapper {
                 using(Converters.timeStamp())
                         .map(source.getTimeStats().getTotalTimeSpent())
                         .setRtcCmTimeSpent(null);
+                // rtc_cm:type for icon link
+                map().setRtcCmType(TypeBuilder.get());
                 // Project id
                 map().setGitCmProjectId(source.getProjectId());
                 // Milestone object
