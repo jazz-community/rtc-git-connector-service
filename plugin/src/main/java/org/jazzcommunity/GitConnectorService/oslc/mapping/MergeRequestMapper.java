@@ -38,7 +38,7 @@ public class MergeRequestMapper {
                 // TODO: map closed
                 map().setOslcCmStatus(source.getState());
                 map().setGitCmState(source.getState());
-                map().setGitCmClosedAt(source.getState());
+                map().setGitCmClosedAt(source.getClosedAt());
                 // Closed by
                 // TODO: map user who closed
                 // Identifiers
