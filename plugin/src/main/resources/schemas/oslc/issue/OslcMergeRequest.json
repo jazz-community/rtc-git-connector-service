@@ -1,0 +1,126 @@
+{
+  "dcterms:type": "Merge Request",
+  "git_cm:title": "iac variables shall allow to print to stdout",
+  "dcterms:title": "iac variables shall allow to print to stdout",
+  "dcterms:description": "In general a user wants a fast test to validate his variables based on the scope.\nWhen a user doesn't provide a output file (-o) the user would like to see the generated content in the stdout.\nThe following command shall use the standard output instead of a file:\n```bash\niac variables --scope ansible\n```",
+  "git_cm:description": "In general a user wants a fast test to validate his variables based on the scope.\nWhen a user doesn't provide a output file (-o) the user would like to see the generated content in the stdout.\nThe following command shall use the standard output instead of a file:\n```bash\niac variables --scope ansible\n```",
+  "dcterms:subject": "Feature, SizeXXL",
+  "git_cm:labels": [
+    "Feature",
+    "SizeXXL"
+  ],
+  "rdf:about": "https://code.siemens.com/guido.schneider/RTC-Commit-Picker-Demo/issues/10",
+  "dcterms:contributor": {
+    "rdf:type": [
+      {
+        "rdf:resource": "http://xmlns.com/foaf/0.1/Person"
+      }
+    ],
+    "foaf:name": "myadmin",
+    "rdf:about": "https://localhost:7443/jazz/users/myadmin"
+  },
+  "dcterms:created": "2018-02-09T17:18:28.949Z",
+  "git_cm:created_at": "2018-03-09T15:04:02.789+01:00",
+  "dcterms:modified": "2018-04-04T08:57:34.453Z",
+  "git_cm:updated_at": "2018-03-13T09:38:12.038+01:00",
+  "oslc_cm:closed": false,
+  "git_cm:closed_at": "2018-03-13T09:38:12.038+01:00",
+  "oslc_cm:status": "",
+  "git_cm:state": "opened",
+  "oslc:shortId": "42",
+  "dcterms:identifier": "80816",
+  "git_cm:id": 80816,
+  "git_cm:iid": 42,
+  "prefixes": {
+    "git_cm": "http://jazz-community.org/ns/git_cm",
+    "rtc_cm": "http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "oslc": "http://open-services.net/ns/core#",
+    "oslc_cm": "http://open-services.net/ns/cm#"
+  },
+  "oslc:shortTitle": "Merge Request 42",
+  "rtc_cm:due": "2018-04-19T10:00:00.000Z",
+  "rtc_cm:estimate": 18000000,
+  "rtc_cm:timeSpent": 10800000,
+  "rtc_cm:type":{
+    "rdf:type":[
+      {"rdf:resource":"http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/Type"}
+    ],
+    "rtc_cm:iconUrl":"https://localhost:7443/jazz/service/com.ibm.team.workitem.common.internal.model.IImageContentService/processattachment/_Y868wPuZEeau1PCMVYBRLg/workitemtype/bug.gif",
+    "dcterms:title":"Merge Request",
+    "dcterms:identifier":"merge request"
+  },
+  "git_cm:project_id": 23862,
+  "git_cm:milestone": {
+    "project_id" : 23862,
+    "description" : "Ducimus nam enim ex consequatur cumque ratione.",
+    "state" : "closed",
+    "start_date": "2016-01-04",
+    "due_date" : null,
+    "iid" : 2,
+    "created_at" : "2016-01-04T15:31:39.996Z",
+    "title" : "v4.0",
+    "id" : 17,
+    "updated_at" : "2016-01-04T15:31:39.996Z"
+  },
+  "git_cm:assignee": {
+    "id": 150,
+    "name": "User Name",
+    "username": "username",
+    "state": "active",
+    "avatar_url": null,
+    "web_url": "https://code.siemens.com/userurl"
+  },
+  "git_cm:author": {
+    "id": 3537,
+    "name": "Bajohr Rayk adbara10",
+    "username": "adbara10",
+    "state": "active",
+    "avatar_url": "https://git.lab/uploads/-/system/user/avatar/115/avatar.png",
+    "web_url": "https://git.lab/adbara10"
+  },
+  "git_cm:closed_by" : {
+    "id": 3537,
+    "name": "Bajohr Rayk adbara10",
+    "username": "adbara10",
+    "state": "active",
+    "avatar_url": "https://git.lab/uploads/-/system/user/avatar/115/avatar.png",
+    "web_url": "https://git.lab/adbara10"
+  },
+  "git_cm:user_notes_count": 0,
+  "git_cm:upvotes": 0,
+  "git_cm:downvotes": 0,
+  "git_cm:discussion_locked": null,
+  "git_cm:web_url": "https://git.lab/sisuite/sisuite-infrastructure-as-code/issues/42",
+  "git_cm:time_stats": {
+    "time_estimate": 0,
+    "total_time_spent": 0,
+    "human_time_estimate": null,
+    "human_total_time_spent": null
+  },
+  "git_cm:subscribed": false,
+  "git_cm:target_branch": "master",
+  "git_cm:source_branch": "dev",
+  "git_cm:source_project_id": 1234,
+  "git_cm:target_project_id": 5678,
+  "git_cm:work_in_progress": false,
+  "git_cm:merge_when_pipeline_succeeds": false,
+  "git_cm:merge_status": "can_be_merged",
+  "git_cm:sha": "cf86a2644fa86db6fad810c23bfd0809fb487559",
+  "git_cm:merge_commit_sha": null,
+  "git_cm:should_remove_source_branch": null,
+  "git_cm:force_remove_source_branch": false,
+  "git_cm:changes_count": "1",
+  "git_cm:merged_by": null,
+  "git_cm:merged_at": null,
+  "git_cm:latest_build_started_at": null,
+  "git_cm:latest_build_finished_at": null,
+  "git_cm:first_deployed_to_production_at": null,
+  "git_cm:pipeline": null,
+  "git_cm:diff_refs": {
+    "base_sha": "bff9123280dadaea5f25ad7f2f01ef7604dbdadb",
+    "head_sha": "cf86a2644fa86db6fad810c23bfd0809fb487559",
+    "start_sha": "bff9123280dadaea5f25ad7f2f01ef7604dbdadb"
+  }
+}
