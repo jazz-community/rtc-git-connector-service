@@ -100,7 +100,7 @@ public final class IssueMapper {
                 map().setGitCmUserNotesCount(source.getUserNotesCount());
                 map().setGitCmUpvotes(source.getUpvotes());
                 map().setGitCmDownvotes(source.getDownvotes());
-                // Due date
+                // Git due date
                 map().setGitCmDueDate(source.getDueDate());
                 // Confidentiality
                 map().setGitCmConfidential(source.getConfidential());

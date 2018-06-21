@@ -14,7 +14,7 @@ import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.net.UrlParameters;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcMergeRequest;
+import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.OslcMergeRequest;
 import org.jazzcommunity.GitConnectorService.oslc.mapping.MergeRequestMapper;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
