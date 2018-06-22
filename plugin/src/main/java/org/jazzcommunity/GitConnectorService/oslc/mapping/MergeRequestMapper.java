@@ -34,7 +34,7 @@ public class MergeRequestMapper {
                 map().setDctermsCreated(source.getCreatedAt());
                 map().setDctermsModified(source.getUpdatedAt());
                 // Entity state
-                // TODO: map closed
+                using(Converters.state()).map(source.getClosedAt()).setOslcCmClosed(null);
                 map().setOslcCmStatus(source.getState());
                 map().setGitCmState(source.getState());
                 map().setGitCmClosedAt(source.getClosedAt());
@@ -59,8 +59,9 @@ public class MergeRequestMapper {
                 // Project id
                 map().setGitCmProjectId(source.getProjectId());
                 // Milestone object
-                // TODO: Check if this actually works. I'm pretty sure it doesn't...
-//                using(Converters.milestone()).map(source.getMilestone()).setGitCmMilestone(null);
+                using(TypeConverter.to(GitCmMilestone.class))
+                        .map(source.getMilestone())
+                        .setGitCmMilestone(null);
                 // Author
                 using(TypeConverter.to(GitCmAuthor.class))
                         .map(source.getAuthor())
@@ -86,7 +87,9 @@ public class MergeRequestMapper {
                 // Web url of merge request in gitlab
                 map().setGitCmWebUrl(source.getWebUrl());
                 // Time statistics object
-                // TODO: generify time converter for use here
+                using(TypeConverter.to(GitCmTimeStats.class))
+                        .map(source.getTimeStats())
+                        .setGitCmTimeStats(null);
                 // User subscription
                 map().setGitCmSubscribed(source.getSubscribed());
                 // Branch information
@@ -100,9 +103,7 @@ public class MergeRequestMapper {
                 map().setGitCmMergeWhenPipelineSucceeds(source.getMergeWhenPipelineSucceeds());
                 // TODO: add pipeline information
                 // Merge status
-                map().setGitCmMergeStatus(source.getMergeStatus());
-                // TODO: merged_by
-                // TODO: merged_at
+                map().setGitCmMergedAt(source.getMergedAt());
                 // Sha information
                 map().setGitCmSha(source.getSha());
                 map().setGitCmMergeCommitSha(source.getMergeCommitSha());
@@ -118,7 +119,6 @@ public class MergeRequestMapper {
                 map().setGitCmFirstDeployedToProductionAt(source.getFirstDeployedToProductionAt());
                 // Diff refs
                 // TODO: create diff refs mapping object
-
             }
         });
 

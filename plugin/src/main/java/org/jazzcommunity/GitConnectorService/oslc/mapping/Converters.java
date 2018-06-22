@@ -46,24 +46,6 @@ public final class Converters {
         };
     }
 
-    public static AbstractConverter<Author, DctermsContributor> authorToContributor() {
-        return new AbstractConverter<Author, DctermsContributor>() {
-            @Override
-            protected DctermsContributor convert(Author author) {
-                RdfType type = new RdfType();
-                type.setRdfResource("http://xmlns.com/foaf/0.1/Person");
-                ArrayList<RdfType> types = new ArrayList<>();
-                types.add(type);
-
-                DctermsContributor contributor = new DctermsContributor();
-                contributor.setRdfType(types);
-                contributor.setFoafName(author.getName());
-                contributor.setRdfAbout(author.getWebUrl());
-                return contributor;
-            }
-        };
-    }
-
     public static AbstractConverter<String, String> dateToUtc() {
         return new AbstractConverter<String, String>() {
             @Override
@@ -84,6 +66,24 @@ public final class Converters {
             @Override
             protected Integer convert(Integer timeStamp) {
                 return timeStamp * RTC_TIME_FACTOR;
+            }
+        };
+    }
+
+    public static AbstractConverter<Author, DctermsContributor> authorToContributor() {
+        return new AbstractConverter<Author, DctermsContributor>() {
+            @Override
+            protected DctermsContributor convert(Author author) {
+                RdfType type = new RdfType();
+                type.setRdfResource("http://xmlns.com/foaf/0.1/Person");
+                ArrayList<RdfType> types = new ArrayList<>();
+                types.add(type);
+
+                DctermsContributor contributor = new DctermsContributor();
+                contributor.setRdfType(types);
+                contributor.setFoafName(author.getName());
+                contributor.setRdfAbout(author.getWebUrl());
+                return contributor;
             }
         };
     }

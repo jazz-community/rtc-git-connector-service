@@ -2,7 +2,6 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 
 import java.lang.reflect.Type;
 
