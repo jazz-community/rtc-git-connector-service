@@ -89,11 +89,11 @@ public final class IssueMapper {
                 // Assignees
                 using(Converters.assignees()).map(source.getAssignees()).setGitCmAssignees(null);
                 // Author
-                using(UserConverter.to(GitCmAuthor.class))
+                using(TypeConverter.to(GitCmAuthor.class))
                         .map(source.getAuthor())
                         .setGitCmAuthor(null);
                 // Closed by
-                using(UserConverter.to(GitCmClosedBy.class))
+                using(TypeConverter.to(GitCmClosedBy.class))
                         .map(source.getClosedBy())
                         .setGitCmClosedBy(null);
                 // Comment and vote statistics

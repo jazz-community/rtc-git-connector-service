@@ -62,19 +62,19 @@ public class MergeRequestMapper {
                 // TODO: Check if this actually works. I'm pretty sure it doesn't...
 //                using(Converters.milestone()).map(source.getMilestone()).setGitCmMilestone(null);
                 // Author
-                using(UserConverter.to(GitCmAuthor.class))
+                using(TypeConverter.to(GitCmAuthor.class))
                         .map(source.getAuthor())
                         .setGitCmAuthor(null);
                 // Assignee
-                using(UserConverter.to(GitCmAssignee.class))
+                using(TypeConverter.to(GitCmAssignee.class))
                         .map(source.getAssignee())
                         .setGitCmAssignee(null);
                 // Merged by
-                using(UserConverter.to(GitCmMergedBy.class))
+                using(TypeConverter.to(GitCmMergedBy.class))
                         .map(source.getMergedBy())
                         .setGitCmMergedBy(null);
                 // Closed by
-                using(UserConverter.to(GitCmClosedBy.class))
+                using(TypeConverter.to(GitCmClosedBy.class))
                         .map(source.getClosedBy())
                         .setGitCmClosedBy(null);
                 // Comment and vote statistics
