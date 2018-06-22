@@ -68,15 +68,6 @@ public final class Converters {
         };
     }
 
-    public static AbstractConverter<Links, GitCmLinks> links() {
-        return new AbstractConverter<Links, GitCmLinks>() {
-            @Override
-            protected GitCmLinks convert(Links links) {
-                return new ModelMapper().map(links, GitCmLinks.class);
-            }
-        };
-    }
-
     public static AbstractConverter<String, String> dateToUtc() {
         return new AbstractConverter<String, String>() {
             @Override
@@ -92,33 +83,11 @@ public final class Converters {
         };
     }
 
-    public static AbstractConverter<TimeStats, GitCmTimeStats> timeStats() {
-        return new AbstractConverter<TimeStats, GitCmTimeStats>() {
-            @Override
-            protected GitCmTimeStats convert(TimeStats timeStats) {
-                return new ModelMapper().map(timeStats, GitCmTimeStats.class);
-            }
-        };
-    }
-
     public static AbstractConverter<Integer, Integer> timeStamp() {
         return new AbstractConverter<Integer, Integer>() {
             @Override
             protected Integer convert(Integer timeStamp) {
                 return timeStamp * RTC_TIME_FACTOR;
-            }
-        };
-    }
-
-    public static AbstractConverter<Milestone, GitCmMilestone> milestone() {
-        return new AbstractConverter<Milestone, GitCmMilestone>() {
-            @Override
-            protected GitCmMilestone convert(Milestone milestone) {
-                if (milestone == null) {
-                    return null;
-                }
-
-                return new ModelMapper().map(milestone, GitCmMilestone.class);
             }
         };
     }
