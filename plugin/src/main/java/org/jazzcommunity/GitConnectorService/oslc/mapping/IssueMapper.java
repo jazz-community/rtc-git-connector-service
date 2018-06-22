@@ -86,12 +86,10 @@ public final class IssueMapper {
                 // Project id
                 map().setGitCmProjectId(source.getProjectId());
                 // Milestone object
-//                using(Converters.milestone()).map(source.getMilestone()).setGitCmMilestone(null);
                 using(TypeConverter.to(GitCmMilestone.class))
                         .map(source.getMilestone())
                         .setGitCmMilestone(null);
                 // Assignees
-//                using(Converters.assignees()).map(source.getAssignees()).setGitCmAssignees(null);
                 Type assignees = new TypeToken<List<GitCmAssignee>>() {}.getType();
                 using(TypeConverter.to(assignees))
                         .map(source.getAssignees())
@@ -117,12 +115,10 @@ public final class IssueMapper {
                 // Web url of issue in gitlab
                 map().setGitCmWebUrl(source.getWebUrl());
                 // Time statistics object
-//                using(Converters.timeStats()).map(source.getTimeStats()).setGitCmTimeStats(null);
                 using(TypeConverter.to(GitCmTimeStats.class))
                         .map(source.getTimeStats())
                         .setGitCmTimeStats(null);
                 // Git links object
-//                using(Converters.links()).map(source.getLinks()).setGitCmLinks(null);
                 using(TypeConverter.to(GitCmLinks.class)).map(source.getLinks()).setGitCmLinks(null);
                 // User subscription
                 map().setGitCmSubscribed(source.getSubscribed());

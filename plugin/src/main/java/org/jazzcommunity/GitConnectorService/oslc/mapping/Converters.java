@@ -87,18 +87,4 @@ public final class Converters {
             }
         };
     }
-
-//    public static AbstractConverter<List<Assignee>, List<GitCmAssignee>> assignees() {
-//        return new AbstractConverter<List<Assignee>, List<GitCmAssignee>>() {
-//            @Override
-//            protected List<GitCmAssignee> convert(List<Assignee> assignees) {
-//                if (assignees == null) {
-//                    return null;
-//                }
-//
-//                Type converted = new TypeToken<List<GitCmAssignee>>() {}.getType();
-//                return new ModelMapper().map(assignees, converted);
-//            }
-//        };
-//    }
 }
