@@ -119,6 +119,9 @@ public class MergeRequestMapper {
                 map().setGitCmFirstDeployedToProductionAt(source.getFirstDeployedToProductionAt());
                 // Diff refs
                 // TODO: create diff refs mapping object
+                using(TypeConverter.to(GitCmDiffRefs.class))
+                        .map(source.getDiffRefs())
+                        .setGitCmDiffRefs(null);
             }
         });
 
