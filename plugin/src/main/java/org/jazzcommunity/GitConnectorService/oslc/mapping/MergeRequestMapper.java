@@ -1,9 +1,7 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
-import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.GitCmAuthor;
-import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.OslcMergeRequest;
-import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
+import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
@@ -40,11 +38,6 @@ public class MergeRequestMapper {
                 map().setOslcCmStatus(source.getState());
                 map().setGitCmState(source.getState());
                 map().setGitCmClosedAt(source.getClosedAt());
-                // Closed by
-                // TODO: map user who closed
-                using(UserConverter.to(GitCmAuthor.class))
-                        .map(source.getAuthor())
-                        .setGitCmAuthor(null);
                 // Identifiers
                 map().setOslcShortId(source.getIid().toString());
                 map().setDctermsIdentifier(source.getId().toString());
@@ -68,10 +61,22 @@ public class MergeRequestMapper {
                 // Milestone object
                 // TODO: Check if this actually works. I'm pretty sure it doesn't...
 //                using(Converters.milestone()).map(source.getMilestone()).setGitCmMilestone(null);
+                // Author
+                using(UserConverter.to(GitCmAuthor.class))
+                        .map(source.getAuthor())
+                        .setGitCmAuthor(null);
                 // Assignee
-                // TODO: use user converter here
+                using(UserConverter.to(GitCmAssignee.class))
+                        .map(source.getAssignee())
+                        .setGitCmAssignee(null);
+                // Merged by
+                using(UserConverter.to(GitCmMergedBy.class))
+                        .map(source.getMergedBy())
+                        .setGitCmMergedBy(null);
                 // Closed by
-                // TODO: use user converter here
+                using(UserConverter.to(GitCmClosedBy.class))
+                        .map(source.getClosedBy())
+                        .setGitCmClosedBy(null);
                 // Comment and vote statistics
                 map().setGitCmUserNotesCount(source.getUserNotesCount());
                 map().setGitCmUpvotes(source.getUpvotes());

@@ -112,7 +112,14 @@
   "git_cm:should_remove_source_branch": null,
   "git_cm:force_remove_source_branch": false,
   "git_cm:changes_count": "1",
-  "git_cm:merged_by": null,
+  "git_cm:merged_by": {
+    "id": 3537,
+    "name": "Bajohr Rayk adbara10",
+    "username": "adbara10",
+    "state": "active",
+    "avatar_url": "https://git.lab/uploads/-/system/user/avatar/115/avatar.png",
+    "web_url": "https://git.lab/adbara10"
+  },
   "git_cm:merged_at": null,
   "git_cm:latest_build_started_at": null,
   "git_cm:latest_build_finished_at": null,
