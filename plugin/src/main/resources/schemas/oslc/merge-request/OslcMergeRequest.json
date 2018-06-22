@@ -124,7 +124,12 @@
   "git_cm:latest_build_started_at": null,
   "git_cm:latest_build_finished_at": null,
   "git_cm:first_deployed_to_production_at": null,
-  "git_cm:pipeline": null,
+  "git_cm:pipeline": {
+    "id": 8,
+    "ref": "master",
+    "sha": "2dc6aa325a317eda67812f05600bdf0fcdc70ab0",
+    "status": "created"
+  },
   "git_cm:diff_refs": {
     "base_sha": "bff9123280dadaea5f25ad7f2f01ef7604dbdadb",
     "head_sha": "cf86a2644fa86db6fad810c23bfd0809fb487559",
