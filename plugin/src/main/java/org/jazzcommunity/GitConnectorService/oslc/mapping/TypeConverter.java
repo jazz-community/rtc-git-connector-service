@@ -3,6 +3,8 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 
+import java.lang.reflect.Type;
+
 public final class TypeConverter {
     private TypeConverter() {
     }
@@ -20,6 +22,19 @@ public final class TypeConverter {
                 }
 
                 return new ModelMapper().map(from, to);
+            }
+        };
+    }
+
+    public static <From, To> AbstractConverter<From, To> to(final Type type) {
+        return new AbstractConverter<From, To>() {
+            @Override
+            protected To convert(From from) {
+                if (from == null) {
+                    return null;
+                }
+
+                return new ModelMapper().map(from, type);
             }
         };
     }

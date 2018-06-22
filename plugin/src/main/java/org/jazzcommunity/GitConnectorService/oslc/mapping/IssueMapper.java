@@ -6,8 +6,11 @@ import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.jazzcommunity.GitConnectorService.oslc.type.TypeBuilder;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeToken;
 
+import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.List;
 
 public final class IssueMapper {
     private IssueMapper() {
@@ -88,10 +91,11 @@ public final class IssueMapper {
                         .map(source.getMilestone())
                         .setGitCmMilestone(null);
                 // Assignees
-                using(Converters.assignees()).map(source.getAssignees()).setGitCmAssignees(null);
-//                using(TypeConverter.to(GitCmAssignee.class))
-//                        .map(source.getAssignees())
-//                        .setGitCmAssignees(null);
+//                using(Converters.assignees()).map(source.getAssignees()).setGitCmAssignees(null);
+                Type assignees = new TypeToken<List<GitCmAssignee>>() {}.getType();
+                using(TypeConverter.to(assignees))
+                        .map(source.getAssignees())
+                        .setGitCmAssignees(null);
                 // Author
                 using(TypeConverter.to(GitCmAuthor.class))
                         .map(source.getAuthor())
