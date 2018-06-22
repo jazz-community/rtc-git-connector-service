@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
+import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.GitCmAuthor;
 import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.OslcMergeRequest;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.modelmapper.ModelMapper;
@@ -25,7 +26,7 @@ public class MergeRequestMapper {
                 map().setDctermsDescription(source.getDescription());
                 map().setGitCmDescription(source.getDescription());
                 // Subject and labels
-                // TODO: map subject
+                using(Converters.listToString()).map(source.getLabels()).setDctermsSubject(null);
                 map().setGitCmLabels(source.getLabels());
                 // Contributor
                 // TODO: map contributor
@@ -41,6 +42,9 @@ public class MergeRequestMapper {
                 map().setGitCmClosedAt(source.getClosedAt());
                 // Closed by
                 // TODO: map user who closed
+                using(UserConverter.to(GitCmAuthor.class))
+                        .map(source.getAuthor())
+                        .setGitCmAuthor(null);
                 // Identifiers
                 map().setOslcShortId(source.getIid().toString());
                 map().setDctermsIdentifier(source.getId().toString());
