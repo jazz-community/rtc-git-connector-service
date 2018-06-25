@@ -4,7 +4,7 @@ import ch.sbi.minigit.type.gitlab.issue.Issue;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.ContributorPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
-import org.jazzcommunity.GitConnectorService.oslc.type.TypeBuilder;
+import org.jazzcommunity.GitConnectorService.oslc.type.RdfTypePrototype;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeToken;
@@ -32,6 +32,7 @@ public final class IssueMapper {
      */
     public static OslcIssue map(Issue issue, URL self, final String baseUrl) {
         final String link = self.toString();
+        final String iconUrl = String.format("%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif", baseUrl);
         // This mapping needs to be handled outside of the property map, because
         // of how ModelMapper determines type mappings using reflection. Moving
         // the ContributorBuilder invocation inside the TypeMap will always fail
@@ -63,7 +64,8 @@ public final class IssueMapper {
                 // Contributor
                 map().setDctermsContributor(
                         TypeConverter.<ContributorPrototype, DctermsContributor>convert(
-                                contributor, DctermsContributor.class));
+                                contributor,
+                                DctermsContributor.class));
                 // Creation and modification time stamps
                 map().setGitCmCreatedAt(source.getCreatedAt());
                 map().setGitCmUpdatedAt(source.getUpdatedAt());
@@ -95,7 +97,12 @@ public final class IssueMapper {
                         .map(source.getTimeStats().getTotalTimeSpent())
                         .setRtcCmTimeSpent(null);
                 // rtc_cm:type for icon link
-                map().setRtcCmType(TypeBuilder.get(baseUrl));
+                //map().setRtcCmType(TypeBuilder.get(baseUrl));
+                RdfTypePrototype rdfType = new RdfTypePrototype(iconUrl);
+                map().setRtcCmType(
+                        TypeConverter.<RdfTypePrototype, RtcCmType>convert(
+                                rdfType,
+                                RtcCmType.class));
                 // Project id
                 map().setGitCmProjectId(source.getProjectId());
                 // Milestone object
