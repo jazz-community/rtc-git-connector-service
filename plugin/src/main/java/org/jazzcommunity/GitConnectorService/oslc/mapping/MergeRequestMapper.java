@@ -51,7 +51,7 @@ public class MergeRequestMapper {
                 map().setGitCmIid(source.getIid());
                 // Prefixes object
                 map().setPrefixes(TypeConverter.<PrefixPrototype, Prefixes>convert(
-                                PrefixPrototype.getInstance(),
+                                new PrefixPrototype(),
                                 Prefixes.class));
                 // Short title
                 using(Converters.toShortTitle()).map(source.getIid()).setOslcShortTitle(null);
