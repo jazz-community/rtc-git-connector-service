@@ -141,6 +141,13 @@ public class IssueMapperTest {
                 EqualsBuilder.reflectionEquals(
                         PrefixBuilder.get(Prefixes.class),
                         oslcIssue.getPrefixes()));
+
+        Assert.assertNotNull(oslcIssue.getPrefixes().getGitCm());
+        Assert.assertNotNull(oslcIssue.getPrefixes().getRtcCm());
+        Assert.assertNotNull(oslcIssue.getPrefixes().getRdf());
+        Assert.assertNotNull(oslcIssue.getPrefixes().getDcterms());
+        Assert.assertNotNull(oslcIssue.getPrefixes().getOslc());
+        Assert.assertNotNull(oslcIssue.getPrefixes().getOslcCm());
     }
 
     @Test
