@@ -69,7 +69,7 @@ public final class IssueMapper {
                 map().setGitCmId(source.getId());
                 map().setGitCmIid(source.getIid());
                 // Prefixes object
-                map().setPrefixes(PrefixBuilder.get());
+                map().setPrefixes(PrefixBuilder.get(Prefixes.class));
                 // Short title
                 using(Converters.toShortTitle()).map(source.getIid()).setOslcShortTitle(null);
                 // Due Date

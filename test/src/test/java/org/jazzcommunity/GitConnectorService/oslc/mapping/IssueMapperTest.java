@@ -138,7 +138,9 @@ public class IssueMapperTest {
     @Test
     public void checkPrefixes() {
         Assert.assertTrue(
-                EqualsBuilder.reflectionEquals(PrefixBuilder.get(), oslcIssue.getPrefixes()));
+                EqualsBuilder.reflectionEquals(
+                        PrefixBuilder.get(Prefixes.class),
+                        oslcIssue.getPrefixes()));
     }
 
     @Test
