@@ -40,9 +40,7 @@
   "rtc_cm:estimate": 18000000,
   "rtc_cm:timeSpent": 10800000,
   "rtc_cm:type":{
-    "rdf:type":[
-      {"rdf:resource":"http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/Type"}
-    ],
+    "rdf:type":[],
     "rtc_cm:iconUrl":"https://localhost:7443/jazz/service/com.ibm.team.workitem.common.internal.model.IImageContentService/processattachment/_Y868wPuZEeau1PCMVYBRLg/workitemtype/bug.gif",
     "dcterms:title":"Merge Request",
     "dcterms:identifier":"merge request"

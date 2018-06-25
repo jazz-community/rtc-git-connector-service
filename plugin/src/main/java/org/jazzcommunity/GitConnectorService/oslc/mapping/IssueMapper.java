@@ -30,7 +30,7 @@ public final class IssueMapper {
      * @param self  The web link to the current entity
      * @return An Oslc representation of 'issue'
      */
-    public static OslcIssue map(Issue issue, URL self, final String baseUrl) {
+    public static OslcIssue map(Issue issue, URL self, String baseUrl) {
         final String link = self.toString();
         final String iconUrl = String.format("%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif", baseUrl);
         // This mapping needs to be handled outside of the property map, because
@@ -97,8 +97,7 @@ public final class IssueMapper {
                         .map(source.getTimeStats().getTotalTimeSpent())
                         .setRtcCmTimeSpent(null);
                 // rtc_cm:type for icon link
-                //map().setRtcCmType(TypeBuilder.get(baseUrl));
-                RdfTypePrototype rdfType = new RdfTypePrototype(iconUrl);
+                RdfTypePrototype rdfType = new RdfTypePrototype("Issue", iconUrl);
                 map().setRtcCmType(
                         TypeConverter.<RdfTypePrototype, RtcCmType>convert(
                                 rdfType,

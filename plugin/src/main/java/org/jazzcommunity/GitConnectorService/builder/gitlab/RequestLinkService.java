@@ -46,7 +46,8 @@ public class RequestLinkService extends AbstractRestService {
     private void sendOslcResponse(MergeRequest mergeRequest, UrlParameters parameters) throws IOException {
         OslcMergeRequest oslcRequest = MergeRequestMapper.map(
                 mergeRequest,
-                UrlBuilder.getLinkUrl(parentService, parameters, "merge-request"));
+                UrlBuilder.getLinkUrl(parentService, parameters, "merge-request"),
+                parentService.getRequestRepositoryURL());
 
         Gson gson = new GsonBuilder().serializeNulls().create();
         String json = gson.toJson(oslcRequest);
