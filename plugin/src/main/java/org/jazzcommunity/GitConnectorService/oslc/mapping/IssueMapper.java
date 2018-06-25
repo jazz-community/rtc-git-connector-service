@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
+import org.jazzcommunity.GitConnectorService.oslc.type.ContributorBuilder;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.TypeBuilder;
 import org.modelmapper.ModelMapper;
@@ -31,6 +32,15 @@ public final class IssueMapper {
      */
     public static OslcIssue map(Issue issue, URL self, final String baseUrl) {
         final String link = self.toString();
+        // This mapping needs to be handled outside of the property map, because
+        // of how ModelMapper determines type mappings using reflection. Moving
+        // the ContributorBuilder invocation inside the TypeMap will always fail
+        // at runtime.
+        final DctermsContributor contributor = ContributorBuilder.from(
+                issue.getAuthor().getName(),
+                issue.getAuthor().getWebUrl(),
+                DctermsContributor.class);
+
         ModelMapper mapper = new ModelMapper();
 
         mapper.addMappings(new PropertyMap<Issue, OslcIssue>() {
@@ -50,9 +60,10 @@ public final class IssueMapper {
                 // Link to self
                 map().setRdfAbout(link);
                 // Contributor
-                using(Converters.authorToContributor())
-                        .map(source.getAuthor())
-                        .setDctermsContributor(null);
+//                using(Converters.authorToContributor())
+//                        .map(source.getAuthor())
+//                        .setDctermsContributor(null);
+                map().setDctermsContributor(contributor);
                 // Creation and modification time stamps
                 map().setGitCmCreatedAt(source.getCreatedAt());
                 map().setGitCmUpdatedAt(source.getUpdatedAt());

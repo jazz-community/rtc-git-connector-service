@@ -4,7 +4,6 @@ import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
-import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
