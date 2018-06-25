@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.*;
+import org.jazzcommunity.GitConnectorService.oslc.type.ContributorPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -14,6 +15,10 @@ public class MergeRequestMapper {
 
     public static OslcMergeRequest map(MergeRequest request, URL self) {
         final String link = self.toString();
+        final ContributorPrototype contributor = new ContributorPrototype(
+                request.getAuthor().getName(),
+                request.getAuthor().getWebUrl());
+
         ModelMapper mapper = new ModelMapper();
 
         mapper.addMappings(new PropertyMap<MergeRequest, OslcMergeRequest>() {
@@ -33,7 +38,9 @@ public class MergeRequestMapper {
                 // Link to self
                 map().setRdfAbout(link);
                 // Contributor
-                // TODO: map contributor
+                map().setDctermsContributor(
+                        TypeConverter.<ContributorPrototype, DctermsContributor>convert(
+                                contributor, DctermsContributor.class));
                 // Creation and modification time stamps
                 map().setGitCmCreatedAt(source.getCreatedAt());
                 map().setGitCmUpdatedAt(source.getUpdatedAt());
