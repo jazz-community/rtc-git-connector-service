@@ -44,7 +44,6 @@ public class IssueLinkService extends AbstractRestService {
     }
 
     private void sendOslcResponse(Issue issue, UrlParameters parameters) throws IOException {
-        // what might I need parameters for here?
         OslcIssue oslcPayload = IssueMapper.map(
                         issue,
                         UrlBuilder.getLinkUrl(parentService, parameters, "issue"),

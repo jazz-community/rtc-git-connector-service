@@ -17,7 +17,7 @@ public final class IssueMapper {
     }
 
     /**
-     * Returns an Oslc formatted Issue that can be used in jazz UI Plugins. Mimicks other rtc
+     * Returns an Oslc formatted Issue that can be used in jazz UI Plugins. Mimics other rtc
      * entities in its representation.
      *
      * <p>

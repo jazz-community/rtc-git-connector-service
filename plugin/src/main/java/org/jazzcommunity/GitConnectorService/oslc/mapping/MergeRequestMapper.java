@@ -6,11 +6,14 @@ import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
+import java.net.URL;
+
 public class MergeRequestMapper {
     private MergeRequestMapper() {
     }
 
-    public static OslcMergeRequest map(MergeRequest request) {
+    public static OslcMergeRequest map(MergeRequest request, URL self) {
+        final String link = self.toString();
         ModelMapper mapper = new ModelMapper();
 
         mapper.addMappings(new PropertyMap<MergeRequest, OslcMergeRequest>() {
@@ -27,6 +30,8 @@ public class MergeRequestMapper {
                 // Subject and labels
                 using(Converters.listToString()).map(source.getLabels()).setDctermsSubject(null);
                 map().setGitCmLabels(source.getLabels());
+                // Link to self
+                map().setRdfAbout(link);
                 // Contributor
                 // TODO: map contributor
                 // Creation and modification time stamps
