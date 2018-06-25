@@ -12,6 +12,8 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Converters {
     private static final int RTC_TIME_FACTOR = 1000;
@@ -74,10 +76,13 @@ public final class Converters {
         return new AbstractConverter<Author, DctermsContributor>() {
             @Override
             protected DctermsContributor convert(Author author) {
-                RdfType type = new RdfType();
-                type.setRdfResource("http://xmlns.com/foaf/0.1/Person");
-                ArrayList<RdfType> types = new ArrayList<>();
-                types.add(type);
+                // We can use this approach to keep things simple and generic because the
+                // rdf:type in contributor is just static data anyway. It's not beautiful,
+                // but it works just fine.
+                Map<Object, Object> resources = new HashMap<>();
+                resources.put("rdf:resource", "http://xmlns.com/foaf/0.1/Person");
+                ArrayList<Object> types = new ArrayList<>();
+                types.add(resources);
 
                 DctermsContributor contributor = new DctermsContributor();
                 contributor.setRdfType(types);

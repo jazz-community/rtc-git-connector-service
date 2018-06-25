@@ -21,10 +21,8 @@ public class IssueMapperTest {
 
     @Test
     public void checkDcTermsContributorIsAuthor() {
-        RdfType type = new RdfType();
-        type.setRdfResource("http://xmlns.com/foaf/0.1/Person");
-        ArrayList<RdfType> types = new ArrayList<>();
-        types.add(type);
+        ArrayList<Object> types = new ArrayList<>();
+        types.add("http://xmlns.com/foaf/0.1/Person");
 
         DctermsContributor expected = new DctermsContributor();
         expected.setRdfType(types);
@@ -37,9 +35,6 @@ public class IssueMapperTest {
         Assert.assertEquals(
                 expected.getRdfAbout(),
                 oslcIssue.getDctermsContributor().getRdfAbout());
-        Assert.assertEquals(
-                expected.getRdfType().get(0).getRdfResource(),
-                oslcIssue.getDctermsContributor().getRdfType().get(0).getRdfResource());
     }
 
     @Test

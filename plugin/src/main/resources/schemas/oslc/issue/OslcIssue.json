@@ -11,11 +11,7 @@
   ],
   "rdf:about": "https://code.siemens.com/guido.schneider/RTC-Commit-Picker-Demo/issues/10",
   "dcterms:contributor": {
-    "rdf:type": [
-      {
-        "rdf:resource": "http://xmlns.com/foaf/0.1/Person"
-      }
-    ],
+    "rdf:type": [],
     "foaf:name": "myadmin",
     "rdf:about": "https://localhost:7443/jazz/users/myadmin"
   },

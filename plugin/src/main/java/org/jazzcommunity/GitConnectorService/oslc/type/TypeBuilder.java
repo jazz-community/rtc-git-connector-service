@@ -1,6 +1,6 @@
 package org.jazzcommunity.GitConnectorService.oslc.type;
 
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.RdfType_;
+import org.jazzcommunity.GitConnectorService.olsc.type.issue.RdfType;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.RtcCmType;
 
 import java.util.ArrayList;
@@ -11,10 +11,10 @@ public class TypeBuilder {
     }
 
     public static RtcCmType get(String baseUrl) {
-        RdfType_ rdfType = new RdfType_();
+        RdfType rdfType = new RdfType();
         rdfType.setRdfResource("http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/Type");
 
-        List<RdfType_> rdfCollection = new ArrayList<RdfType_>();
+        List<RdfType> rdfCollection = new ArrayList<>();
         rdfCollection.add(rdfType);
 
         RtcCmType type = new RtcCmType();
