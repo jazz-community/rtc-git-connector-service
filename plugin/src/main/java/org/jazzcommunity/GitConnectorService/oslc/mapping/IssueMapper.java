@@ -2,7 +2,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
-import org.jazzcommunity.GitConnectorService.oslc.type.ContributorBuilder;
+import org.jazzcommunity.GitConnectorService.oslc.type.ContributorPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.TypeBuilder;
 import org.modelmapper.ModelMapper;
@@ -36,10 +36,9 @@ public final class IssueMapper {
         // of how ModelMapper determines type mappings using reflection. Moving
         // the ContributorBuilder invocation inside the TypeMap will always fail
         // at runtime.
-        final DctermsContributor contributor = ContributorBuilder.from(
+        final ContributorPrototype contributor = new ContributorPrototype(
                 issue.getAuthor().getName(),
-                issue.getAuthor().getWebUrl(),
-                DctermsContributor.class);
+                issue.getAuthor().getWebUrl());
 
         ModelMapper mapper = new ModelMapper();
 
@@ -55,15 +54,16 @@ public final class IssueMapper {
                 map().setDctermsDescription(source.getDescription());
                 map().setGitCmDescription(source.getDescription());
                 // Subject and labels
-                using(Converters.listToString()).map(source.getLabels()).setDctermsSubject(null);
+                using(Converters.listToString())
+                        .map(source.getLabels())
+                        .setDctermsSubject(null);
                 map().setGitCmLabels(source.getLabels());
                 // Link to self
                 map().setRdfAbout(link);
                 // Contributor
-//                using(Converters.authorToContributor())
-//                        .map(source.getAuthor())
-//                        .setDctermsContributor(null);
-                map().setDctermsContributor(contributor);
+                map().setDctermsContributor(
+                        TypeConverter.<ContributorPrototype, DctermsContributor>convert(
+                                contributor, DctermsContributor.class));
                 // Creation and modification time stamps
                 map().setGitCmCreatedAt(source.getCreatedAt());
                 map().setGitCmUpdatedAt(source.getUpdatedAt());
@@ -132,7 +132,9 @@ public final class IssueMapper {
                         .map(source.getTimeStats())
                         .setGitCmTimeStats(null);
                 // Git links object
-                using(TypeConverter.to(GitCmLinks.class)).map(source.getLinks()).setGitCmLinks(null);
+                using(TypeConverter.to(GitCmLinks.class))
+                        .map(source.getLinks())
+                        .setGitCmLinks(null);
                 // User subscription
                 map().setGitCmSubscribed(source.getSubscribed());
             }
