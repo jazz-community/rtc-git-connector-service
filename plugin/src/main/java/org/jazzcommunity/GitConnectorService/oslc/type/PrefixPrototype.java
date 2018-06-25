@@ -8,27 +8,27 @@ public class PrefixPrototype {
     private static final String oslc = "http://open-services.net/ns/core#";
     private static final String oslcCm = "http://open-services.net/ns/cm#";
 
-    public static String getGitCm() {
+    public String getGitCm() {
         return gitCm;
     }
 
-    public static String getRtcCm() {
+    public String getRtcCm() {
         return rtcCm;
     }
 
-    public static String getRdf() {
+    public String getRdf() {
         return rdf;
     }
 
-    public static String getDcterms() {
+    public String getDcterms() {
         return dcterms;
     }
 
-    public static String getOslc() {
+    public String getOslc() {
         return oslc;
     }
 
-    public static String getOslcCm() {
+    public String getOslcCm() {
         return oslcCm;
     }
 }
