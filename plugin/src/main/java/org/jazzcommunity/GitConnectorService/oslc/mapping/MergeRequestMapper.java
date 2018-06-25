@@ -2,7 +2,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.*;
-import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
+import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
@@ -45,7 +45,9 @@ public class MergeRequestMapper {
                 map().setGitCmId(source.getId());
                 map().setGitCmIid(source.getIid());
                 // Prefixes object
-                map().setPrefixes(PrefixBuilder.get(Prefixes.class));
+                map().setPrefixes(TypeConverter.<PrefixPrototype, Prefixes>convert(
+                                PrefixPrototype.getInstance(),
+                                Prefixes.class));
                 // Short title
                 using(Converters.toShortTitle()).map(source.getIid()).setOslcShortTitle(null);
                 // RTC time estimate and time spent

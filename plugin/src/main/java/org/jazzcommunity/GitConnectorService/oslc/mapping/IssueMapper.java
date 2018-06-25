@@ -2,7 +2,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
-import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
+import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.TypeBuilder;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -69,7 +69,9 @@ public final class IssueMapper {
                 map().setGitCmId(source.getId());
                 map().setGitCmIid(source.getIid());
                 // Prefixes object
-                map().setPrefixes(PrefixBuilder.get(Prefixes.class));
+                map().setPrefixes(TypeConverter.<PrefixPrototype, Prefixes>convert(
+                        PrefixPrototype.getInstance(),
+                        Prefixes.class));
                 // Short title
                 using(Converters.toShortTitle()).map(source.getIid()).setOslcShortTitle(null);
                 // Due Date

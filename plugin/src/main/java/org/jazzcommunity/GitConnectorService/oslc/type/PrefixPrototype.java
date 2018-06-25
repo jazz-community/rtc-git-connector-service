@@ -8,6 +8,9 @@ public class PrefixPrototype {
     private static final String oslc = "http://open-services.net/ns/core#";
     private static final String oslcCm = "http://open-services.net/ns/cm#";
 
+    private PrefixPrototype() {
+    }
+
     public String getGitCm() {
         return gitCm;
     }
@@ -30,5 +33,9 @@ public class PrefixPrototype {
 
     public String getOslcCm() {
         return oslcCm;
+    }
+
+    public static PrefixPrototype getInstance() {
+        return new PrefixPrototype();
     }
 }
