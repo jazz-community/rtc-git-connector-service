@@ -123,7 +123,9 @@ public class MergeRequestMapper {
                 map().setGitCmWorkInProgress(source.getWorkInProgress());
                 // Pipeline
                 map().setGitCmMergeWhenPipelineSucceeds(source.getMergeWhenPipelineSucceeds());
-                // TODO: add pipeline information
+                using(TypeConverter.to(GitCmPipeline.class))
+                        .map(source.getPipeline())
+                        .setGitCmPipeline(null);
                 // Merge status
                 map().setGitCmMergedAt(source.getMergedAt());
                 // Sha information
