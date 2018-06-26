@@ -4,7 +4,6 @@ import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
-import org.jazzcommunity.GitConnectorService.oslc.type.PrefixBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,10 +20,8 @@ public class IssueMapperTest {
 
     @Test
     public void checkDcTermsContributorIsAuthor() {
-        RdfType type = new RdfType();
-        type.setRdfResource("http://xmlns.com/foaf/0.1/Person");
-        ArrayList<RdfType> types = new ArrayList<>();
-        types.add(type);
+        ArrayList<Object> types = new ArrayList<>();
+        types.add("http://xmlns.com/foaf/0.1/Person");
 
         DctermsContributor expected = new DctermsContributor();
         expected.setRdfType(types);
@@ -37,9 +34,6 @@ public class IssueMapperTest {
         Assert.assertEquals(
                 expected.getRdfAbout(),
                 oslcIssue.getDctermsContributor().getRdfAbout());
-        Assert.assertEquals(
-                expected.getRdfType().get(0).getRdfResource(),
-                oslcIssue.getDctermsContributor().getRdfType().get(0).getRdfResource());
     }
 
     @Test
@@ -137,8 +131,12 @@ public class IssueMapperTest {
 
     @Test
     public void checkPrefixes() {
-        Assert.assertTrue(
-                EqualsBuilder.reflectionEquals(PrefixBuilder.get(), oslcIssue.getPrefixes()));
+        Assert.assertNotNull(oslcIssue.getPrefixes().getGitCm());
+        Assert.assertNotNull(oslcIssue.getPrefixes().getRtcCm());
+        Assert.assertNotNull(oslcIssue.getPrefixes().getRdf());
+        Assert.assertNotNull(oslcIssue.getPrefixes().getDcterms());
+        Assert.assertNotNull(oslcIssue.getPrefixes().getOslc());
+        Assert.assertNotNull(oslcIssue.getPrefixes().getOslcCm());
     }
 
     @Test
@@ -372,6 +370,9 @@ public class IssueMapperTest {
                 "}\n";
 
         Issue issue = new Gson().fromJson(json, Issue.class);
-        this.oslcIssue = IssueMapper.map(issue, new URL("http://link-to-myself.ch"));
+        this.oslcIssue = IssueMapper.map(
+                issue,
+                new URL("http://link-to-myself.ch"),
+                "https://localhost:7443/jazz/web/");
     }
 }
