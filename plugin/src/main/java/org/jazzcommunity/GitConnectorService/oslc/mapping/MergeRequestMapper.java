@@ -4,7 +4,7 @@ import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.ContributorPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
-import org.jazzcommunity.GitConnectorService.oslc.type.RdfTypePrototype;
+import org.jazzcommunity.GitConnectorService.oslc.type.RtcCmTypePrototype;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
@@ -73,9 +73,9 @@ public class MergeRequestMapper {
                         .map(source.getTimeStats().getTotalTimeSpent())
                         .setRtcCmTimeSpent(null);
                 // rtc_cm:type for icon link
-                RdfTypePrototype rdfType = new RdfTypePrototype("Merge request", iconUrl);
+                RtcCmTypePrototype rdfType = new RtcCmTypePrototype("Merge request", iconUrl);
                 map().setRtcCmType(
-                        TypeConverter.<RdfTypePrototype, RtcCmType>convert(
+                        TypeConverter.<RtcCmTypePrototype, RtcCmType>convert(
                                 rdfType,
                                 RtcCmType.class));
                 // Project id

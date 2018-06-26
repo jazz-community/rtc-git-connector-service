@@ -4,7 +4,7 @@ import ch.sbi.minigit.type.gitlab.issue.Issue;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.ContributorPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
-import org.jazzcommunity.GitConnectorService.oslc.type.RdfTypePrototype;
+import org.jazzcommunity.GitConnectorService.oslc.type.RtcCmTypePrototype;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeToken;
@@ -97,9 +97,9 @@ public final class IssueMapper {
                         .map(source.getTimeStats().getTotalTimeSpent())
                         .setRtcCmTimeSpent(null);
                 // rtc_cm:type for icon link
-                RdfTypePrototype rdfType = new RdfTypePrototype("Issue", iconUrl);
+                RtcCmTypePrototype rdfType = new RtcCmTypePrototype("Issue", iconUrl);
                 map().setRtcCmType(
-                        TypeConverter.<RdfTypePrototype, RtcCmType>convert(
+                        TypeConverter.<RtcCmTypePrototype, RtcCmType>convert(
                                 rdfType,
                                 RtcCmType.class));
                 // Project id
