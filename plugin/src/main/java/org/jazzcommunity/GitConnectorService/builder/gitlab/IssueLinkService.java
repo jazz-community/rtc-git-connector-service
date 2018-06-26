@@ -78,8 +78,13 @@ public class IssueLinkService extends AbstractRestService {
 
     private Issue getIssue(UrlParameters parameters) throws IOException {
         URL url = new URL("https://" + parameters.getHost());
-        GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-        return api.getIssue(Integer.valueOf(parameters.getProject()), Integer.valueOf(parameters.getArtifact()));
+        GitlabApi api = new GitlabApi(
+                url.toString(),
+                TokenHelper.getToken(url, parentService));
+
+        return api.getIssue(
+                Integer.valueOf(parameters.getProject()),
+                Integer.valueOf(parameters.getArtifact()));
     }
 
 }

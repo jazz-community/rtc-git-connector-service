@@ -77,7 +77,12 @@ public class RequestLinkService extends AbstractRestService {
 
     private MergeRequest getMergeRequest(UrlParameters parameters) throws IOException {
         URL url = new URL("https://" + parameters.getHost());
-        GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-        return api.getMergeRequest(Integer.parseInt(parameters.getProject()), Integer.parseInt(parameters.getArtifact()));
+        GitlabApi api = new GitlabApi(
+                url.toString(),
+                TokenHelper.getToken(url, parentService));
+
+        return api.getMergeRequest(
+                Integer.parseInt(parameters.getProject()),
+                Integer.parseInt(parameters.getArtifact()));
     }
 }
