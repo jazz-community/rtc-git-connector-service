@@ -6,7 +6,6 @@ import com.siemens.bt.jazz.services.base.rest.RestAction;
 import com.siemens.bt.jazz.services.base.rest.RestActionBuilder;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import com.siemens.bt.jazz.services.base.router.factory.RestFactory;
-import org.jazzcommunity.GitConnectorService.builder.VersionService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestLinkService;
@@ -48,10 +47,6 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
         router.addService(HttpMethod.GET,
                 "gitlab/[a-zA-Z.]+/project/[0-9]+/merge-request/[0-9]+/preview.*",
                 new RestFactory(RequestPreviewService.class));
-
-        router.addService(HttpMethod.GET,
-                "version",
-                new RestFactory(VersionService.class));
 
         /**
          * This code is purposely commented out and not deleted!
