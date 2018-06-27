@@ -13,11 +13,13 @@ import java.util.regex.Pattern;
 public class ServiceMap {
     Map<String, Map<HttpConstants.HttpMethod, ServiceFactory>> map = new HashMap<>();
 
-    public ServiceFactory getFactory(HttpServletRequest request) {
+    public ServiceFactory getFactory(HttpServletRequest request, String uri) {
         for (String path : map.keySet()) {
             Pattern pattern = Pattern.compile(path);
-            if (pattern.matcher(request.getPathInfo()).matches()) {
-                return map.get(path).get(HttpConstants.HttpMethod.fromString(request.getMethod()));
+            if (pattern.matcher(uri).matches()) {
+                return map
+                        .get(path)
+                        .get(HttpConstants.HttpMethod.fromString(request.getMethod()));
             }
         }
 

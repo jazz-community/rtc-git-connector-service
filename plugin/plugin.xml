@@ -11,7 +11,7 @@
                     name="REST Service"
                     kind="MODELLED_REST"
                     uri="org.jazzcommunity.GitConnectorService.IGitConnectorService"
-                    version="1">
+                    version="${qualifiedVersion}">
             </service>
         </component>
     </extension>
