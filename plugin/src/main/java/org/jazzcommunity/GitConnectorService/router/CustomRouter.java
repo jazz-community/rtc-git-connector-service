@@ -28,7 +28,7 @@ public class CustomRouter implements Router {
                                            HttpServletResponse response,
                                            RestRequest restRequest) {
 
-        return map.getFactory(request).getBuilder()
+        return map.getFactory(request, restRequest.toString()).getBuilder()
                 .setParentService(parentService)
                 .setLog(log)
                 .setRequest(request)
