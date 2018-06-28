@@ -6,15 +6,12 @@ import com.siemens.bt.jazz.services.base.rest.RestAction;
 import com.siemens.bt.jazz.services.base.rest.RestActionBuilder;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import com.siemens.bt.jazz.services.base.router.factory.RestFactory;
-import org.eclipse.core.runtime.Platform;
 import org.jazzcommunity.GitConnectorService.builder.VersionService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestPreviewService;
 import org.jazzcommunity.GitConnectorService.router.CustomRouter;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.Version;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

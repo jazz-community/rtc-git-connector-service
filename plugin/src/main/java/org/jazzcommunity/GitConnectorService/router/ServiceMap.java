@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class ServiceMap {
-    Map<String, Map<HttpConstants.HttpMethod, ServiceFactory>> map = new HashMap<>();
+    private Map<String, Map<HttpConstants.HttpMethod, ServiceFactory>> map = new HashMap<>();
 
     public ServiceFactory getFactory(HttpServletRequest request, String uri) {
         for (String path : map.keySet()) {
