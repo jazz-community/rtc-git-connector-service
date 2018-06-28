@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.jazzcommunity.GitConnectorService
 Bundle-SymbolicName: org.jazzcommunity.GitConnectorService;singleton:=true
-Bundle-Version: 1.3.0.qualifier
+Bundle-Version: 1.4.0.qualifier
 Bundle-Vendor: VENDOR
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: 
