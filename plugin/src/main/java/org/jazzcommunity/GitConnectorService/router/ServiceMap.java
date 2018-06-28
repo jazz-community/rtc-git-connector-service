@@ -15,7 +15,8 @@ public class ServiceMap {
 
     public ServiceFactory getFactory(HttpServletRequest request, String uri) {
         for (String path : map.keySet()) {
-            Pattern pattern = Pattern.compile(path);
+            String regex = path.replaceAll("\\{[^\\/]+\\}", "([^\\/]+)");
+            Pattern pattern = Pattern.compile(regex);
             if (pattern.matcher(uri).matches()) {
                 return map
                         .get(path)
