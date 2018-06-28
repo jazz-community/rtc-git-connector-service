@@ -1,7 +1,6 @@
 package org.jazzcommunity.GitConnectorService;
 
 import com.ibm.team.jfs.app.http.util.HttpConstants.HttpMethod;
-import com.ibm.team.process.common.ITeamArea;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.RestAction;
 import com.siemens.bt.jazz.services.base.rest.RestActionBuilder;
@@ -36,20 +35,20 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
         super();
         router.addService(
                 HttpMethod.GET,
-                "gitlab/([^\\/]+)/project/([^\\/]+)/issue/([^\\/]+)/link.*",
+                "gitlab/{host}/project/{projectId}/issue/{issueId}/link.*",
                 new RestFactory(IssueLinkService.class));
         router.addService(
                 HttpMethod.GET,
-                "gitlab/([^\\/]+)/project/([^\\/]+)/issue/([^\\/]+)/preview.*",
+                "gitlab/{host}/project/{projectId}/issue/{issueId}/preview.*",
                 new RestFactory(IssuePreviewService.class));
 
         router.addService(
                 HttpMethod.GET,
-                "gitlab/([^\\/]+)/project/([^\\/]+)/merge-request/([^\\/]+)/link.*",
+                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link.*",
                 new RestFactory(RequestLinkService.class));
         router.addService(
                 HttpMethod.GET,
-                "gitlab/([^\\/]+)/project/([^\\/]+)/merge-request/([^\\/]+)/preview.*",
+                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview.*",
                 new RestFactory(RequestPreviewService.class));
 
         router.addService(
