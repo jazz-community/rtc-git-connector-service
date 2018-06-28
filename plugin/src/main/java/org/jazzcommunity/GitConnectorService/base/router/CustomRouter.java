@@ -1,12 +1,11 @@
-package org.jazzcommunity.GitConnectorService.router;
+package org.jazzcommunity.GitConnectorService.base.router;
 
 import com.ibm.team.jfs.app.http.util.HttpConstants;
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.RestActionBuilder;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
-import com.siemens.bt.jazz.services.base.router.Router;
-import com.siemens.bt.jazz.services.base.router.factory.ServiceFactory;
 import org.apache.commons.logging.Log;
+import org.jazzcommunity.GitConnectorService.base.rest.RestActionBuilder;
+import org.jazzcommunity.GitConnectorService.base.router.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,10 +16,9 @@ public class CustomRouter implements Router {
     @Override
     public void addService(
             HttpConstants.HttpMethod method,
-            String path,
             ServiceFactory serviceFactory) {
 
-        map.add(method, path, serviceFactory);
+        map.add(method, serviceFactory.getPath(), serviceFactory);
     }
 
     @Override
