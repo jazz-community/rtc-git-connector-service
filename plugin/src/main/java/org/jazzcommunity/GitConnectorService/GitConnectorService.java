@@ -3,15 +3,15 @@ package org.jazzcommunity.GitConnectorService;
 import com.ibm.team.jfs.app.http.util.HttpConstants.HttpMethod;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.RestAction;
-import com.siemens.bt.jazz.services.base.rest.RestActionBuilder;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
-import com.siemens.bt.jazz.services.base.router.factory.RestFactory;
+import org.jazzcommunity.GitConnectorService.base.rest.RestActionBuilder;
+import org.jazzcommunity.GitConnectorService.base.router.factory.RestFactory;
 import org.jazzcommunity.GitConnectorService.builder.VersionService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestPreviewService;
-import org.jazzcommunity.GitConnectorService.router.CustomRouter;
+import org.jazzcommunity.GitConnectorService.base.router.CustomRouter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,26 +35,21 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
         super();
         router.addService(
                 HttpMethod.GET,
-                "gitlab/{host}/project/{projectId}/issue/{issueId}/link.*",
-                new RestFactory(IssueLinkService.class));
+                new RestFactory(IssueLinkService.class, "gitlab/{host}/project/{projectId}/issue/{issueId}/link.*"));
         router.addService(
                 HttpMethod.GET,
-                "gitlab/{host}/project/{projectId}/issue/{issueId}/preview.*",
-                new RestFactory(IssuePreviewService.class));
+                new RestFactory(IssuePreviewService.class, "gitlab/{host}/project/{projectId}/issue/{issueId}/preview.*"));
 
         router.addService(
                 HttpMethod.GET,
-                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link.*",
-                new RestFactory(RequestLinkService.class));
+                new RestFactory(RequestLinkService.class, "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link.*"));
         router.addService(
                 HttpMethod.GET,
-                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview.*",
-                new RestFactory(RequestPreviewService.class));
+                new RestFactory(RequestPreviewService.class, "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview.*"));
 
         router.addService(
                 HttpMethod.GET,
-                "info/version",
-                new RestFactory(VersionService.class));
+                new RestFactory(VersionService.class, "info/version"));
 
         /**
          * This code is purposely commented out and not deleted!
@@ -104,6 +99,11 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
         HttpMethod method = HttpMethod.fromString(request.getMethod());
         @SuppressWarnings("unchecked")
         RestRequest restRequest = new RestRequest(method, uri, request.getParameterMap());
-        return router.prepareAction(this, this.getLog(), request, response, restRequest);
+        return router.prepareAction(
+                this,
+                this.getLog(),
+                request,
+                response,
+                restRequest);
     }
 }
