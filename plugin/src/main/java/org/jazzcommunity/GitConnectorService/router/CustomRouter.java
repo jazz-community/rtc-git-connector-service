@@ -22,11 +22,12 @@ public class CustomRouter implements Router {
     }
 
     @Override
-    public RestActionBuilder prepareAction(TeamRawService parentService,
-                                           Log log,
-                                           HttpServletRequest request,
-                                           HttpServletResponse response,
-                                           RestRequest restRequest) {
+    public RestActionBuilder prepareAction(
+            TeamRawService parentService,
+            Log log,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            RestRequest restRequest) {
 
         return map.getFactory(request, restRequest.toString()).getBuilder()
                 .setParentService(parentService)
