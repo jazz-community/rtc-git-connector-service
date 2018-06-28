@@ -15,9 +15,11 @@ public class CustomRouter implements Router {
     private final ServiceMap map = new ServiceMap();
 
     @Override
-    public void addService(HttpConstants.HttpMethod method,
-                           String path,
-                           ServiceFactory serviceFactory) {
+    public void addService(
+            HttpConstants.HttpMethod method,
+            String path,
+            ServiceFactory serviceFactory) {
+
         map.add(method, path, serviceFactory);
     }
 

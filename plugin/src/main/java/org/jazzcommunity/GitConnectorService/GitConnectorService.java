@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService;
 
 import com.ibm.team.jfs.app.http.util.HttpConstants.HttpMethod;
+import com.ibm.team.process.common.ITeamArea;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.RestAction;
 import com.siemens.bt.jazz.services.base.rest.RestActionBuilder;
@@ -35,20 +36,20 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
         super();
         router.addService(
                 HttpMethod.GET,
-                "gitlab/[a-zA-Z.]+/project/[0-9]+/issue/[0-9]+/link.*",
+                "gitlab/([^\\/]+)/project/([^\\/]+)/issue/([^\\/]+)/link.*",
                 new RestFactory(IssueLinkService.class));
         router.addService(
                 HttpMethod.GET,
-                "gitlab/[a-zA-Z.]+/project/[0-9]+/issue/[0-9]+/preview.*",
+                "gitlab/([^\\/]+)/project/([^\\/]+)/issue/([^\\/]+)/preview.*",
                 new RestFactory(IssuePreviewService.class));
 
         router.addService(
                 HttpMethod.GET,
-                "gitlab/[a-zA-Z.]+/project/[0-9]+/merge-request/[0-9]+/link.*",
+                "gitlab/([^\\/]+)/project/([^\\/]+)/merge-request/([^\\/]+)/link.*",
                 new RestFactory(RequestLinkService.class));
         router.addService(
                 HttpMethod.GET,
-                "gitlab/[a-zA-Z.]+/project/[0-9]+/merge-request/[0-9]+/preview.*",
+                "gitlab/([^\\/]+)/project/([^\\/]+)/merge-request/([^\\/]+)/preview.*",
                 new RestFactory(RequestPreviewService.class));
 
         router.addService(
@@ -96,9 +97,11 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
         }
     }
 
-    protected final RestActionBuilder prepareRequest(String uri,
-                                                     HttpServletRequest request,
-                                                     HttpServletResponse response) {
+    protected final RestActionBuilder prepareRequest(
+            String uri,
+            HttpServletRequest request,
+            HttpServletResponse response) {
+
         HttpMethod method = HttpMethod.fromString(request.getMethod());
         @SuppressWarnings("unchecked")
         RestRequest restRequest = new RestRequest(method, uri, request.getParameterMap());
