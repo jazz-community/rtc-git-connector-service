@@ -5,11 +5,12 @@ import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
+import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
+import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
@@ -25,8 +26,8 @@ import java.io.IOException;
 import java.net.URL;
 
 public class RequestLinkService extends AbstractRestService {
-    public RequestLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService) {
-        super(log, request, response, restRequest, parentService);
+    public RequestLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService, PathParameters pathParameters) {
+        super(log, request, response, restRequest, parentService, pathParameters);
     }
 
     @Override

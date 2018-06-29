@@ -1,6 +1,6 @@
 package org.jazzcommunity.GitConnectorService.base.router.factory;
 
-import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
+import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
 import org.jazzcommunity.GitConnectorService.base.rest.RestActionBuilder;
 
 public class RestFactory implements ServiceFactory {

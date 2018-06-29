@@ -3,9 +3,10 @@ package org.jazzcommunity.GitConnectorService.builder.gitlab;
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.commit.Commit;
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.logging.Log;
+import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
+import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlParameters;
@@ -19,8 +20,8 @@ import java.net.URL;
 
 public class CommitPreviewService extends AbstractRestService {
 
-    public CommitPreviewService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService) {
-        super(log, request, response, restRequest, parentService);
+    public CommitPreviewService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService, PathParameters pathParameters) {
+        super(log, request, response, restRequest, parentService, pathParameters);
     }
 
     public void execute() throws IOException {
