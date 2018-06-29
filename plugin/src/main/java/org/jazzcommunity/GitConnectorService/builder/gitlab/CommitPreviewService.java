@@ -8,7 +8,6 @@ import org.apache.commons.logging.Log;
 import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
 import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
-import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -24,14 +23,12 @@ public class CommitPreviewService extends AbstractRestService {
     }
 
     public void execute() throws IOException {
-        GitServiceArtifact parameters = new GitServiceArtifact(
-                pathParameters.get("host"),
-                pathParameters.get("projectId"),
-                pathParameters.get("commitId"));
-        URL url = new URL("https://" + parameters.getHost());
+        URL url = new URL("https://" + pathParameters.get("host"));
 
         GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-        Commit commit = api.getCommit(Integer.parseInt(parameters.getProject()), parameters.getArtifact());
+        Commit commit = api.getCommit(
+                pathParameters.getAsInteger("projectId"),
+                pathParameters.get("commit"));
 
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/html/commit_preview.twig");
         JtwigModel model = JtwigModel.newModel()

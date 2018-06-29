@@ -26,6 +26,7 @@ public class PathParameters {
         this.parameters = makeMap(names, values);
     }
 
+    // getters should do checking if stuff exists etc.
     public String get(String key) {
         return parameters.get(key);
     }
