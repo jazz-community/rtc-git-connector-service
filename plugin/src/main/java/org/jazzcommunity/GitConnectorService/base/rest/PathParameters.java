@@ -50,6 +50,14 @@ public class PathParameters {
     // regex call.
     // Idea: Match the all-match regex to both path and url, which should give the name
     // in one match and the value in the other. Then the zip could be done right away as well.
+    // this is what the matching regex should look like: \{{0,1}([^\/}]+)\}{0,1} for everything
+    // in {} and not. The rest of the path should then match accordingly.
+    // Regex 101: example
+    // gitlab\/\{{0,1}([^\/}]+)\}{0,1}\/project\/\{{0,1}([^\/}]+)\}{0,1}\/issue\/\{{0,1}([^\/}]+)\}{0,1}\/link.*
+    // will match the path and the actual url as well.
+    // test data:
+    //  gitlab/{host}/project/{projectId}/issue/{issueId}/link.*
+    //  gitlab/code.siemens.com/project/1234/issue/12/link.*
     private static ArrayList<String> getValues(String path, String url) {
         String regex = path.replaceAll("\\{[^\\/]+\\}", "([^\\\\/]+)");
         Pattern pattern = Pattern.compile(regex);
