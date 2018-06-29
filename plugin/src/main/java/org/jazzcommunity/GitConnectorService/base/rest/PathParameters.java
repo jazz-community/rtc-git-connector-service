@@ -9,27 +9,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PathParameters {
+    private final Map<String, String> parameters;
+
     public PathParameters(String path, String url) {
         // first, I want the names...
         // This I can probably do just once..., maybe when
         // creating the service. But I'm not going to optimize
         // this until later.
         ArrayList<String> names = getNames(path);
-
-        System.out.println(String.format("names: %s", Joiner.on(',').join(names)));
-
         ArrayList<String> values = getValues(path, url);
-
-        System.out.println(String.format("values: %s", Joiner.on(',').join(values)));
 
         if (names.size() != values.size()) {
             throw new RuntimeException("Unable to match url parameters to values");
         }
 
-        Map<String, String> parameters = makeMap(names, values);
-        for (String s : parameters.keySet()) {
-            System.out.println(String.format("key: %s value: %s", s, parameters.get(s)));
-        }
+        this.parameters = makeMap(names, values);
+    }
+
+    public String get(String key) {
+        return parameters.get(key);
+    }
+
+    public Integer getAsInteger(String key) {
+        return Integer.parseInt(get(key));
     }
 
     private Map<String, String> makeMap(ArrayList<String> names, ArrayList<String> values) {
@@ -43,10 +45,12 @@ public class PathParameters {
         return parameters;
     }
 
+    // It's probably possible to consolidate these two functions, maybe even into a single
+    // regex call.
+    // Idea: Match the all-match regex to both path and url, which should give the name
+    // in one match and the value in the other. Then the zip could be done right away as well.
     private static ArrayList<String> getValues(String path, String url) {
-        // this is what I need to do, to actually get the values
         String regex = path.replaceAll("\\{[^\\/]+\\}", "([^\\\\/]+)");
-        System.out.println(String.format("regex: %s", regex));
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(url);
 
