@@ -24,7 +24,7 @@ public class ServiceMap {
             }
         }
 
-        return new RestFactory(DefaultRestService.class, "");
+        return new RestFactory("", DefaultRestService.class);
     }
 
     public void add(HttpConstants.HttpMethod method, String path, ServiceFactory serviceFactory) {

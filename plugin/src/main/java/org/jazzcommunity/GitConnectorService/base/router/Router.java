@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface Router {
     void addService(HttpMethod method, ServiceFactory factory);
+    void get(ServiceFactory factory);
+    void put(ServiceFactory factory);
+    void post(ServiceFactory factory);
+    void delete(ServiceFactory factory);
 
     RestActionBuilder prepareAction(
             TeamRawService parentService,

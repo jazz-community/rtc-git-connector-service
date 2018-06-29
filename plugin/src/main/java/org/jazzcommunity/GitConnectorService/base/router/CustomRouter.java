@@ -22,6 +22,26 @@ public class CustomRouter implements Router {
     }
 
     @Override
+    public void get(ServiceFactory factory) {
+        addService(HttpConstants.HttpMethod.GET, factory);
+    }
+
+    @Override
+    public void put(ServiceFactory factory) {
+        addService(HttpConstants.HttpMethod.PUT, factory);
+    }
+
+    @Override
+    public void post(ServiceFactory factory) {
+        addService(HttpConstants.HttpMethod.POST, factory);
+    }
+
+    @Override
+    public void delete(ServiceFactory factory) {
+        addService(HttpConstants.HttpMethod.DELETE, factory);
+    }
+
+    @Override
     public RestActionBuilder prepareAction(
             TeamRawService parentService,
             Log log,
