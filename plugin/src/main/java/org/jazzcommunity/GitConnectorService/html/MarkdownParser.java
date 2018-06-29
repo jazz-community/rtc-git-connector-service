@@ -1,17 +1,35 @@
 package org.jazzcommunity.GitConnectorService.html;
 
+import org.commonmark.Extension;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.commonmark.ext.gfm.tables.TablesExtension;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MarkdownParser {
     public static String toHtml(String markdown) {
         if (markdown == null) {
             return "";
         }
-        Parser parser = Parser.builder().build();
+
+        List<Extension> extensions = Arrays.asList(TablesExtension.create());
+
+        Parser parser = Parser
+                .builder()
+                .extensions(extensions)
+                .build();
+
         Node document = parser.parse(markdown);
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
+
+        HtmlRenderer renderer = HtmlRenderer
+                .builder()
+                .extensions(extensions)
+                .build();
+
+
         return renderer.render(document);
     }
 }
