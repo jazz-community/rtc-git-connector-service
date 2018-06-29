@@ -7,27 +7,28 @@
 </html>
 <body>
     <h1>{{ title }}</h1>
-    <table>
-        <tr>
-            <td>Description:</td>
-            <td class="description">{{ description }}</td>
-        </tr>
-        <tr>
-            <td>State:</td>
-            <td>{{ state }}</td>
-        </tr>
-        <tr>
-            <td>Status:</td>
-            <td>{{ status }}</td>
-        </tr>
-        <tr>
-            <td>Source Branch:</td>
-            <td>{{ source }}</td>
-        </tr>
-        <tr>
-            <td>Target Branch:</td>
-            <td>{{ target }}</td>
-        </tr>
-    </table>
+    <div class="summary">
+        <table>
+            <tr>
+                <td>State:</td>
+                <td>{{ state }}</td>
+            </tr>
+            <tr>
+                <td>Status:</td>
+                <td>{{ status }}</td>
+            </tr>
+            <tr>
+                <td>Source:</td>
+                <td>{{ source }}</td>
+            </tr>
+            <tr>
+                <td>Target:</td>
+                <td>{{ target }}</td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <div class="description">{{ description }}</div>
+    </div>
 </body>
 </html>
