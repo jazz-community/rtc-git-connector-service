@@ -2,9 +2,10 @@ package org.jazzcommunity.GitConnectorService.builder;
 
 import com.google.gson.*;
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.logging.Log;
+import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
+import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.Version;
 
@@ -16,8 +17,8 @@ public class VersionService extends AbstractRestService {
             .setPrettyPrinting()
             .create();
 
-    public VersionService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService) {
-        super(log, request, response, restRequest, parentService);
+    public VersionService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService, PathParameters pathParameters) {
+        super(log, request, response, restRequest, parentService, pathParameters);
     }
 
     @Override

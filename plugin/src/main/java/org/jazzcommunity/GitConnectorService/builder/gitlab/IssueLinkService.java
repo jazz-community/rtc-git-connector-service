@@ -5,11 +5,12 @@ import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
+import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
+import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
@@ -26,8 +27,8 @@ import java.net.URL;
 
 public class IssueLinkService extends AbstractRestService {
 
-    public IssueLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService) {
-        super(log, request, response, restRequest, parentService);
+    public IssueLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService, PathParameters pathParameters) {
+        super(log, request, response, restRequest, parentService, pathParameters);
     }
 
     public void execute() throws IOException {
@@ -45,9 +46,9 @@ public class IssueLinkService extends AbstractRestService {
 
     private void sendOslcResponse(Issue issue, UrlParameters parameters) throws IOException {
         OslcIssue oslcPayload = IssueMapper.map(
-                        issue,
-                        UrlBuilder.getLinkUrl(parentService, parameters, "issue"),
-                        parentService.getRequestRepositoryURL());
+                issue,
+                UrlBuilder.getLinkUrl(parentService, parameters, "issue"),
+                parentService.getRequestRepositoryURL());
 
         Gson gson = new GsonBuilder().serializeNulls().create();
         String json = gson.toJson(oslcPayload);

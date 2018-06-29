@@ -1,7 +1,6 @@
 package org.jazzcommunity.GitConnectorService.base.rest;
 
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestAction;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.logging.Log;
@@ -52,8 +51,23 @@ public class RestActionBuilder {
     }
 
     public RestAction create() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Constructor<? extends AbstractRestService> constructor = this.serviceClass.getConstructor(Log.class, HttpServletRequest.class, HttpServletResponse.class, RestRequest.class, TeamRawService.class);
-        return (RestAction)constructor.newInstance(this.log, this.request, this.response, this.restRequest, this.parentService);
+        Constructor<? extends AbstractRestService> constructor = this.serviceClass.getConstructor(
+                Log.class,
+                HttpServletRequest.class,
+                HttpServletResponse.class,
+                RestRequest.class,
+                TeamRawService.class,
+                PathParameters.class);
+
+        return (RestAction)constructor.newInstance(
+                this.log,
+                this.request,
+                this.response,
+                this.restRequest,
+                this.parentService,
+                // not sure yet if this belongs here, or in the actual
+                // constructor of the abstract service...
+                new PathParameters(path, restRequest.toString()));
     }
 
 }

@@ -1,7 +1,7 @@
 package org.jazzcommunity.GitConnectorService.base.router;
 
 import com.ibm.team.jfs.app.http.util.HttpConstants;
-import com.siemens.bt.jazz.services.base.rest.DefaultRestService;
+import org.jazzcommunity.GitConnectorService.base.rest.DefaultRestService;
 import org.jazzcommunity.GitConnectorService.base.router.factory.RestFactory;
 import org.jazzcommunity.GitConnectorService.base.router.factory.ServiceFactory;
 

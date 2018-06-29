@@ -2,9 +2,10 @@ package org.jazzcommunity.GitConnectorService.builder.github;
 
 import com.google.gson.JsonObject;
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.logging.Log;
+import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
+import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.GithubConnection;
 import org.jazzcommunity.GitConnectorService.net.ArtifactInformation;
 import org.jazzcommunity.GitConnectorService.net.Request;
@@ -18,8 +19,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 public class IssueLinkService extends AbstractRestService {
-    public IssueLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService) {
-        super(log, request, response, restRequest, parentService);
+
+    public IssueLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService, PathParameters pathParameters) {
+        super(log, request, response, restRequest, parentService, pathParameters);
     }
 
     @Override
