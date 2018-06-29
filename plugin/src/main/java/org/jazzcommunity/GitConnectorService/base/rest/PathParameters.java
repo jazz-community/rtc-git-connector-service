@@ -13,14 +13,12 @@ public class PathParameters {
         // creating the service. But I'm not going to optimize
         // this until later.
         String regex = "\\{([^\\/]+)\\}";
-        System.out.println(regex);
-        
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(path);
 
         ArrayList<String> names = new ArrayList<>();
         while(matcher.find()) {
-            names.add(matcher.group(0));
+            names.add(matcher.group(1));
         }
 
         String join = Joiner.on(',').join(names);
