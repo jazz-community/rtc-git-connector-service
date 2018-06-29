@@ -1,9 +1,9 @@
-package org.jazzcommunity.GitConnectorService.router;
+package org.jazzcommunity.GitConnectorService.base.router;
 
 import com.ibm.team.jfs.app.http.util.HttpConstants;
-import com.siemens.bt.jazz.services.base.rest.DefaultRestService;
-import com.siemens.bt.jazz.services.base.router.factory.RestFactory;
-import com.siemens.bt.jazz.services.base.router.factory.ServiceFactory;
+import org.jazzcommunity.GitConnectorService.base.rest.DefaultRestService;
+import org.jazzcommunity.GitConnectorService.base.router.factory.RestFactory;
+import org.jazzcommunity.GitConnectorService.base.router.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -11,11 +11,12 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class ServiceMap {
-    Map<String, Map<HttpConstants.HttpMethod, ServiceFactory>> map = new HashMap<>();
+    private Map<String, Map<HttpConstants.HttpMethod, ServiceFactory>> map = new HashMap<>();
 
     public ServiceFactory getFactory(HttpServletRequest request, String uri) {
         for (String path : map.keySet()) {
-            Pattern pattern = Pattern.compile(path);
+            String regex = path.replaceAll("\\{[^\\/]+\\}", "([^\\/]+)");
+            Pattern pattern = Pattern.compile(regex);
             if (pattern.matcher(uri).matches()) {
                 return map
                         .get(path)
@@ -23,7 +24,7 @@ public class ServiceMap {
             }
         }
 
-        return new RestFactory(DefaultRestService.class);
+        return new RestFactory("", DefaultRestService.class);
     }
 
     public void add(HttpConstants.HttpMethod method, String path, ServiceFactory serviceFactory) {

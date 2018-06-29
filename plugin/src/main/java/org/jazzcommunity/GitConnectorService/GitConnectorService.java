@@ -3,18 +3,15 @@ package org.jazzcommunity.GitConnectorService;
 import com.ibm.team.jfs.app.http.util.HttpConstants.HttpMethod;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.RestAction;
-import com.siemens.bt.jazz.services.base.rest.RestActionBuilder;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
-import com.siemens.bt.jazz.services.base.router.factory.RestFactory;
-import org.eclipse.core.runtime.Platform;
+import org.jazzcommunity.GitConnectorService.base.rest.RestActionBuilder;
+import org.jazzcommunity.GitConnectorService.base.router.factory.RestFactory;
 import org.jazzcommunity.GitConnectorService.builder.VersionService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestPreviewService;
-import org.jazzcommunity.GitConnectorService.router.CustomRouter;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.Version;
+import org.jazzcommunity.GitConnectorService.base.router.CustomRouter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,28 +33,23 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
      */
     public GitConnectorService() {
         super();
-        router.addService(
-                HttpMethod.GET,
-                "gitlab/[a-zA-Z.]+/project/[0-9]+/issue/[0-9]+/link.*",
-                new RestFactory(IssueLinkService.class));
-        router.addService(
-                HttpMethod.GET,
-                "gitlab/[a-zA-Z.]+/project/[0-9]+/issue/[0-9]+/preview.*",
-                new RestFactory(IssuePreviewService.class));
+        router.get(new RestFactory(
+                "gitlab/{host}/project/{projectId}/issue/{issueId}/link.*",
+                IssueLinkService.class));
+        router.get(new RestFactory(
+                "gitlab/{host}/project/{projectId}/issue/{issueId}/preview.*",
+                IssuePreviewService.class));
 
-        router.addService(
-                HttpMethod.GET,
-                "gitlab/[a-zA-Z.]+/project/[0-9]+/merge-request/[0-9]+/link.*",
-                new RestFactory(RequestLinkService.class));
-        router.addService(
-                HttpMethod.GET,
-                "gitlab/[a-zA-Z.]+/project/[0-9]+/merge-request/[0-9]+/preview.*",
-                new RestFactory(RequestPreviewService.class));
+        router.get(new RestFactory(
+                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link.*",
+                RequestLinkService.class));
+        router.get(new RestFactory(
+                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview.*",
+                RequestPreviewService.class));
 
-        router.addService(
-                HttpMethod.GET,
+        router.get(new RestFactory(
                 "info/version",
-                new RestFactory(VersionService.class));
+                VersionService.class));
 
         /**
          * This code is purposely commented out and not deleted!
@@ -99,12 +91,19 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
         }
     }
 
-    protected final RestActionBuilder prepareRequest(String uri,
-                                                     HttpServletRequest request,
-                                                     HttpServletResponse response) {
+    protected final RestActionBuilder prepareRequest(
+            String uri,
+            HttpServletRequest request,
+            HttpServletResponse response) {
+
         HttpMethod method = HttpMethod.fromString(request.getMethod());
         @SuppressWarnings("unchecked")
         RestRequest restRequest = new RestRequest(method, uri, request.getParameterMap());
-        return router.prepareAction(this, this.getLog(), request, response, restRequest);
+        return router.prepareAction(
+                this,
+                this.getLog(),
+                request,
+                response,
+                restRequest);
     }
 }

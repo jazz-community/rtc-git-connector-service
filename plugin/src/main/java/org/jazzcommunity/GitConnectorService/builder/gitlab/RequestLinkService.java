@@ -5,15 +5,16 @@ import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
+import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
+import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
+import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
-import org.jazzcommunity.GitConnectorService.net.UrlParameters;
 import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.OslcMergeRequest;
 import org.jazzcommunity.GitConnectorService.oslc.mapping.MergeRequestMapper;
 import org.jtwig.JtwigModel;
@@ -25,14 +26,18 @@ import java.io.IOException;
 import java.net.URL;
 
 public class RequestLinkService extends AbstractRestService {
-    public RequestLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService) {
-        super(log, request, response, restRequest, parentService);
+    public RequestLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService, PathParameters pathParameters) {
+        super(log, request, response, restRequest, parentService, pathParameters);
     }
 
     @Override
     public void execute() throws Exception {
-        UrlParameters parameters = Request.getParameters(request);
-        MergeRequest mergeRequest = getMergeRequest(parameters);
+        GitServiceArtifact parameters = new GitServiceArtifact(
+                pathParameters.get("host"),
+                pathParameters.get("projectId"),
+                pathParameters.get("mergeRequestId"));
+
+        MergeRequest mergeRequest = getMergeRequest();
 
         if (Request.isLinkRequest(this.request)) {
             sendLinkResponse(mergeRequest, parameters);
@@ -43,7 +48,7 @@ public class RequestLinkService extends AbstractRestService {
         }
     }
 
-    private void sendOslcResponse(MergeRequest mergeRequest, UrlParameters parameters) throws IOException {
+    private void sendOslcResponse(MergeRequest mergeRequest, GitServiceArtifact parameters) throws IOException {
         OslcMergeRequest oslcRequest = MergeRequestMapper.map(
                 mergeRequest,
                 UrlBuilder.getLinkUrl(parentService, parameters, "merge-request"),
@@ -56,7 +61,7 @@ public class RequestLinkService extends AbstractRestService {
         response.getWriter().write(json);
     }
 
-    private void sendLinkResponse(MergeRequest request, UrlParameters parameters) throws IOException {
+    private void sendLinkResponse(MergeRequest request, GitServiceArtifact parameters) throws IOException {
         URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "merge-request");
 
         String icon = String.format("%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif",
@@ -75,14 +80,14 @@ public class RequestLinkService extends AbstractRestService {
         template.render(model, response.getOutputStream());
     }
 
-    private MergeRequest getMergeRequest(UrlParameters parameters) throws IOException {
-        URL url = new URL("https://" + parameters.getHost());
+    private MergeRequest getMergeRequest() throws IOException {
+        URL url = new URL("https://" + pathParameters.get("host"));
         GitlabApi api = new GitlabApi(
                 url.toString(),
                 TokenHelper.getToken(url, parentService));
 
         return api.getMergeRequest(
-                Integer.parseInt(parameters.getProject()),
-                Integer.parseInt(parameters.getArtifact()));
+                pathParameters.getAsInteger("projectId"),
+                pathParameters.getAsInteger("mergeRequestId"));
     }
 }

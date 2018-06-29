@@ -4,13 +4,14 @@ import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.commit.Commit;
 import ch.sbi.minigit.type.gitlab.project.Project;
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.AbstractRestService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.logging.Log;
+import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
+import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
+import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
-import org.jazzcommunity.GitConnectorService.net.UrlParameters;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -21,14 +22,18 @@ import java.net.URL;
 
 public class CommitLinkService extends AbstractRestService {
 
-    public CommitLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService) {
-        super(log, request, response, restRequest, parentService);
+    public CommitLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService, PathParameters pathParameters) {
+        super(log, request, response, restRequest, parentService, pathParameters);
     }
 
     public void execute() throws IOException {
-        UrlParameters parameters = Request.getParameters(request);
-        Commit commit = getCommit(parameters);
-        Project project = getProject(parameters);
+        GitServiceArtifact parameters = new GitServiceArtifact(
+                pathParameters.get("host"),
+                pathParameters.get("projectId"),
+                pathParameters.get("commitId"));
+
+        Commit commit = getCommit();
+        Project project = getProject();
         String webUrl = project.getWebUrl() + "/commit/" + parameters.getArtifact();
 
         if (Request.isLinkRequest(request)) {
@@ -39,7 +44,7 @@ public class CommitLinkService extends AbstractRestService {
     }
 
     // TODO: refactor once links are correct
-    private void sendLinkResponse(Commit commit, UrlParameters parameters, String webUrl) throws IOException {
+    private void sendLinkResponse(Commit commit, GitServiceArtifact parameters, String webUrl) throws IOException {
         URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "commit");
 
         String icon = String.format("%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif",
@@ -58,16 +63,18 @@ public class CommitLinkService extends AbstractRestService {
         template.render(model, response.getOutputStream());
     }
 
-    private Commit getCommit(UrlParameters parameters) throws IOException {
-        URL url = new URL("https://" + parameters.getHost());
+    private Commit getCommit() throws IOException {
+        URL url = new URL("https://" + pathParameters.get("host"));
         GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-        return api.getCommit(Integer.parseInt(parameters.getProject()), parameters.getArtifact());
+        return api.getCommit(
+                pathParameters.getAsInteger("projectId"),
+                pathParameters.get("commitId"));
     }
 
-    private Project getProject(UrlParameters parameters) throws IOException {
-        URL url = new URL("https://" + parameters.getHost());
+    private Project getProject() throws IOException {
+        URL url = new URL("https://" + pathParameters.get("host"));
         GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-        return api.getProject(Integer.parseInt(parameters.getProject()));
+        return api.getProject(pathParameters.getAsInteger("projectId"));
     }
 
 }
