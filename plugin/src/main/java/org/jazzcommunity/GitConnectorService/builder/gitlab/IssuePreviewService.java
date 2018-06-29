@@ -9,8 +9,7 @@ import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
 import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.html.MarkdownParser;
-import org.jazzcommunity.GitConnectorService.net.Request;
-import org.jazzcommunity.GitConnectorService.net.UrlParameters;
+import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -26,7 +25,10 @@ public class IssuePreviewService extends AbstractRestService {
     }
 
     public void execute() throws IOException {
-        UrlParameters parameters = Request.getParameters(request);
+        GitServiceArtifact parameters = new GitServiceArtifact(
+                pathParameters.get("host"),
+                pathParameters.get("projectId"),
+                pathParameters.get("issueId"));
         URL url = new URL("https://" + parameters.getHost());
         GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
         Issue issue = api.getIssue(

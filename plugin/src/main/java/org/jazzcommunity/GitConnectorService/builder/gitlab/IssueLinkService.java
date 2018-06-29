@@ -12,9 +12,9 @@ import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
 import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
+import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
-import org.jazzcommunity.GitConnectorService.net.UrlParameters;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jazzcommunity.GitConnectorService.oslc.mapping.IssueMapper;
 import org.jtwig.JtwigModel;
@@ -32,7 +32,11 @@ public class IssueLinkService extends AbstractRestService {
     }
 
     public void execute() throws IOException {
-        UrlParameters parameters = Request.getParameters(request);
+        GitServiceArtifact parameters = new GitServiceArtifact(
+                pathParameters.get("host"),
+                pathParameters.get("projectId"),
+                pathParameters.get("issueId"));
+
         Issue issue = getIssue(parameters);
 
         if (Request.isLinkRequest(request)) {
@@ -44,7 +48,7 @@ public class IssueLinkService extends AbstractRestService {
         }
     }
 
-    private void sendOslcResponse(Issue issue, UrlParameters parameters) throws IOException {
+    private void sendOslcResponse(Issue issue, GitServiceArtifact parameters) throws IOException {
         OslcIssue oslcPayload = IssueMapper.map(
                 issue,
                 UrlBuilder.getLinkUrl(parentService, parameters, "issue"),
@@ -57,7 +61,7 @@ public class IssueLinkService extends AbstractRestService {
         response.getWriter().write(json);
     }
 
-    private void sendLinkResponse(Issue issue, UrlParameters parameters) throws IOException {
+    private void sendLinkResponse(Issue issue, GitServiceArtifact parameters) throws IOException {
         URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "issue");
 
         // TODO: Find a nice way of handling static resources?
@@ -77,7 +81,7 @@ public class IssueLinkService extends AbstractRestService {
         template.render(model, response.getOutputStream());
     }
 
-    private Issue getIssue(UrlParameters parameters) throws IOException {
+    private Issue getIssue(GitServiceArtifact parameters) throws IOException {
         URL url = new URL("https://" + parameters.getHost());
         GitlabApi api = new GitlabApi(
                 url.toString(),

@@ -9,21 +9,21 @@ public class UrlBuilder {
 
     public static URL getPreviewUrl(
             TeamRawService parentService,
-            UrlParameters parameters,
+            GitServiceArtifact parameters,
             String gitType) throws MalformedURLException {
         return getUrl(parentService, parameters, gitType, "preview");
     }
 
     public static URL getLinkUrl(
             TeamRawService parentService,
-            UrlParameters parameters,
+            GitServiceArtifact parameters,
             String gitType) throws MalformedURLException {
         return getUrl(parentService, parameters, gitType, "link");
     }
 
     private static URL getUrl(
             TeamRawService parentService,
-            UrlParameters parameters,
+            GitServiceArtifact parameters,
             String gitType,
             String linkType) throws MalformedURLException {
         String base = parentService.getRequestRepositoryURL();

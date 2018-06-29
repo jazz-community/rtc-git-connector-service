@@ -12,9 +12,9 @@ import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
 import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
+import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
-import org.jazzcommunity.GitConnectorService.net.UrlParameters;
 import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.OslcMergeRequest;
 import org.jazzcommunity.GitConnectorService.oslc.mapping.MergeRequestMapper;
 import org.jtwig.JtwigModel;
@@ -32,7 +32,10 @@ public class RequestLinkService extends AbstractRestService {
 
     @Override
     public void execute() throws Exception {
-        UrlParameters parameters = Request.getParameters(request);
+        GitServiceArtifact parameters = new GitServiceArtifact(
+                pathParameters.get("host"),
+                pathParameters.get("projectId"),
+                pathParameters.get("mergeRequestId"));
         MergeRequest mergeRequest = getMergeRequest(parameters);
 
         if (Request.isLinkRequest(this.request)) {
@@ -44,7 +47,7 @@ public class RequestLinkService extends AbstractRestService {
         }
     }
 
-    private void sendOslcResponse(MergeRequest mergeRequest, UrlParameters parameters) throws IOException {
+    private void sendOslcResponse(MergeRequest mergeRequest, GitServiceArtifact parameters) throws IOException {
         OslcMergeRequest oslcRequest = MergeRequestMapper.map(
                 mergeRequest,
                 UrlBuilder.getLinkUrl(parentService, parameters, "merge-request"),
@@ -57,7 +60,7 @@ public class RequestLinkService extends AbstractRestService {
         response.getWriter().write(json);
     }
 
-    private void sendLinkResponse(MergeRequest request, UrlParameters parameters) throws IOException {
+    private void sendLinkResponse(MergeRequest request, GitServiceArtifact parameters) throws IOException {
         URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "merge-request");
 
         String icon = String.format("%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif",
@@ -76,7 +79,7 @@ public class RequestLinkService extends AbstractRestService {
         template.render(model, response.getOutputStream());
     }
 
-    private MergeRequest getMergeRequest(UrlParameters parameters) throws IOException {
+    private MergeRequest getMergeRequest(GitServiceArtifact parameters) throws IOException {
         URL url = new URL("https://" + parameters.getHost());
         GitlabApi api = new GitlabApi(
                 url.toString(),
