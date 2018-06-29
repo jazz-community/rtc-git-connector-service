@@ -35,21 +35,31 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
         super();
         router.addService(
                 HttpMethod.GET,
-                new RestFactory(IssueLinkService.class, "gitlab/{host}/project/{projectId}/issue/{issueId}/link.*"));
+                new RestFactory(
+                        IssueLinkService.class,
+                        "gitlab/{host}/project/{projectId}/issue/{issueId}/link.*"));
         router.addService(
                 HttpMethod.GET,
-                new RestFactory(IssuePreviewService.class, "gitlab/{host}/project/{projectId}/issue/{issueId}/preview.*"));
+                new RestFactory(
+                        IssuePreviewService.class,
+                        "gitlab/{host}/project/{projectId}/issue/{issueId}/preview.*"));
 
         router.addService(
                 HttpMethod.GET,
-                new RestFactory(RequestLinkService.class, "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link.*"));
+                new RestFactory(
+                        RequestLinkService.class,
+                        "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link.*"));
         router.addService(
                 HttpMethod.GET,
-                new RestFactory(RequestPreviewService.class, "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview.*"));
+                new RestFactory(
+                        RequestPreviewService.class,
+                        "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview.*"));
 
         router.addService(
                 HttpMethod.GET,
-                new RestFactory(VersionService.class, "info/version"));
+                new RestFactory(
+                        VersionService.class,
+                        "info/version"));
 
         /**
          * This code is purposely commented out and not deleted!
