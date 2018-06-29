@@ -3,6 +3,8 @@ package org.jazzcommunity.GitConnectorService.base.rest;
 import com.google.common.base.Joiner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +18,32 @@ public class PathParameters {
 
         System.out.println(String.format("names: %s", Joiner.on(',').join(names)));
 
+        ArrayList<String> values = getValues(path, url);
+
+        System.out.println(String.format("values: %s", Joiner.on(',').join(values)));
+
+        if (names.size() != values.size()) {
+            throw new RuntimeException("Unable to match url parameters to values");
+        }
+
+        Map<String, String> parameters = makeMap(names, values);
+        for (String s : parameters.keySet()) {
+            System.out.println(String.format("key: %s value: %s", s, parameters.get(s)));
+        }
+    }
+
+    private Map<String, String> makeMap(ArrayList<String> names, ArrayList<String> values) {
+        // zip operation
+        HashMap<String, String> parameters = new HashMap<>();
+
+        for (int i = 0; i < names.size(); i += 1) {
+            parameters.put(names.get(i), values.get(i));
+        }
+
+        return parameters;
+    }
+
+    private static ArrayList<String> getValues(String path, String url) {
         // this is what I need to do, to actually get the values
         String regex = path.replaceAll("\\{[^\\/]+\\}", "([^\\\\/]+)");
         System.out.println(String.format("regex: %s", regex));
@@ -23,13 +51,13 @@ public class PathParameters {
         Matcher matcher = pattern.matcher(url);
 
         ArrayList<String> values = new ArrayList<>();
-        while(matcher.find()) {
-            for (int i = 1; i <= matcher.groupCount(); i += 1) {
-                values.add(matcher.group(i));
-            }
+        matcher.find();
+
+        for (int i = 1; i <= matcher.groupCount(); i += 1) {
+            values.add(matcher.group(i));
         }
 
-        System.out.println(String.format("values: %s", Joiner.on(',').join(values)));
+        return values;
     }
 
     private static ArrayList<String> getNames(String path) {
