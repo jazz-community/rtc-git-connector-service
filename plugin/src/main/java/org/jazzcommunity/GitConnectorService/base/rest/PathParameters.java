@@ -15,9 +15,9 @@ public class PathParameters {
         ArrayList<String> names = getNames(path);
 
         // this is what I need to do, to actually get the values
-//        String regex = path.replaceAll("\\{", "(");
-//        regex = regex.replaceAll("\\}", ")");
-//        Pattern pattern = Pattern.compile(regex);
+        String regex = path.replaceAll("\\{[^\\/]+\\}", "([^\\\\/]+)");
+        System.out.println(String.format("regex: %s", regex));
+        Pattern pattern = Pattern.compile(regex);
     }
 
     private static ArrayList<String> getNames(String path) {
@@ -26,12 +26,12 @@ public class PathParameters {
         Matcher matcher = pattern.matcher(path);
 
         ArrayList<String> names = new ArrayList<>();
-        while(matcher.find()) {
+        while (matcher.find()) {
             names.add(matcher.group(1));
         }
 
         String join = Joiner.on(',').join(names);
-        System.out.println(join);
+        System.out.println(String.format("names: %s", join));
 
         return names;
     }
