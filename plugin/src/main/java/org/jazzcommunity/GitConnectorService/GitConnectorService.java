@@ -33,33 +33,23 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
      */
     public GitConnectorService() {
         super();
-        router.addService(
-                HttpMethod.GET,
-                new RestFactory(
-                        IssueLinkService.class,
-                        "gitlab/{host}/project/{projectId}/issue/{issueId}/link.*"));
-        router.addService(
-                HttpMethod.GET,
-                new RestFactory(
-                        IssuePreviewService.class,
-                        "gitlab/{host}/project/{projectId}/issue/{issueId}/preview.*"));
+        router.get(new RestFactory(
+                "gitlab/{host}/project/{projectId}/issue/{issueId}/link.*",
+                IssueLinkService.class));
+        router.get(new RestFactory(
+                "gitlab/{host}/project/{projectId}/issue/{issueId}/preview.*",
+                IssuePreviewService.class));
 
-        router.addService(
-                HttpMethod.GET,
-                new RestFactory(
-                        RequestLinkService.class,
-                        "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link.*"));
-        router.addService(
-                HttpMethod.GET,
-                new RestFactory(
-                        RequestPreviewService.class,
-                        "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview.*"));
+        router.get(new RestFactory(
+                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link.*",
+                RequestLinkService.class));
+        router.get(new RestFactory(
+                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview.*",
+                RequestPreviewService.class));
 
-        router.addService(
-                HttpMethod.GET,
-                new RestFactory(
-                        VersionService.class,
-                        "info/version"));
+        router.get(new RestFactory(
+                "info/version",
+                VersionService.class));
 
         /**
          * This code is purposely commented out and not deleted!
