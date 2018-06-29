@@ -31,8 +31,9 @@ public class CommitLinkService extends AbstractRestService {
                 pathParameters.get("host"),
                 pathParameters.get("projectId"),
                 pathParameters.get("commitId"));
-        Commit commit = getCommit(parameters);
-        Project project = getProject(parameters);
+
+        Commit commit = getCommit();
+        Project project = getProject();
         String webUrl = project.getWebUrl() + "/commit/" + parameters.getArtifact();
 
         if (Request.isLinkRequest(request)) {
@@ -62,16 +63,18 @@ public class CommitLinkService extends AbstractRestService {
         template.render(model, response.getOutputStream());
     }
 
-    private Commit getCommit(GitServiceArtifact parameters) throws IOException {
-        URL url = new URL("https://" + parameters.getHost());
+    private Commit getCommit() throws IOException {
+        URL url = new URL("https://" + pathParameters.get("host"));
         GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-        return api.getCommit(Integer.parseInt(parameters.getProject()), parameters.getArtifact());
+        return api.getCommit(
+                pathParameters.getAsInteger("projectId"),
+                pathParameters.get("commitId"));
     }
 
-    private Project getProject(GitServiceArtifact parameters) throws IOException {
-        URL url = new URL("https://" + parameters.getHost());
+    private Project getProject() throws IOException {
+        URL url = new URL("https://" + pathParameters.get("host"));
         GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-        return api.getProject(Integer.parseInt(parameters.getProject()));
+        return api.getProject(pathParameters.getAsInteger("projectId"));
     }
 
 }

@@ -24,16 +24,11 @@ public class RequestPreviewService extends AbstractRestService {
 
     @Override
     public void execute() throws Exception {
-        GitServiceArtifact parameters = new GitServiceArtifact(
-                pathParameters.get("host"),
-                pathParameters.get("projectId"),
-                pathParameters.get("mergeRequestId"));
-
-        URL url = new URL("https://" + parameters.getHost());
+        URL url = new URL("https://" + pathParameters.get("host"));
         GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
         MergeRequest mergeRequest = api.getMergeRequest(
-                Integer.parseInt(parameters.getProject()),
-                Integer.parseInt(parameters.getArtifact()));
+                pathParameters.getAsInteger("projectId"),
+                pathParameters.getAsInteger("mergeRequestId"));
 
         String description = MarkdownParser.toHtml(mergeRequest.getDescription());
 

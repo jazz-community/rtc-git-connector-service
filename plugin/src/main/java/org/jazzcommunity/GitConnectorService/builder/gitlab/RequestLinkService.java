@@ -36,7 +36,8 @@ public class RequestLinkService extends AbstractRestService {
                 pathParameters.get("host"),
                 pathParameters.get("projectId"),
                 pathParameters.get("mergeRequestId"));
-        MergeRequest mergeRequest = getMergeRequest(parameters);
+
+        MergeRequest mergeRequest = getMergeRequest();
 
         if (Request.isLinkRequest(this.request)) {
             sendLinkResponse(mergeRequest, parameters);
@@ -79,14 +80,14 @@ public class RequestLinkService extends AbstractRestService {
         template.render(model, response.getOutputStream());
     }
 
-    private MergeRequest getMergeRequest(GitServiceArtifact parameters) throws IOException {
-        URL url = new URL("https://" + parameters.getHost());
+    private MergeRequest getMergeRequest() throws IOException {
+        URL url = new URL("https://" + pathParameters.get("host"));
         GitlabApi api = new GitlabApi(
                 url.toString(),
                 TokenHelper.getToken(url, parentService));
 
         return api.getMergeRequest(
-                Integer.parseInt(parameters.getProject()),
-                Integer.parseInt(parameters.getArtifact()));
+                pathParameters.getAsInteger("projectId"),
+                pathParameters.getAsInteger("mergeRequestId"));
     }
 }

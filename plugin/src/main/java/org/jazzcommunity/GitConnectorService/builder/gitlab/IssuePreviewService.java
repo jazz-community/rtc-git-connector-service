@@ -25,15 +25,11 @@ public class IssuePreviewService extends AbstractRestService {
     }
 
     public void execute() throws IOException {
-        GitServiceArtifact parameters = new GitServiceArtifact(
-                pathParameters.get("host"),
-                pathParameters.get("projectId"),
-                pathParameters.get("issueId"));
-        URL url = new URL("https://" + parameters.getHost());
+        URL url = new URL("https://" + pathParameters.get("host"));
         GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
         Issue issue = api.getIssue(
-                Integer.parseInt(parameters.getProject()),
-                Integer.parseInt(parameters.getArtifact()));
+                pathParameters.getAsInteger("projectId"),
+                pathParameters.getAsInteger("issueId"));
 
         String description = MarkdownParser.toHtml(issue.getDescription());
 

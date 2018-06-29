@@ -37,7 +37,7 @@ public class IssueLinkService extends AbstractRestService {
                 pathParameters.get("projectId"),
                 pathParameters.get("issueId"));
 
-        Issue issue = getIssue(parameters);
+        Issue issue = getIssue();
 
         if (Request.isLinkRequest(request)) {
             sendLinkResponse(issue, parameters);
@@ -81,15 +81,15 @@ public class IssueLinkService extends AbstractRestService {
         template.render(model, response.getOutputStream());
     }
 
-    private Issue getIssue(GitServiceArtifact parameters) throws IOException {
-        URL url = new URL("https://" + parameters.getHost());
+    private Issue getIssue() throws IOException {
+        URL url = new URL("https://" + pathParameters.get("host"));
         GitlabApi api = new GitlabApi(
                 url.toString(),
                 TokenHelper.getToken(url, parentService));
 
         return api.getIssue(
-                Integer.valueOf(parameters.getProject()),
-                Integer.valueOf(parameters.getArtifact()));
+                pathParameters.getAsInteger("projectId"),
+                pathParameters.getAsInteger("issueId"));
     }
 
 }

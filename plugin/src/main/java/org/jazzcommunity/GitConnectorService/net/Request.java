@@ -2,8 +2,6 @@ package org.jazzcommunity.GitConnectorService.net;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Request {
     public static boolean isLinkRequest(HttpServletRequest request) {
