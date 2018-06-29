@@ -21,17 +21,4 @@ public class Request {
             System.out.println(String.format("key: %s, value: %s", key, request.getHeader(key)));
         }
     }
-
-    public static UrlParameters getParameters(HttpServletRequest request) {
-        String uri = request.getRequestURI();
-        String regex = ".*/gitlab\\/([^\\/]+)\\/project\\/([^\\/]+)\\/[^\\/]+\\/([^\\/]+)\\/.*";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(uri);
-        matcher.find();
-        String host = matcher.group(1);
-        String project = matcher.group(2);
-        String artifact = matcher.group(3);
-
-        return new UrlParameters(host, project, artifact);
-    }
 }

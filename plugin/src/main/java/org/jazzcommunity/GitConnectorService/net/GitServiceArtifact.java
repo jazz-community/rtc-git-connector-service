@@ -1,11 +1,11 @@
 package org.jazzcommunity.GitConnectorService.net;
 
-public class UrlParameters {
+public class GitServiceArtifact {
     private final String host;
     private final String project;
     private final String artifact;
 
-    public UrlParameters(String host, String project, String artifact) {
+    public GitServiceArtifact(String host, String project, String artifact) {
         this.host = host;
         this.project = project;
         this.artifact = artifact;

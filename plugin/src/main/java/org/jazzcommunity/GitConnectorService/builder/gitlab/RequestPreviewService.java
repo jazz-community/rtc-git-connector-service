@@ -9,8 +9,7 @@ import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
 import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.html.MarkdownParser;
-import org.jazzcommunity.GitConnectorService.net.Request;
-import org.jazzcommunity.GitConnectorService.net.UrlParameters;
+import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -25,7 +24,11 @@ public class RequestPreviewService extends AbstractRestService {
 
     @Override
     public void execute() throws Exception {
-        UrlParameters parameters = Request.getParameters(request);
+        GitServiceArtifact parameters = new GitServiceArtifact(
+                pathParameters.get("host"),
+                pathParameters.get("projectId"),
+                pathParameters.get("mergeRequestId"));
+
         URL url = new URL("https://" + parameters.getHost());
         GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
         MergeRequest mergeRequest = api.getMergeRequest(
