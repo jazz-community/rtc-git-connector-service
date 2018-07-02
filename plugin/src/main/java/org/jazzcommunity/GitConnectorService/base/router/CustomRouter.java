@@ -4,7 +4,9 @@ import com.ibm.team.jfs.app.http.util.HttpConstants;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.apache.commons.logging.Log;
+import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
 import org.jazzcommunity.GitConnectorService.base.rest.RestActionBuilder;
+import org.jazzcommunity.GitConnectorService.base.router.factory.RestFactory;
 import org.jazzcommunity.GitConnectorService.base.router.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,36 @@ public class CustomRouter implements Router {
             ServiceFactory serviceFactory) {
 
         map.add(method, serviceFactory.getPath(), serviceFactory);
+    }
+
+    // It might actually be nice to inject the rest factory type / a factory for
+    // rest services into the constructor, which is then used for all mappings.
+    @Override
+    public void get(String path, Class<? extends AbstractRestService> service) {
+        addService(
+                HttpConstants.HttpMethod.GET,
+                new RestFactory(path, service));
+    }
+
+    @Override
+    public void put(String path, Class<? extends AbstractRestService> service) {
+        addService(
+                HttpConstants.HttpMethod.PUT,
+                new RestFactory(path, service));
+    }
+
+    @Override
+    public void post(String path, Class<? extends AbstractRestService> service) {
+        addService(
+                HttpConstants.HttpMethod.POST,
+                new RestFactory(path, service));
+    }
+
+    @Override
+    public void delete(String path, Class<? extends AbstractRestService> service) {
+        addService(
+                HttpConstants.HttpMethod.DELETE,
+                new RestFactory(path, service));
     }
 
     @Override
