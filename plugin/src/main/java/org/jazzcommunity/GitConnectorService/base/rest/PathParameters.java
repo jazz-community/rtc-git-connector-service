@@ -47,10 +47,7 @@ public class PathParameters {
              * refer to the provided example: https://regex101.com/r/17Ul3V/1
              */
             for (int i = 1; i <= names.groupCount(); i += 1) {
-                String name = names
-                        .group(i)
-                        .replace("{", "")
-                        .replace("}", "");
+                String name = names.group(i).substring(1, names.group(i).length() - 1);
                 parameters.put(name, values.group(i));
             }
         }
