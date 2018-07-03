@@ -2,10 +2,10 @@ package org.jazzcommunity.GitConnectorService.builder.github;
 
 import com.google.gson.JsonObject;
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.RestRequest;
+import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
+import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
+import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import org.apache.commons.logging.Log;
-import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
-import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.GithubConnection;
 import org.jazzcommunity.GitConnectorService.net.ArtifactInformation;
 import org.jtwig.JtwigModel;

@@ -3,9 +3,10 @@ package org.jazzcommunity.GitConnectorService;
 import com.ibm.team.jfs.app.http.util.HttpConstants.HttpMethod;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.RestAction;
-import com.siemens.bt.jazz.services.base.rest.RestRequest;
-import org.jazzcommunity.GitConnectorService.base.rest.RestActionBuilder;
-import org.jazzcommunity.GitConnectorService.base.router.CustomRouter;
+import com.siemens.bt.jazz.services.base.rest.RestActionBuilder;
+import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
+import com.siemens.bt.jazz.services.base.router.Router;
+import com.siemens.bt.jazz.services.base.router.map.MapRouter;
 import org.jazzcommunity.GitConnectorService.builder.VersionService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssuePreviewService;
@@ -24,7 +25,7 @@ import java.io.IOException;
  */
 public class GitConnectorService extends TeamRawService implements IGitConnectorService {
 
-    private final CustomRouter router = new CustomRouter();
+    private final Router router = new MapRouter();
 
     /**
      * Constructs a new Service
