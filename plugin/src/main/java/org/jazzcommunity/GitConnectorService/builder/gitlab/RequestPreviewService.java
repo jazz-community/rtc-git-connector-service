@@ -3,13 +3,12 @@ package org.jazzcommunity.GitConnectorService.builder.gitlab;
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.RestRequest;
+import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
+import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
+import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import org.apache.commons.logging.Log;
-import org.jazzcommunity.GitConnectorService.base.rest.AbstractRestService;
-import org.jazzcommunity.GitConnectorService.base.rest.PathParameters;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.html.MarkdownParser;
-import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
