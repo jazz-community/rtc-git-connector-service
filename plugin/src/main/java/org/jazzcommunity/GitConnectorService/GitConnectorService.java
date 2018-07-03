@@ -33,17 +33,17 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
     public GitConnectorService() {
         super();
         router.get(
-                "gitlab/{host}/project/{projectId}/issue/{issueId}/link.*",
+                "gitlab/{host}/project/{projectId}/issue/{issueId}/link",
                 IssueLinkService.class);
         router.get(
-                "gitlab/{host}/project/{projectId}/issue/{issueId}/preview.*",
+                "gitlab/{host}/project/{projectId}/issue/{issueId}/preview",
                 IssuePreviewService.class);
 
         router.get(
-                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link.*",
+                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link",
                 RequestLinkService.class);
         router.get(
-                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview.*",
+                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview",
                 RequestPreviewService.class);
 
         router.get(

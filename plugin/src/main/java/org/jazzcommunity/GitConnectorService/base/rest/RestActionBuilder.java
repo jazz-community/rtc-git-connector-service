@@ -15,7 +15,6 @@ public class RestActionBuilder {
     protected final String path;
     protected HttpServletRequest request;
     protected HttpServletResponse response;
-    // not sure about which log to use here...
     protected Log log;
     protected RestRequest restRequest;
     protected TeamRawService parentService;

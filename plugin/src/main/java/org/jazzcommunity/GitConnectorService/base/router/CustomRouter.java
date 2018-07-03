@@ -20,7 +20,7 @@ public class CustomRouter implements Router {
             HttpConstants.HttpMethod method,
             ServiceFactory serviceFactory) {
 
-        map.add(method, serviceFactory.getPath(), serviceFactory);
+        map.add(method, serviceFactory.getPath() + ".*", serviceFactory);
     }
 
     // It might actually be nice to inject the rest factory type / a factory for
