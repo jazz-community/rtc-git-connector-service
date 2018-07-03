@@ -5,13 +5,12 @@ import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.RestAction;
 import com.siemens.bt.jazz.services.base.rest.RestRequest;
 import org.jazzcommunity.GitConnectorService.base.rest.RestActionBuilder;
-import org.jazzcommunity.GitConnectorService.base.router.factory.RestFactory;
+import org.jazzcommunity.GitConnectorService.base.router.CustomRouter;
 import org.jazzcommunity.GitConnectorService.builder.VersionService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestPreviewService;
-import org.jazzcommunity.GitConnectorService.base.router.CustomRouter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,23 +32,23 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
      */
     public GitConnectorService() {
         super();
-        router.get(new RestFactory(
-                "gitlab/{host}/project/{projectId}/issue/{issueId}/link.*",
-                IssueLinkService.class));
-        router.get(new RestFactory(
-                "gitlab/{host}/project/{projectId}/issue/{issueId}/preview.*",
-                IssuePreviewService.class));
+        router.get(
+                "gitlab/{host}/project/{projectId}/issue/{issueId}/link",
+                IssueLinkService.class);
+        router.get(
+                "gitlab/{host}/project/{projectId}/issue/{issueId}/preview",
+                IssuePreviewService.class);
 
-        router.get(new RestFactory(
-                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link.*",
-                RequestLinkService.class));
-        router.get(new RestFactory(
-                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview.*",
-                RequestPreviewService.class));
+        router.get(
+                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/link",
+                RequestLinkService.class);
+        router.get(
+                "gitlab/{host}/project/{projectId}/merge-request/{mergeRequestId}/preview",
+                RequestPreviewService.class);
 
-        router.get(new RestFactory(
+        router.get(
                 "info/version",
-                VersionService.class));
+                VersionService.class);
 
         /**
          * This code is purposely commented out and not deleted!

@@ -5,7 +5,7 @@
 
     <groupId>org.jazzcommunity.GitConnectorService</groupId>
     <artifactId>org.jazzcommunity.GitConnectorService.parent</artifactId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
