@@ -27,30 +27,22 @@ public class CustomRouter implements Router {
     // rest services into the constructor, which is then used for all mappings.
     @Override
     public void get(String path, Class<? extends AbstractRestService> service) {
-        addService(
-                HttpConstants.HttpMethod.GET,
-                new RestFactory(path, service));
+        get(new RestFactory(path, service));
     }
 
     @Override
     public void put(String path, Class<? extends AbstractRestService> service) {
-        addService(
-                HttpConstants.HttpMethod.PUT,
-                new RestFactory(path, service));
+        put(new RestFactory(path, service));
     }
 
     @Override
     public void post(String path, Class<? extends AbstractRestService> service) {
-        addService(
-                HttpConstants.HttpMethod.POST,
-                new RestFactory(path, service));
+        post(new RestFactory(path, service));
     }
 
     @Override
     public void delete(String path, Class<? extends AbstractRestService> service) {
-        addService(
-                HttpConstants.HttpMethod.DELETE,
-                new RestFactory(path, service));
+        delete(new RestFactory(path, service));
     }
 
     @Override
