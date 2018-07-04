@@ -1,5 +1,6 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
+import ch.sbi.minigit.type.gitlab.issue.Assignee;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.ContributorPrototype;
@@ -40,6 +41,11 @@ public final class IssueMapper {
         final ContributorPrototype contributor = new ContributorPrototype(
                 issue.getAuthor().getName(),
                 issue.getAuthor().getWebUrl());
+
+        // maybe write a converter for list types that checks empty
+        final Assignee assignee = issue.getAssignees().isEmpty() ?
+                null :
+                issue.getAssignees().get(0);
 
         ModelMapper mapper = new ModelMapper();
 
@@ -82,9 +88,10 @@ public final class IssueMapper {
                 map().setGitCmId(source.getId());
                 map().setGitCmIid(source.getIid());
                 // Prefixes object
-                map().setPrefixes(TypeConverter.<PrefixPrototype, Prefixes>convert(
-                        new PrefixPrototype(),
-                        Prefixes.class));
+                map().setPrefixes(
+                        TypeConverter.<PrefixPrototype, Prefixes>convert(
+                                new PrefixPrototype(),
+                                Prefixes.class));
                 // Short title
                 using(Converters.toShortTitle()).map(source.getIid()).setOslcShortTitle(null);
                 // Due Date
@@ -108,8 +115,13 @@ public final class IssueMapper {
                 using(TypeConverter.to(GitCmMilestone.class))
                         .map(source.getMilestone())
                         .setGitCmMilestone(null);
+                // Assignee
+                map().setGitCmAssignee(
+                        TypeConverter.<Assignee, GitCmAssignee>convert(
+                                assignee,
+                                GitCmAssignee.class));
                 // Assignees
-                Type assignees = new TypeToken<List<GitCmAssignee>>() {}.getType();
+                Type assignees = new TypeToken<List<GitCmAssignee_>>() {}.getType();
                 using(TypeConverter.to(assignees))
                         .map(source.getAssignees())
                         .setGitCmAssignees(null);
