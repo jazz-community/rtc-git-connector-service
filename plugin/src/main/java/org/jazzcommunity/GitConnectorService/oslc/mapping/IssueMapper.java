@@ -42,7 +42,11 @@ public final class IssueMapper {
                 issue.getAuthor().getName(),
                 issue.getAuthor().getWebUrl());
 
-        final Assignee assignee = issue.getAssignees().get(0);
+        Assignee temp = null;
+        if (!issue.getAssignees().isEmpty()) {
+            temp = issue.getAssignees().get(0);
+        }
+        final Assignee assignee = TypeConverter.<Assignee, Assignee>convert(temp, Assignee.class);
 
         ModelMapper mapper = new ModelMapper();
 
@@ -85,9 +89,10 @@ public final class IssueMapper {
                 map().setGitCmId(source.getId());
                 map().setGitCmIid(source.getIid());
                 // Prefixes object
-                map().setPrefixes(TypeConverter.<PrefixPrototype, Prefixes>convert(
-                        new PrefixPrototype(),
-                        Prefixes.class));
+                map().setPrefixes(
+                        TypeConverter.<PrefixPrototype, Prefixes>convert(
+                                new PrefixPrototype(),
+                                Prefixes.class));
                 // Short title
                 using(Converters.toShortTitle()).map(source.getIid()).setOslcShortTitle(null);
                 // Due Date
@@ -112,9 +117,10 @@ public final class IssueMapper {
                         .map(source.getMilestone())
                         .setGitCmMilestone(null);
                 // Assignee
-                using(TypeConverter.to(GitCmAssignee.class))
-                        .map(assignee)
-                        .setGitCmAssignee(null);
+                map().setGitCmAssignee(
+                        TypeConverter.<Assignee, GitCmAssignee>convert(
+                                assignee,
+                                GitCmAssignee.class));
                 // Assignees
                 Type assignees = new TypeToken<List<GitCmAssignee_>>() {}.getType();
                 using(TypeConverter.to(assignees))

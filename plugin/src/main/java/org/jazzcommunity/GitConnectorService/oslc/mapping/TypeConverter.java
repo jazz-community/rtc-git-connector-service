@@ -10,6 +10,10 @@ public final class TypeConverter {
     }
 
     public static <From, To> To convert(final From from, final Type type) {
+        if (from == null) {
+            return null;
+        }
+
         return new ModelMapper().map(from, type);
     }
 

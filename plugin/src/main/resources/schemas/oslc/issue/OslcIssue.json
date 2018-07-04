@@ -63,7 +63,7 @@
     "name": "User Name",
     "username": "username",
     "state": "active",
-    "avatar_url": null,
+    "avatar_url": "url",
     "web_url": "https://code.siemens.com/userurl"
   },
   "git_cm:assignees": [{

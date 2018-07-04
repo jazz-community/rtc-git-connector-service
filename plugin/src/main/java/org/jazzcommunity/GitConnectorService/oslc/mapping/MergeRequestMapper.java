@@ -28,6 +28,9 @@ public class MergeRequestMapper {
                 request.getAuthor().getName(),
                 request.getAuthor().getWebUrl());
 
+        final List<Assignee> assignee = new ArrayList<>();
+        assignee.add(request.getAssignee());
+
         ModelMapper mapper = new ModelMapper();
 
         mapper.addMappings(new PropertyMap<MergeRequest, OslcMergeRequest>() {
@@ -99,12 +102,10 @@ public class MergeRequestMapper {
                         .map(source.getAssignee())
                         .setGitCmAssignee(null);
                 // Assignees
-//                Type assigneesType = new TypeToken<List<GitCmAssignee_>>() {}.getType();
-//                List<Assignee> assignee = new ArrayList<>();
-//                assignee.add(source.getAssignee());
-//                using(TypeConverter.to(assigneesType))
-//                        .map(assignee)
-//                        .setGitCmAssignees(null);
+                Type assignees = new TypeToken<List<GitCmAssignee_>>() {}.getType();
+                using(TypeConverter.to(assignees))
+                        .map(assignee)
+                        .setGitCmAssignees(null);
                 // Merged by
                 using(TypeConverter.to(GitCmMergedBy.class))
                         .map(source.getMergedBy())
