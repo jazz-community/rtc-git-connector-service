@@ -42,12 +42,10 @@ public final class IssueMapper {
                 issue.getAuthor().getName(),
                 issue.getAuthor().getWebUrl());
 
-        // TODO: clean this up...
-        Assignee temp = null;
-        if (!issue.getAssignees().isEmpty()) {
-            temp = issue.getAssignees().get(0);
-        }
-        final Assignee assignee = TypeConverter.<Assignee, Assignee>convert(temp, Assignee.class);
+        // maybe write a converter for list types that checks empty
+        final Assignee assignee = issue.getAssignees().isEmpty() ?
+                null :
+                issue.getAssignees().get(0);
 
         ModelMapper mapper = new ModelMapper();
 
