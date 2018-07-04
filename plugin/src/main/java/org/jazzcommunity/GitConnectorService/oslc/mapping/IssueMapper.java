@@ -1,5 +1,6 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
+import ch.sbi.minigit.type.gitlab.issue.Assignee;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.ContributorPrototype;
@@ -40,6 +41,8 @@ public final class IssueMapper {
         final ContributorPrototype contributor = new ContributorPrototype(
                 issue.getAuthor().getName(),
                 issue.getAuthor().getWebUrl());
+
+        final Assignee assignee = issue.getAssignees().get(0);
 
         ModelMapper mapper = new ModelMapper();
 
@@ -108,8 +111,12 @@ public final class IssueMapper {
                 using(TypeConverter.to(GitCmMilestone.class))
                         .map(source.getMilestone())
                         .setGitCmMilestone(null);
+                // Assignee
+                using(TypeConverter.to(GitCmAssignee.class))
+                        .map(assignee)
+                        .setGitCmAssignee(null);
                 // Assignees
-                Type assignees = new TypeToken<List<GitCmAssignee>>() {}.getType();
+                Type assignees = new TypeToken<List<GitCmAssignee_>>() {}.getType();
                 using(TypeConverter.to(assignees))
                         .map(source.getAssignees())
                         .setGitCmAssignees(null);

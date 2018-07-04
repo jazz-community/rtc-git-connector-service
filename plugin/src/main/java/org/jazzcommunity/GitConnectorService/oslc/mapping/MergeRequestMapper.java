@@ -1,5 +1,7 @@
 package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
+import ch.sbi.minigit.type.gitlab.issue.Assignee_;
+import ch.sbi.minigit.type.gitlab.mergerequest.Assignee;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.ContributorPrototype;
@@ -7,8 +9,12 @@ import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.RtcCmTypePrototype;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeToken;
 
+import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MergeRequestMapper {
     private MergeRequestMapper() {
@@ -92,6 +98,13 @@ public class MergeRequestMapper {
                 using(TypeConverter.to(GitCmAssignee.class))
                         .map(source.getAssignee())
                         .setGitCmAssignee(null);
+                // Assignees
+//                Type assigneesType = new TypeToken<List<GitCmAssignee_>>() {}.getType();
+//                List<Assignee> assignee = new ArrayList<>();
+//                assignee.add(source.getAssignee());
+//                using(TypeConverter.to(assigneesType))
+//                        .map(assignee)
+//                        .setGitCmAssignees(null);
                 // Merged by
                 using(TypeConverter.to(GitCmMergedBy.class))
                         .map(source.getMergedBy())
