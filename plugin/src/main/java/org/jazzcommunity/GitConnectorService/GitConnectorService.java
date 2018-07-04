@@ -1,21 +1,11 @@
 package org.jazzcommunity.GitConnectorService;
 
-import com.ibm.team.jfs.app.http.util.HttpConstants.HttpMethod;
-import com.ibm.team.repository.service.TeamRawService;
-import com.siemens.bt.jazz.services.base.rest.RestAction;
-import com.siemens.bt.jazz.services.base.rest.RestActionBuilder;
-import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
-import com.siemens.bt.jazz.services.base.router.Router;
-import com.siemens.bt.jazz.services.base.router.map.MapRouter;
+import com.siemens.bt.jazz.services.base.BaseService;
 import org.jazzcommunity.GitConnectorService.builder.VersionService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestLinkService;
 import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestPreviewService;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Entry point for the Service, called by the Jazz class loader.
@@ -23,9 +13,7 @@ import java.io.IOException;
  * <p>This class must be implemented for enabling plug-ins to run inside Jazz. The implemented interface corresponds to
  * the component in {@code plugin.xml}, and this service is therefore the provided service by the interface.</p>
  */
-public class GitConnectorService extends TeamRawService implements IGitConnectorService {
-
-    private final Router router = new MapRouter();
+public class GitConnectorService extends BaseService implements IGitConnectorService {
 
     /**
      * Constructs a new Service
@@ -56,54 +44,12 @@ public class GitConnectorService extends TeamRawService implements IGitConnector
          * We have decided to use the IBM rich hovers for now, but potential support will remain built into
          * the service until the decision is final, depending on how IBM will proceed with their own git
          * integration support.
+         *
+         * Note that these services use the legacy way of defining path parameters.
          */
 //        router.addService(HttpMethod.GET, ".*/gitlab/[a-zA-Z.]+/project/[0-9]+/commit/[^\\/]+/link.*",
 //                new RestFactory(CommitLinkService.class));
 //        router.addService(HttpMethod.GET, ".*/gitlab/[a-zA-Z.]+/project/[0-9]+/commit/[^\\/]+/preview.*",
 //                new RestFactory(CommitPreviewService.class));
-    }
-
-    @Override
-    public void perform_GET(String uri, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        performAction(uri, request, response);
-    }
-
-    @Override
-    public void perform_POST(String uri, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        performAction(uri, request, response);
-    }
-
-    protected void performAction(String uri, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            RestActionBuilder builder = prepareRequest(uri, request, response);
-            RestAction action = builder.create();
-            action.execute();
-        } catch (IOException e) {
-            // This will need extra logging, but we quench it for now to allow non-authorized requests
-            // without spamming the server log. Sorry :-*
-            //throw e;
-        } catch (Exception e) {
-            // catch everything and log. Makes sure that there is no checked exception from our service back
-            // to jazz, except for the expected IOException when the response isn't writable. We need to make
-            // sure that our plug-in conforms to the contract that no exceptions bubble out into the system.
-            super.getLog().error(e);
-            this.http500return(request, response, e);
-        }
-    }
-
-    protected final RestActionBuilder prepareRequest(
-            String uri,
-            HttpServletRequest request,
-            HttpServletResponse response) {
-
-        HttpMethod method = HttpMethod.fromString(request.getMethod());
-        @SuppressWarnings("unchecked")
-        RestRequest restRequest = new RestRequest(method, uri, request.getParameterMap());
-        return router.prepareAction(
-                this,
-                this.getLog(),
-                request,
-                response,
-                restRequest);
     }
 }
