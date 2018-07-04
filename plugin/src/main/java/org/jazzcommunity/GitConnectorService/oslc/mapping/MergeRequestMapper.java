@@ -103,9 +103,10 @@ public class MergeRequestMapper {
                         .setGitCmAssignee(null);
                 // Assignees
                 Type assignees = new TypeToken<List<GitCmAssignee_>>() {}.getType();
-                using(TypeConverter.to(assignees))
-                        .map(assignee)
-                        .setGitCmAssignees(null);
+                map().setGitCmAssignees(
+                        TypeConverter.<List<Assignee>, List<GitCmAssignee_>>convert(
+                                assignee,
+                                assignees));
                 // Merged by
                 using(TypeConverter.to(GitCmMergedBy.class))
                         .map(source.getMergedBy())

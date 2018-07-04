@@ -42,6 +42,7 @@ public final class IssueMapper {
                 issue.getAuthor().getName(),
                 issue.getAuthor().getWebUrl());
 
+        // TODO: clean this up...
         Assignee temp = null;
         if (!issue.getAssignees().isEmpty()) {
             temp = issue.getAssignees().get(0);
