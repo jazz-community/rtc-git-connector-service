@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.jazzcommunity.GitConnectorService</groupId>
 		<artifactId>org.jazzcommunity.GitConnectorService.parent</artifactId>
-		<version>1.6.3-SNAPSHOT</version>
+		<version>1.6.4-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 
