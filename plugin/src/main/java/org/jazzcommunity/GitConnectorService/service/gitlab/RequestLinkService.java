@@ -1,7 +1,7 @@
-package org.jazzcommunity.GitConnectorService.builder.gitlab;
+package org.jazzcommunity.GitConnectorService.service.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
-import ch.sbi.minigit.type.gitlab.issue.Issue;
+import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ibm.team.repository.service.TeamRawService;
@@ -15,8 +15,8 @@ import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
-import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
-import org.jazzcommunity.GitConnectorService.oslc.mapping.IssueMapper;
+import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.OslcMergeRequest;
+import org.jazzcommunity.GitConnectorService.oslc.mapping.MergeRequestMapper;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -25,54 +25,53 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URL;
 
-public class IssueLinkService extends AbstractRestService {
-
-    public IssueLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService, PathParameters pathParameters) {
+public class RequestLinkService extends AbstractRestService {
+    public RequestLinkService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService, PathParameters pathParameters) {
         super(log, request, response, restRequest, parentService, pathParameters);
     }
 
-    public void execute() throws IOException {
+    @Override
+    public void execute() throws Exception {
         GitServiceArtifact parameters = new GitServiceArtifact(
                 pathParameters.get("host"),
                 pathParameters.get("projectId"),
-                pathParameters.get("issueId"));
+                pathParameters.get("mergeRequestId"));
 
-        Issue issue = getIssue();
+        MergeRequest mergeRequest = getMergeRequest();
 
-        if (Request.isLinkRequest(request)) {
-            sendLinkResponse(issue, parameters);
+        if (Request.isLinkRequest(this.request)) {
+            sendLinkResponse(mergeRequest, parameters);
         } else if (Request.isOslcRequest(request)) {
-            sendOslcResponse(issue, parameters);
+            sendOslcResponse(mergeRequest, parameters);
         } else {
-            response.sendRedirect(issue.getWebUrl());
+            response.sendRedirect(mergeRequest.getWebUrl());
         }
     }
 
-    private void sendOslcResponse(Issue issue, GitServiceArtifact parameters) throws IOException {
-        OslcIssue oslcPayload = IssueMapper.map(
-                issue,
-                UrlBuilder.getLinkUrl(parentService, parameters, "issue"),
+    private void sendOslcResponse(MergeRequest mergeRequest, GitServiceArtifact parameters) throws IOException {
+        OslcMergeRequest oslcRequest = MergeRequestMapper.map(
+                mergeRequest,
+                UrlBuilder.getLinkUrl(parentService, parameters, "merge-request"),
                 parentService.getRequestRepositoryURL());
 
         Gson gson = new GsonBuilder().serializeNulls().create();
-        String json = gson.toJson(oslcPayload);
+        String json = gson.toJson(oslcRequest);
         response.setContentType(ContentType.APPLICATION_JSON.toString());
         response.setHeader("OSLC-Core-Version", "2.0");
         response.getWriter().write(json);
     }
 
-    private void sendLinkResponse(Issue issue, GitServiceArtifact parameters) throws IOException {
-        URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "issue");
+    private void sendLinkResponse(MergeRequest request, GitServiceArtifact parameters) throws IOException {
+        URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "merge-request");
 
-        // TODO: Find a nice way of handling static resources?
         String icon = String.format("%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif",
                 parentService.getRequestRepositoryURL());
 
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/xml/issue_link.twig");
         JtwigModel model = JtwigModel.newModel()
-                .with("about", issue.getWebUrl())
-                .with("title", "Issue: " + StringEscapeUtils.escapeXml(issue.getTitle()))
-                .with("comment", StringEscapeUtils.escapeXml(issue.getDescription()))
+                .with("about", request.getWebUrl())
+                .with("title", "Merge Request: " + StringEscapeUtils.escapeXml(request.getTitle()))
+                .with("comment", StringEscapeUtils.escapeXml(request.getDescription()))
                 .with("icon", icon)
                 .with("resourceSmall", preview.toString())
                 .with("resourceLarge", preview.toString());
@@ -81,15 +80,14 @@ public class IssueLinkService extends AbstractRestService {
         template.render(model, response.getOutputStream());
     }
 
-    private Issue getIssue() throws IOException {
+    private MergeRequest getMergeRequest() throws IOException {
         URL url = new URL("https://" + pathParameters.get("host"));
         GitlabApi api = new GitlabApi(
                 url.toString(),
                 TokenHelper.getToken(url, parentService));
 
-        return api.getIssue(
+        return api.getMergeRequest(
                 pathParameters.getAsInteger("projectId"),
-                pathParameters.getAsInteger("issueId"));
+                pathParameters.getAsInteger("mergeRequestId"));
     }
-
 }
