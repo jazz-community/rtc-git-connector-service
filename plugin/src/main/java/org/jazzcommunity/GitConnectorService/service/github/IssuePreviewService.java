@@ -1,4 +1,4 @@
-package org.jazzcommunity.GitConnectorService.builder.github;
+package org.jazzcommunity.GitConnectorService.service.github;
 
 import com.google.gson.JsonObject;
 import com.ibm.team.repository.service.TeamRawService;

@@ -20,7 +20,9 @@ public class MergeRequestMapper {
     // iconurl should probably already be passed in here...
     public static OslcMergeRequest map(MergeRequest request, URL self, String baseUrl) {
         final String link = self.toString();
-        final String iconUrl = String.format("%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif", baseUrl);
+        final String iconUrl = String.format(
+                "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/request_gitlab_16x16.png",
+                baseUrl);
         final ContributorPrototype contributor = new ContributorPrototype(
                 request.getAuthor().getName(),
                 request.getAuthor().getWebUrl());

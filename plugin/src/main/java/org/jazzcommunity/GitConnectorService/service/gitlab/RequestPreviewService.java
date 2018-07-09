@@ -1,4 +1,4 @@
-package org.jazzcommunity.GitConnectorService.builder.gitlab;
+package org.jazzcommunity.GitConnectorService.service.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;

@@ -23,8 +23,8 @@ public final class IssueMapper {
      * entities in its representation.
      *
      * <p>
-     *   see http://modelmapper.org/user-manual/property-mapping/ for documentation on the
-     *   convention of passing null when using a custom converter.
+     * see http://modelmapper.org/user-manual/property-mapping/ for documentation on the
+     * convention of passing null when using a custom converter.
      * </p>
      *
      * @param issue The Gitlab issue to map
@@ -33,7 +33,9 @@ public final class IssueMapper {
      */
     public static OslcIssue map(Issue issue, URL self, String baseUrl) {
         final String link = self.toString();
-        final String iconUrl = String.format("%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif", baseUrl);
+        final String iconUrl = String.format(
+                "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/issue_gitlab_16x16.png",
+                baseUrl);
         // This mapping needs to be handled outside of the property map, because
         // of how ModelMapper determines type mappings using reflection. Moving
         // the ContributorBuilder invocation inside the TypeMap will always fail
@@ -121,7 +123,8 @@ public final class IssueMapper {
                                 assignee,
                                 GitCmAssignee.class));
                 // Assignees
-                Type assignees = new TypeToken<List<GitCmAssignee_>>() {}.getType();
+                Type assignees = new TypeToken<List<GitCmAssignee_>>() {
+                }.getType();
                 using(TypeConverter.to(assignees))
                         .map(source.getAssignees())
                         .setGitCmAssignees(null);

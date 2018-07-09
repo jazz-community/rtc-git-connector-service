@@ -1,4 +1,4 @@
-package org.jazzcommunity.GitConnectorService.builder.github;
+package org.jazzcommunity.GitConnectorService.service.github;
 
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;

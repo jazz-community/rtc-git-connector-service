@@ -2,7 +2,7 @@
 <feature
       id="org.jazzcommunity.GitConnectorService.feature"
       label="REST Service"
-      version="1.6.4.qualifier"
+      version="1.7.1.qualifier"
       provider-name="PROVIDER">
 
    <description url="http://www.example.com/description">

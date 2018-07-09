@@ -1,11 +1,12 @@
 package org.jazzcommunity.GitConnectorService;
 
 import com.siemens.bt.jazz.services.base.BaseService;
-import org.jazzcommunity.GitConnectorService.builder.VersionService;
-import org.jazzcommunity.GitConnectorService.builder.gitlab.IssueLinkService;
-import org.jazzcommunity.GitConnectorService.builder.gitlab.IssuePreviewService;
-import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestLinkService;
-import org.jazzcommunity.GitConnectorService.builder.gitlab.RequestPreviewService;
+import org.jazzcommunity.GitConnectorService.service.VersionService;
+import org.jazzcommunity.GitConnectorService.service.gitlab.IssueLinkService;
+import org.jazzcommunity.GitConnectorService.service.gitlab.IssuePreviewService;
+import org.jazzcommunity.GitConnectorService.service.gitlab.RequestLinkService;
+import org.jazzcommunity.GitConnectorService.service.gitlab.RequestPreviewService;
+import org.jazzcommunity.GitConnectorService.service.resource.ImageService;
 
 /**
  * Entry point for the Service, called by the Jazz class loader.
@@ -38,6 +39,10 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
         router.get(
                 "info/version",
                 VersionService.class);
+
+        router.get(
+                "img/{filename}",
+                ImageService.class);
 
         /**
          * This code is purposely commented out and not deleted!

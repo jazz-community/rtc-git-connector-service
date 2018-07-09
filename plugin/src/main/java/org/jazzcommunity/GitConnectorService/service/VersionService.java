@@ -1,6 +1,8 @@
-package org.jazzcommunity.GitConnectorService.builder;
+package org.jazzcommunity.GitConnectorService.service;
 
-import com.google.gson.*;
+import com.google.common.net.MediaType;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
@@ -24,6 +26,7 @@ public class VersionService extends AbstractRestService {
     @Override
     public void execute() throws Exception {
         Version version = FrameworkUtil.getBundle(getClass()).getVersion();
+        response.setContentType(MediaType.JSON_UTF_8.toString());
         response.getWriter().write(gson.toJson(new VersionAdapter(version)));
     }
 
