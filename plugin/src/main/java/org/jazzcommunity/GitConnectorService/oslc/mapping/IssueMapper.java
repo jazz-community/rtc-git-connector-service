@@ -23,8 +23,8 @@ public final class IssueMapper {
      * entities in its representation.
      *
      * <p>
-     *   see http://modelmapper.org/user-manual/property-mapping/ for documentation on the
-     *   convention of passing null when using a custom converter.
+     * see http://modelmapper.org/user-manual/property-mapping/ for documentation on the
+     * convention of passing null when using a custom converter.
      * </p>
      *
      * @param issue The Gitlab issue to map
@@ -123,7 +123,8 @@ public final class IssueMapper {
                                 assignee,
                                 GitCmAssignee.class));
                 // Assignees
-                Type assignees = new TypeToken<List<GitCmAssignee_>>() {}.getType();
+                Type assignees = new TypeToken<List<GitCmAssignee_>>() {
+                }.getType();
                 using(TypeConverter.to(assignees))
                         .map(source.getAssignees())
                         .setGitCmAssignees(null);

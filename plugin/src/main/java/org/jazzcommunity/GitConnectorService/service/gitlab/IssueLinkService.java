@@ -19,7 +19,6 @@ import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jazzcommunity.GitConnectorService.oslc.mapping.IssueMapper;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
-import org.osgi.framework.FrameworkUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
