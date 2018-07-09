@@ -64,9 +64,6 @@ public class IssueLinkService extends AbstractRestService {
 
     private void sendLinkResponse(Issue issue, GitServiceArtifact parameters) throws IOException {
         URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "issue");
-
-        System.out.println(FrameworkUtil.getBundle(getClass()).getSymbolicName());
-
         String icon = String.format(
                 "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/issue_gitlab_16x16.png",
                 parentService.getRequestRepositoryURL());
