@@ -34,6 +34,7 @@ public class ImageService extends AbstractRestService {
 
             response.setContentType(MediaType.ANY_IMAGE_TYPE.toString());
             source.copyTo(response.getOutputStream());
+            response.getOutputStream().close();
         } catch (IllegalArgumentException e) {
             response.setStatus(HttpStatus.SC_NOT_FOUND);
         }
