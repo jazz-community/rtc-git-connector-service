@@ -24,6 +24,6 @@ public class ImageService extends AbstractRestService {
         String filename = String.format("images/%s", pathParameters.get("filename"));
         URL url = Resources.getResource(filename);
         ByteSource source = Resources.asByteSource(url);
-       source.copyTo(response.getOutputStream());
+        source.copyTo(response.getOutputStream());
     }
 }
