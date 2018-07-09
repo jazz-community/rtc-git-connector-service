@@ -19,6 +19,7 @@ import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jazzcommunity.GitConnectorService.oslc.mapping.IssueMapper;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
+import org.osgi.framework.FrameworkUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,8 +65,10 @@ public class IssueLinkService extends AbstractRestService {
     private void sendLinkResponse(Issue issue, GitServiceArtifact parameters) throws IOException {
         URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "issue");
 
-        // TODO: Find a nice way of handling static resources?
-        String icon = String.format("%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif",
+        System.out.println(FrameworkUtil.getBundle(getClass()).getSymbolicName());
+
+        String icon = String.format(
+                "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/issue_gitlab_16x16.png",
                 parentService.getRequestRepositoryURL());
 
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/xml/issue_link.twig");

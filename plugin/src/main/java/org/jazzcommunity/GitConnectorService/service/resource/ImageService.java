@@ -14,16 +14,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.URL;
 
 public class ImageService extends AbstractRestService {
-    public ImageService(Log log, HttpServletRequest request, HttpServletResponse response, RestRequest restRequest, TeamRawService parentService, PathParameters pathParameters) {
+    public ImageService(
+            Log log,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            RestRequest restRequest,
+            TeamRawService parentService,
+            PathParameters pathParameters) {
         super(log, request, response, restRequest, parentService, pathParameters);
     }
 
     @Override
     public void execute() throws Exception {
-        response.setContentType(MediaType.ANY_IMAGE_TYPE.toString());
         String filename = String.format("images/%s", pathParameters.get("filename"));
         URL url = Resources.getResource(filename);
         ByteSource source = Resources.asByteSource(url);
+
+        response.setContentType(MediaType.ANY_IMAGE_TYPE.toString());
         source.copyTo(response.getOutputStream());
     }
 }
