@@ -63,7 +63,6 @@ public class RequestLinkService extends AbstractRestService {
 
     private void sendLinkResponse(MergeRequest request, GitServiceArtifact parameters) throws IOException {
         URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "merge-request");
-
         String icon = String.format(
                 "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/request_gitlab_16x16.png",
                 parentService.getRequestRepositoryURL());
