@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService.service.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
+import com.google.common.net.MediaType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ibm.team.repository.service.TeamRawService;
@@ -56,7 +57,7 @@ public class RequestLinkService extends AbstractRestService {
 
         Gson gson = new GsonBuilder().serializeNulls().create();
         String json = gson.toJson(oslcRequest);
-        response.setContentType(ContentType.APPLICATION_JSON.toString());
+        response.setContentType(MediaType.JSON_UTF_8.toString());
         response.setHeader("OSLC-Core-Version", "2.0");
         response.getWriter().write(json);
     }
