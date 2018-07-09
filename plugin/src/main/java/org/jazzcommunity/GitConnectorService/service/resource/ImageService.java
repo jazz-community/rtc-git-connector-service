@@ -8,6 +8,7 @@ import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import org.apache.commons.logging.Log;
+import org.apache.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,11 +27,15 @@ public class ImageService extends AbstractRestService {
 
     @Override
     public void execute() throws Exception {
-        String filename = String.format("images/%s", pathParameters.get("filename"));
-        URL url = Resources.getResource(filename);
-        ByteSource source = Resources.asByteSource(url);
+        try {
+            String filename = String.format("images/%s", pathParameters.get("filename"));
+            URL url = Resources.getResource(filename);
+            ByteSource source = Resources.asByteSource(url);
 
-        response.setContentType(MediaType.ANY_IMAGE_TYPE.toString());
-        source.copyTo(response.getOutputStream());
+            response.setContentType(MediaType.ANY_IMAGE_TYPE.toString());
+            source.copyTo(response.getOutputStream());
+        } catch (IllegalArgumentException e) {
+            response.setStatus(HttpStatus.SC_NOT_FOUND);
+        }
     }
 }
