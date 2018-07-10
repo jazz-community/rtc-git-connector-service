@@ -37,7 +37,7 @@
             point="com.ibm.team.repository.common.linkTypes">
         <linkType
                 componentId="org.jazzcommunity.GitConnectorService"
-                constrained="false"
+                constrained="true"
                 id="org.jazzcommunity.git.link.git_mergerequest"
                 internal="false">
             <source>
@@ -65,7 +65,7 @@
             point="com.ibm.team.repository.common.linkTypes">
         <linkType
                 componentId="org.jazzcommunity.GitConnectorService"
-                constrained="false"
+                constrained="true"
                 id="org.jazzcommunity.git.link.git_issue"
                 internal="false">
             <source>
