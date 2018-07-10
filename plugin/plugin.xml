@@ -36,7 +36,6 @@
     <extension
             point="com.ibm.team.repository.common.linkTypes">
         <linkType
-                componentId="org.jazzcommunity.GitConnectorService"
                 constrained="true"
                 id="org.jazzcommunity.git.link.git_mergerequest"
                 internal="false">
@@ -64,7 +63,6 @@
     <extension
             point="com.ibm.team.repository.common.linkTypes">
         <linkType
-                componentId="org.jazzcommunity.GitConnectorService"
                 constrained="true"
                 id="org.jazzcommunity.git.link.git_issue"
                 internal="false">
