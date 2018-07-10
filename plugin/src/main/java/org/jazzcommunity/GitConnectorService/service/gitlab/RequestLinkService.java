@@ -11,7 +11,6 @@ import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
-import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jazzcommunity.GitConnectorService.net.Request;
