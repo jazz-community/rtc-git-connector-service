@@ -65,7 +65,7 @@ public class RequestLinkService extends AbstractRestService {
     private void sendLinkResponse(MergeRequest request, GitServiceArtifact parameters) throws IOException {
         URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "merge-request");
         String icon = String.format(
-                "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/request_gitlab_16x16.png",
+                "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/request_16x16.png",
                 parentService.getRequestRepositoryURL());
 
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/xml/issue_link.twig");

@@ -33,4 +33,60 @@
             </prerequisites>
         </serviceProvider>
     </extension>
+    <extension
+            point="com.ibm.team.repository.common.linkTypes">
+        <linkType
+                componentId="org.jazzcommunity.GitConnectorService"
+                constrained="false"
+                id="org.jazzcommunity.git.link.git_merge_request"
+                internal="false">
+            <source>
+                <endpoint
+                        displayName="Git Merge / Pull Request"
+                        icon="src/main/resources/images/request_16x16.png"
+                        id="workitem_to_request"
+                        multiplicity="0..n">
+                    <itemReferenceType
+                            itemTypeName="WorkItem"
+                            packageURI="com.ibm.team.workitem"/>
+                </endpoint>
+            </source>
+            <target>
+                <endpoint
+                        displayName="Git Merge / Pull Request"
+                        icon="src/main/resources/images/request_16x16.png"
+                        id="request_target"
+                        multiplicity="0..n">
+                </endpoint>
+            </target>
+        </linkType>
+    </extension>
+    <extension
+            point="com.ibm.team.repository.common.linkTypes">
+        <linkType
+                componentId="org.jazzcommunity.GitConnectorService"
+                constrained="false"
+                id="org.jazzcommunity.git.link.git_issue"
+                internal="false">
+            <source>
+                <endpoint
+                        displayName="Git Issue"
+                        icon="src/main/resources/images/issue_gitlab_16x16.png"
+                        id="issue_workitem"
+                        multiplicity="0..n">
+                    <itemReferenceType
+                            itemTypeName="WorkItem"
+                            packageURI="com.ibm.team.workitem"/>
+                </endpoint>
+            </source>
+            <target>
+                <endpoint
+                        displayName="Git Issue"
+                        icon="src/main/resources/images/issue_gitlab_16x16.png"
+                        id="issue_target"
+                        multiplicity="0..n">
+                </endpoint>
+            </target>
+        </linkType>
+    </extension>
 </plugin>
