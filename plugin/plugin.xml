@@ -38,11 +38,11 @@
         <linkType
                 componentId="org.jazzcommunity.GitConnectorService"
                 constrained="false"
-                id="org.jazzcommunity.git.link.git_merge_request"
+                id="org.jazzcommunity.git.link.git_mergerequest"
                 internal="false">
             <source>
                 <endpoint
-                        displayName="Git Merge / Pull Request"
+                        displayName="Git Merge / Pull Requests"
                         icon="src/main/resources/images/request_16x16.png"
                         id="workitem_to_request"
                         multiplicity="0..n">
@@ -53,7 +53,7 @@
             </source>
             <target>
                 <endpoint
-                        displayName="Git Merge / Pull Request"
+                        displayName="Git Merge / Pull Requests"
                         icon="src/main/resources/images/request_16x16.png"
                         id="request_target"
                         multiplicity="0..n">
@@ -70,9 +70,9 @@
                 internal="false">
             <source>
                 <endpoint
-                        displayName="Git Issue"
+                        displayName="Git Issues"
                         icon="src/main/resources/images/issue_gitlab_16x16.png"
-                        id="issue_workitem"
+                        id="workitem_to_issue"
                         multiplicity="0..n">
                     <itemReferenceType
                             itemTypeName="WorkItem"
@@ -81,7 +81,7 @@
             </source>
             <target>
                 <endpoint
-                        displayName="Git Issue"
+                        displayName="Git Issues"
                         icon="src/main/resources/images/issue_gitlab_16x16.png"
                         id="issue_target"
                         multiplicity="0..n">
