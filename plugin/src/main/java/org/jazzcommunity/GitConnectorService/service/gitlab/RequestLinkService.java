@@ -71,7 +71,7 @@ public class RequestLinkService extends AbstractRestService {
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/xml/issue_link.twig");
         JtwigModel model = JtwigModel.newModel()
                 .with("about", request.getWebUrl())
-                .with("title", "Merge Request: " + StringEscapeUtils.escapeXml(request.getTitle()))
+                .with("title", StringEscapeUtils.escapeXml(request.getTitle()))
                 .with("comment", StringEscapeUtils.escapeXml(request.getDescription()))
                 .with("icon", icon)
                 .with("resourceSmall", preview.toString())
