@@ -21,7 +21,7 @@ public class MergeRequestMapper {
     public static OslcMergeRequest map(MergeRequest request, URL self, String baseUrl) {
         final String link = self.toString();
         final String iconUrl = String.format(
-                "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/request_gitlab_16x16.png",
+                "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/request_16x16.png",
                 baseUrl);
         final ContributorPrototype contributor = new ContributorPrototype(
                 request.getAuthor().getName(),
