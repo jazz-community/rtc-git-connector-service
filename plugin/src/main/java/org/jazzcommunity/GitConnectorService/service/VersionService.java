@@ -4,6 +4,7 @@ import com.google.common.net.MediaType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ibm.team.repository.service.TeamRawService;
+import com.ibm.team.workitem.common.model.WorkItemLinkTypes;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
@@ -13,6 +14,8 @@ import org.osgi.framework.Version;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Field;
+import java.util.HashSet;
 
 public class VersionService extends AbstractRestService {
     private static Gson gson = new GsonBuilder()
