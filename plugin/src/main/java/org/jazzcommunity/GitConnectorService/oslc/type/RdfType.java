@@ -8,15 +8,15 @@ import java.util.List;
 // rdf:type in contributor is just static data anyway. It's not beautiful,
 // but it works just fine.
 public class RdfType {
-    List<Object> types = new ArrayList<>();
+  List<Object> types = new ArrayList<>();
 
-    public RdfType(String resource) {
-        HashMap<Object, Object> resources = new HashMap<>();
-        resources.put("rdf:resource", resource);
-        types.add(resources);
-    }
+  public RdfType(String resource) {
+    HashMap<Object, Object> resources = new HashMap<>();
+    resources.put("rdf:resource", resource);
+    types.add(resources);
+  }
 
-    public List<Object> getTypes() {
-        return types;
-    }
+  public List<Object> getTypes() {
+    return types;
+  }
 }
