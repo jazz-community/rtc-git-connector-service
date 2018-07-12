@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * static class. The reason for doing this is wanting to duplicate the behavior of the built-in
  * gitCommit link type. After following a <a href="https://rsjazz.wordpress.com/2014/12/03/creating-custom-link-types-for-rational-team-concert/">tutorial</a>
  * and trying to duplicate existing link types by looking at plugin.xml files in the RTC SDK, we
- * couldn't exactly duplicate our desired behavior.
+ * couldn't exactly achieve our desired behavior.
  *
  * <p>What we wanted:</p>
  * <ul>
@@ -37,7 +37,16 @@ import java.util.logging.Logger;
  * </p>
  * <p>
  * To work around this, we decided to inject our own link types into the static collection, to
- * enable the same behavior as built-in git related links.
+ * enable the same behavior as built-in git related links. This only affects client-side (work-item
+ * editor) behaviour, as it works around the {@code DynamicReadOnly} css class being set on links.
+ * </p>
+ * <p>
+ * All other behavior, namely for APIs, Plugins etc., stays exactly the same.
+ * </p>
+ *
+ * <p>
+ * The injection logic <em>MUST</em> be called in the service constructor, in order to properly
+ * match the application life cycle.
  * </p>
  *
  * @see com.ibm.team.workitem.common.model.WorkItemLinkTypes
