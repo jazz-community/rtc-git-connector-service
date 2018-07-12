@@ -24,6 +24,7 @@ public class LinkTypeInjector {
     public static void injectCustomLinks() {
         Logger logger = Logger.getLogger("LinkTypeInjector");
         logger.info("Injecting custom link types");
+
         try {
             setDeletable();
         } catch (NoSuchFieldException | IllegalAccessException e) {
