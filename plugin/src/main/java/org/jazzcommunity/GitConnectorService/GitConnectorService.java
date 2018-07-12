@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService;
 
 import com.ibm.team.workitem.common.model.WorkItemLinkTypes;
 import com.siemens.bt.jazz.services.base.BaseService;
+import org.jazzcommunity.GitConnectorService.inject.LinkTypeInjector;
 import org.jazzcommunity.GitConnectorService.service.VersionService;
 import org.jazzcommunity.GitConnectorService.service.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.service.gitlab.IssuePreviewService;
@@ -20,14 +21,6 @@ import java.util.HashSet;
  */
 public class GitConnectorService extends BaseService implements IGitConnectorService {
 
-    private static void setDeletable() throws NoSuchFieldException, IllegalAccessException {
-        Field deletable = WorkItemLinkTypes.class.getDeclaredField("USER_DELETABLE");
-        deletable.setAccessible(true);
-        HashSet<String> set = (HashSet<String>) deletable.get(new WorkItemLinkTypes());
-        System.out.println(set);
-        set.add("org.jazzcommunity.git.link.git_issue");
-        set.add("org.jazzcommunity.git.link.git_mergerequest");
-    }
 
     /**
      * Constructs a new Service
@@ -37,8 +30,7 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
         super();
 
         try {
-            setDeletable();
-//            setValid();
+            LinkTypeInjector.setDeletable();
         } catch (NoSuchFieldException | IllegalAccessException e) {
             this.getLog().error("Unable to inject valid link types");
         }
