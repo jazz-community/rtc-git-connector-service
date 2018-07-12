@@ -38,7 +38,8 @@ import java.util.logging.Logger;
  * <p>
  * To work around this, we decided to inject our own link types into the static collection, to
  * enable the same behavior as built-in git related links. This only affects client-side (work-item
- * editor) behaviour, as it works around the {@code DynamicReadOnly} css class being set on links.
+ * editor) behavior, as it works around the {@code DynamicReadOnly} css class being set on links,
+ * which is the only difference achieved by modifying the {@code USER_DELETABLE} collection.
  * </p>
  * <p>
  * All other behavior, namely for APIs, Plugins etc., stays exactly the same.
