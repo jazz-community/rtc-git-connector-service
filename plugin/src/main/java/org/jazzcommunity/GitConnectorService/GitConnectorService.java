@@ -1,6 +1,5 @@
 package org.jazzcommunity.GitConnectorService;
 
-import com.ibm.team.workitem.common.model.WorkItemLinkTypes;
 import com.siemens.bt.jazz.services.base.BaseService;
 import org.jazzcommunity.GitConnectorService.inject.LinkTypeInjector;
 import org.jazzcommunity.GitConnectorService.service.VersionService;
@@ -9,9 +8,6 @@ import org.jazzcommunity.GitConnectorService.service.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.service.gitlab.RequestLinkService;
 import org.jazzcommunity.GitConnectorService.service.gitlab.RequestPreviewService;
 import org.jazzcommunity.GitConnectorService.service.resource.ImageService;
-
-import java.lang.reflect.Field;
-import java.util.HashSet;
 
 /**
  * Entry point for the Service, called by the Jazz class loader.
@@ -29,11 +25,7 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
     public GitConnectorService() {
         super();
 
-        try {
-            LinkTypeInjector.setDeletable();
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            this.getLog().error("Unable to inject valid link types");
-        }
+        LinkTypeInjector.injectCustomLinks();
 
         router.get(
                 "gitlab/{host}/project/{projectId}/issue/{issueId}/link",
