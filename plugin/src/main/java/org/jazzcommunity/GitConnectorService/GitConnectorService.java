@@ -14,7 +14,7 @@ import java.util.HashSet;
 
 /**
  * Entry point for the Service, called by the Jazz class loader.
- * <p>
+ *
  * <p>This class must be implemented for enabling plug-ins to run inside Jazz. The implemented interface corresponds to
  * the component in {@code plugin.xml}, and this service is therefore the provided service by the interface.</p>
  */
@@ -29,25 +29,16 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
         set.add("org.jazzcommunity.git.link.git_mergerequest");
     }
 
-    private static void setValid() throws NoSuchFieldException, IllegalAccessException {
-        Field valid = WorkItemLinkTypes.class.getDeclaredField("ALL_LINK_TYPES");
-        valid.setAccessible(true);
-        HashSet<String> set = (HashSet<String>) valid.get(new WorkItemLinkTypes());
-        System.out.println(set);
-        set.add("org.jazzcommunity.git.link.git_issue");
-        set.add("org.jazzcommunity.git.link.git_mergerequest");
-        WorkItemLinkTypes.isValidLinkType("org.jazzcommunity.git.link.git_issue");
-    }
     /**
      * Constructs a new Service
      * <p>This constructor is only called by the Jazz class loader.</p>
      */
     public GitConnectorService() {
         super();
-        
+
         try {
             setDeletable();
-            setValid();
+//            setValid();
         } catch (NoSuchFieldException | IllegalAccessException e) {
             this.getLog().error("Unable to inject valid link types");
         }
