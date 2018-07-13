@@ -69,7 +69,7 @@ public class LinkTypeInjector {
 
     try {
       setDeletable();
-    } catch (NoSuchFieldException | IllegalAccessException e) {
+    } catch (Exception e) {
       logger.severe("Unable to inject valid link types");
     }
   }
