@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.jazzcommunity.GitConnectorService
 Bundle-SymbolicName: org.jazzcommunity.GitConnectorService.test;singleton:=true
-Bundle-Version: 1.8.0.qualifier
+Bundle-Version: 1.8.1.qualifier
 Bundle-Vendor: VENDOR
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: target/dependency/junit-4.12.jar,
@@ -10,7 +10,7 @@ Bundle-ClassPath: target/dependency/junit-4.12.jar,
  target/dependency/gson-2.8.2.jar,
  target/dependency/com.siemens.bt.jazz.services.base-3.0.2-SNAPSHOT.jar,
  target/dependency/com.siemens.bt.jazz.services.PersonalTokenService-1.0.2-SNAPSHOT.jar,
- target/dependency/org.jazzcommunity.GitConnectorService-1.8.0-SNAPSHOT.jar,
+ target/dependency/org.jazzcommunity.GitConnectorService-1.8.1-SNAPSHOT.jar,
  target/dependency/asm-5.0.3.jar,
  target/dependency/asm-analysis-5.0.3.jar,
  target/dependency/asm-tree-5.0.3.jar,
