@@ -16,6 +16,7 @@ import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
+import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -49,17 +50,15 @@ public class CommitLinkService extends AbstractRestService {
     }
   }
 
-  // TODO: refactor once links are correct
   private void sendLinkResponse(Commit commit, GitServiceArtifact parameters, String webUrl)
       throws IOException {
     URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "commit");
+    PropertyReader properties = new PropertyReader();
 
     String icon =
-        String.format(
-            "%sweb/com.ibm.team.git.web/ui/internal/images/page/git_commit_desc_16.gif",
-            parentService.getRequestRepositoryURL());
+        String.format(properties.get("gitCommitUrl"), parentService.getRequestRepositoryURL());
 
-    JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/xml/commit_link.twig");
+    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("commitXmlTemplate"));
     JtwigModel model =
         JtwigModel.newModel()
             .with("about", webUrl)
@@ -69,7 +68,7 @@ public class CommitLinkService extends AbstractRestService {
             .with("resourceSmall", preview.toString())
             .with("resourceLarge", preview.toString());
 
-    response.setContentType("application/x-jazz-compact-rendering");
+    response.setContentType(properties.get("linkContent"));
     template.render(model, response.getOutputStream());
   }
 

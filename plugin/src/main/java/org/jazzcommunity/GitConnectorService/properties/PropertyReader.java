@@ -10,16 +10,21 @@ import java.util.Properties;
 public class PropertyReader {
   private final Properties properties;
 
-  public PropertyReader() throws IOException {
+  public PropertyReader() {
     this("config.properties");
   }
 
-  public PropertyReader(String fileName) throws IOException {
+  public PropertyReader(String fileName) {
     URL resource = Resources.getResource(fileName);
     ByteSource source = Resources.asByteSource(resource);
     properties = new Properties();
     try (InputStream stream = source.openStream()) {
       properties.load(stream);
+    } catch (IOException e) {
+      // If this exception is thrown, it is most likely a configuration issue.
+      // There should never be a case where reading from a non-existing configuration
+      // file should happen.
+      throw new RuntimeException("Configuration file not found. Properties will be invalid");
     }
   }
 

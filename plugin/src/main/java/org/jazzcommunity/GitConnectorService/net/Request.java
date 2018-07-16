@@ -1,12 +1,15 @@
 package org.jazzcommunity.GitConnectorService.net;
 
+import java.io.IOException;
 import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
+import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 
 public class Request {
-  public static boolean isLinkRequest(HttpServletRequest request) {
-    return request.getHeader("Accept").contains("application/x-jazz-compact-rendering")
-        || request.getHeader("Accept").contains("application/x-oslc-compact+xml");
+  public static boolean isLinkRequest(HttpServletRequest request) throws IOException {
+    PropertyReader properties = new PropertyReader();
+    return request.getHeader("Accept").contains(properties.get("linkContent"))
+        || request.getHeader("Accept").contains(properties.get("oslcContent"));
   }
 
   public static boolean isOslcRequest(HttpServletRequest request) {

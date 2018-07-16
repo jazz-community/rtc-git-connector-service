@@ -22,7 +22,8 @@ public class MergeRequestMapper {
       throws IOException {
     PropertyReader properties = new PropertyReader();
     final String link = self.toString();
-    final String iconUrl = String.format(properties.get("imageUrl"), baseUrl, "request_16x16.png");
+    final String iconUrl =
+        String.format(properties.get("imageUrl"), baseUrl, properties.get("requestSmall"));
 
     final ContributorPrototype contributor =
         new ContributorPrototype(request.getAuthor().getName(), request.getAuthor().getWebUrl());

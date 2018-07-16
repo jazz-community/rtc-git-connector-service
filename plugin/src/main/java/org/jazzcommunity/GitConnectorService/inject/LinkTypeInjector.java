@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
+import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 
 /**
  * This class injects our custom git link types into the {@link
@@ -52,9 +53,13 @@ import java.util.logging.Logger;
 public class LinkTypeInjector {
   private LinkTypeInjector() {}
 
-  private static List<String> CUSTOM_GIT_LINKS =
-      Arrays.asList(
-          "org.jazzcommunity.git.link.git_issue", "org.jazzcommunity.git.link.git_mergerequest");
+  private static final List<String> CUSTOM_GIT_LINKS;
+
+  static {
+    PropertyReader properties = new PropertyReader();
+    CUSTOM_GIT_LINKS =
+        Arrays.asList(properties.get("customGitIssue"), properties.get("customGitRequest"));
+  }
 
   private static void setDeletable() throws NoSuchFieldException, IllegalAccessException {
     Field deletable = WorkItemLinkTypes.class.getDeclaredField("USER_DELETABLE");

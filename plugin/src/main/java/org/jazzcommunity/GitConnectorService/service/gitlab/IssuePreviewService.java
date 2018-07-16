@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.html.MarkdownParser;
+import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -37,7 +38,8 @@ public class IssuePreviewService extends AbstractRestService {
 
     String description = MarkdownParser.toHtml(issue.getDescription());
 
-    JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/html/issue_preview.twig");
+    PropertyReader properties = new PropertyReader();
+    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("issueRichHover"));
     JtwigModel model =
         JtwigModel.newModel()
             .with("title", issue.getTitle())
