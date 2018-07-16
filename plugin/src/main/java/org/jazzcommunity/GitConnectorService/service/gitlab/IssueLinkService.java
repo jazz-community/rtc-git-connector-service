@@ -21,6 +21,7 @@ import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
 import org.jazzcommunity.GitConnectorService.oslc.mapping.IssueMapper;
+import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -70,12 +71,14 @@ public class IssueLinkService extends AbstractRestService {
 
   private void sendLinkResponse(Issue issue, GitServiceArtifact parameters) throws IOException {
     URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "issue");
+    PropertyReader properties = new PropertyReader();
     String icon =
         String.format(
-            "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/issue_gitlab_16x16.png",
-            parentService.getRequestRepositoryURL());
+            properties.get("imageUrl"),
+            parentService.getRequestRepositoryURL(),
+            "issue_gitlab_16x16.png");
 
-    JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/xml/issue_link.twig");
+    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("linkTemplate"));
     JtwigModel model =
         JtwigModel.newModel()
             .with("about", issue.getWebUrl())
@@ -85,7 +88,7 @@ public class IssueLinkService extends AbstractRestService {
             .with("resourceSmall", preview.toString())
             .with("resourceLarge", preview.toString());
 
-    response.setContentType("application/x-jazz-compact-rendering");
+    response.setContentType(properties.get("linkContent"));
     template.render(model, response.getOutputStream());
   }
 

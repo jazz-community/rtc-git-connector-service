@@ -10,6 +10,7 @@ import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
+import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.Version;
 
@@ -31,6 +32,9 @@ public class VersionService extends AbstractRestService {
     Version version = FrameworkUtil.getBundle(getClass()).getVersion();
     response.setContentType(MediaType.JSON_UTF_8.toString());
     response.getWriter().write(gson.toJson(new VersionAdapter(version)));
+
+    PropertyReader properties = new PropertyReader();
+    System.out.println(properties.get("imageUrl"));
   }
 
   private static final class VersionAdapter {
