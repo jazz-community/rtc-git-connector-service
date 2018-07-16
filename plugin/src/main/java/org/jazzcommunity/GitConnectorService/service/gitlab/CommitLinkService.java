@@ -7,6 +7,7 @@ import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -20,6 +21,8 @@ import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 @Deprecated
 public class CommitLinkService extends AbstractRestService {
 
+  private final ResourceBundle messages;
+
   public CommitLinkService(
       Log log,
       HttpServletRequest request,
@@ -28,22 +31,23 @@ public class CommitLinkService extends AbstractRestService {
       TeamRawService parentService,
       PathParameters pathParameters) {
     super(log, request, response, restRequest, parentService, pathParameters);
+    this.messages = ResourceBundle.getBundle("messages");
   }
 
   public void execute() throws IOException {
-    throw new RuntimeException("Not implemented");
+    throw new RuntimeException(messages.getString("exception.not-implemented"));
   }
 
   private void sendLinkResponse(Commit commit, GitServiceArtifact parameters, String webUrl)
       throws IOException {
-    throw new RuntimeException("Not implemented");
+    throw new RuntimeException(messages.getString("exception.not-implemented"));
   }
 
   private Commit getCommit() throws IOException {
-    throw new RuntimeException("Not implemented");
+    throw new RuntimeException(messages.getString("exception.not-implemented"));
   }
 
   private Project getProject() throws IOException {
-    throw new RuntimeException("Not implemented");
+    throw new RuntimeException(messages.getString("exception.not-implemented"));
   }
 }

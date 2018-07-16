@@ -5,6 +5,7 @@ import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -28,6 +29,7 @@ public class CommitPreviewService extends AbstractRestService {
   }
 
   public void execute() throws IOException {
-    throw new RuntimeException("Not implemented");
+    ResourceBundle messages = ResourceBundle.getBundle("messages");
+    throw new RuntimeException(messages.getString("exception.not-implemented"));
   }
 }
