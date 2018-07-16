@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService.service.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
+import com.google.common.net.MediaType;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.html.MarkdownParser;
+import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -37,7 +39,9 @@ public class RequestPreviewService extends AbstractRestService {
 
     String description = MarkdownParser.toHtml(mergeRequest.getDescription());
 
-    JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/html/request_preview.twig");
+    PropertyReader properties = new PropertyReader();
+    JtwigTemplate template =
+        JtwigTemplate.classpathTemplate(properties.get("template.hover.request"));
     JtwigModel model =
         JtwigModel.newModel()
             .with("title", mergeRequest.getTitle())
@@ -48,7 +52,7 @@ public class RequestPreviewService extends AbstractRestService {
             .with("target", mergeRequest.getTargetBranch())
             .with("sha", mergeRequest.getMergeCommitSha());
 
-    response.setContentType("text/html");
+    response.setContentType(MediaType.HTML_UTF_8.toString());
     template.render(model, response.getOutputStream());
   }
 }

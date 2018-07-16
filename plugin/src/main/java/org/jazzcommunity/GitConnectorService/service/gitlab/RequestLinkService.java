@@ -21,10 +21,12 @@ import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.OslcMergeRequest;
 import org.jazzcommunity.GitConnectorService.oslc.mapping.MergeRequestMapper;
+import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
 public class RequestLinkService extends AbstractRestService {
+
   public RequestLinkService(
       Log log,
       HttpServletRequest request,
@@ -72,12 +74,14 @@ public class RequestLinkService extends AbstractRestService {
   private void sendLinkResponse(MergeRequest request, GitServiceArtifact parameters)
       throws IOException {
     URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "merge-request");
+    PropertyReader properties = new PropertyReader();
     String icon =
         String.format(
-            "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/request_16x16.png",
-            parentService.getRequestRepositoryURL());
+            properties.get("url.image"),
+            parentService.getRequestRepositoryURL(),
+            properties.get("icon.gitlab.mergerequest.small"));
 
-    JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/xml/issue_link.twig");
+    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("template.xml.link"));
     JtwigModel model =
         JtwigModel.newModel()
             .with("about", request.getWebUrl())
@@ -87,7 +91,7 @@ public class RequestLinkService extends AbstractRestService {
             .with("resourceSmall", preview.toString())
             .with("resourceLarge", preview.toString());
 
-    response.setContentType("application/x-jazz-compact-rendering");
+    response.setContentType(properties.get("content.type.link.compact"));
     template.render(model, response.getOutputStream());
   }
 

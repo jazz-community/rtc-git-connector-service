@@ -1,20 +1,21 @@
 package org.jazzcommunity.GitConnectorService.service.gitlab;
 
-import ch.sbi.minigit.gitlab.GitlabApi;
-import ch.sbi.minigit.type.gitlab.commit.Commit;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.IOException;
-import java.net.URL;
+import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
-import org.jazzcommunity.GitConnectorService.data.TokenHelper;
-import org.jtwig.JtwigModel;
-import org.jtwig.JtwigTemplate;
 
+/**
+ * Since the decision to use the built-in IBM rich hover and link functionality, our custom commit
+ * services have not been refactored to use new features. If we decide to go back to using these
+ * services, it will be best to reimplement them.
+ */
+@Deprecated
 public class CommitPreviewService extends AbstractRestService {
 
   public CommitPreviewService(
@@ -28,24 +29,7 @@ public class CommitPreviewService extends AbstractRestService {
   }
 
   public void execute() throws IOException {
-    URL url = new URL("https://" + pathParameters.get("host"));
-
-    GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-    Commit commit =
-        api.getCommit(pathParameters.getAsInteger("projectId"), pathParameters.get("commit"));
-
-    JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/html/commit_preview.twig");
-    JtwigModel model =
-        JtwigModel.newModel()
-            .with("title", commit.getTitle())
-            .with("comment", commit.getMessage())
-            .with("authorName", commit.getCommitterName())
-            .with("creationDate", commit.getAuthoredDate())
-            .with("commitAuthor", commit.getAuthorName())
-            .with("commitDate", commit.getCommittedDate())
-            .with("sha", commit.getId());
-
-    response.setContentType("text/html");
-    template.render(model, response.getOutputStream());
+    ResourceBundle messages = ResourceBundle.getBundle("messages");
+    throw new RuntimeException(messages.getString("exception.not-implemented"));
   }
 }
