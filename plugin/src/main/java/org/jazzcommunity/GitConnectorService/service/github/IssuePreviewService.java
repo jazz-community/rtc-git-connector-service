@@ -28,21 +28,6 @@ public class IssuePreviewService extends AbstractRestService {
 
   @Override
   public void execute() throws Exception {
-    ArtifactInformation information =
-        new ArtifactInformation(request.getParameter("apiurl"), request.getParameter("weburl"));
-
-    JsonObject issue = GithubConnection.getArtifact(information, parentService);
-
-    PropertyReader properties = new PropertyReader();
-    JtwigTemplate template =
-        JtwigTemplate.classpathTemplate(properties.get("template.hover.issue"));
-    JtwigModel model =
-        JtwigModel.newModel()
-            .with("title", issue.get("title").getAsString())
-            .with("description", issue.get("body").getAsString())
-            .with("state", issue.get("state").getAsString());
-
-    response.setContentType("text/html");
-    template.render(model, response.getOutputStream());
+    throw new RuntimeException("Not implemented");
   }
 }

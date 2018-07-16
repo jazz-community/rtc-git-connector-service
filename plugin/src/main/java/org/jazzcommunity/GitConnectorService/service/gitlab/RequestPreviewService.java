@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService.service.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
+import com.google.common.net.MediaType;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
@@ -51,7 +52,7 @@ public class RequestPreviewService extends AbstractRestService {
             .with("target", mergeRequest.getTargetBranch())
             .with("sha", mergeRequest.getMergeCommitSha());
 
-    response.setContentType("text/html");
+    response.setContentType(MediaType.HTML_UTF_8.toString());
     template.render(model, response.getOutputStream());
   }
 }
