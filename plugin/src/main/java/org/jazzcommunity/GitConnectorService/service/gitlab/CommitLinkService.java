@@ -20,6 +20,12 @@ import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
+/**
+ * Since the decision to use the built-in IBM rich hover and link functionality,
+ * our custom commit services have not been refactored to use new features. If we
+ * decide to go back to using these services, it will be best to reimplement them.
+ */
+@Deprecated
 public class CommitLinkService extends AbstractRestService {
 
   public CommitLinkService(
@@ -33,54 +39,19 @@ public class CommitLinkService extends AbstractRestService {
   }
 
   public void execute() throws IOException {
-    GitServiceArtifact parameters =
-        new GitServiceArtifact(
-            pathParameters.get("host"),
-            pathParameters.get("projectId"),
-            pathParameters.get("commitId"));
-
-    Commit commit = getCommit();
-    Project project = getProject();
-    String webUrl = project.getWebUrl() + "/commit/" + parameters.getArtifact();
-
-    if (Request.isLinkRequest(request)) {
-      sendLinkResponse(commit, parameters, webUrl);
-    } else {
-      response.sendRedirect(webUrl);
-    }
+    throw new RuntimeException("Not implemented");
   }
 
   private void sendLinkResponse(Commit commit, GitServiceArtifact parameters, String webUrl)
       throws IOException {
-    URL preview = UrlBuilder.getPreviewUrl(parentService, parameters, "commit");
-    PropertyReader properties = new PropertyReader();
-
-    String icon =
-        String.format(properties.get("url.commit"), parentService.getRequestRepositoryURL());
-
-    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("template.xml.commit"));
-    JtwigModel model =
-        JtwigModel.newModel()
-            .with("about", webUrl)
-            .with("title", String.format("%s [@%s]", commit.getTitle(), commit.getId()))
-            .with("comment", commit.getMessage())
-            .with("icon", icon)
-            .with("resourceSmall", preview.toString())
-            .with("resourceLarge", preview.toString());
-
-    response.setContentType(properties.get("content.type.link.compact"));
-    template.render(model, response.getOutputStream());
+    throw new RuntimeException("Not implemented");
   }
 
   private Commit getCommit() throws IOException {
-    URL url = new URL("https://" + pathParameters.get("host"));
-    GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-    return api.getCommit(pathParameters.getAsInteger("projectId"), pathParameters.get("commitId"));
+    throw new RuntimeException("Not implemented");
   }
 
   private Project getProject() throws IOException {
-    URL url = new URL("https://" + pathParameters.get("host"));
-    GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-    return api.getProject(pathParameters.getAsInteger("projectId"));
+    throw new RuntimeException("Not implemented");
   }
 }

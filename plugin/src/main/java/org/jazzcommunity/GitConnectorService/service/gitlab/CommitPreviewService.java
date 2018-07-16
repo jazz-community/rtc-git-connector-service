@@ -15,6 +15,12 @@ import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
+/**
+ * Since the decision to use the built-in IBM rich hover and link functionality,
+ * our custom commit services have not been refactored to use new features. If we
+ * decide to go back to using these services, it will be best to reimplement them.
+ */
+@Deprecated
 public class CommitPreviewService extends AbstractRestService {
 
   public CommitPreviewService(
@@ -28,24 +34,6 @@ public class CommitPreviewService extends AbstractRestService {
   }
 
   public void execute() throws IOException {
-    URL url = new URL("https://" + pathParameters.get("host"));
-
-    GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-    Commit commit =
-        api.getCommit(pathParameters.getAsInteger("projectId"), pathParameters.get("commit"));
-
-    JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/html/commit_preview.twig");
-    JtwigModel model =
-        JtwigModel.newModel()
-            .with("title", commit.getTitle())
-            .with("comment", commit.getMessage())
-            .with("authorName", commit.getCommitterName())
-            .with("creationDate", commit.getAuthoredDate())
-            .with("commitAuthor", commit.getAuthorName())
-            .with("commitDate", commit.getCommittedDate())
-            .with("sha", commit.getId());
-
-    response.setContentType("text/html");
-    template.render(model, response.getOutputStream());
+    throw new RuntimeException("Not implemented");
   }
 }
