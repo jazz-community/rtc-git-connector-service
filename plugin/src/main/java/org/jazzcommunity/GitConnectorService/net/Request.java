@@ -14,7 +14,7 @@ public class Request {
   }
 
   public static boolean isOslcRequest(HttpServletRequest request) {
-    return request.getHeader("Accept").contains(MediaType.JSON_UTF_8.toString());
+    return MediaType.JSON_UTF_8.toString().contains(request.getHeader("Accept"));
   }
 
   // for debugging
