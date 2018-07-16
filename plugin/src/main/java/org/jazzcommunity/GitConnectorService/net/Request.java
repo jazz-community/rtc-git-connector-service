@@ -8,8 +8,8 @@ import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 public class Request {
   public static boolean isLinkRequest(HttpServletRequest request) throws IOException {
     PropertyReader properties = new PropertyReader();
-    return request.getHeader("Accept").contains(properties.get("linkContent"))
-        || request.getHeader("Accept").contains(properties.get("oslcContent"));
+    return request.getHeader("Accept").contains(properties.get("content.type.link.compact"))
+        || request.getHeader("Accept").contains(properties.get("content.type.link.oslc"));
   }
 
   public static boolean isOslcRequest(HttpServletRequest request) {

@@ -77,11 +77,11 @@ public class RequestLinkService extends AbstractRestService {
     PropertyReader properties = new PropertyReader();
     String icon =
         String.format(
-            properties.get("imageUrl"),
+            properties.get("url.image"),
             parentService.getRequestRepositoryURL(),
-            properties.get("requestSmall"));
+            properties.get("icon.gitlab.mergerequest.small"));
 
-    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("linkXmlTemplate"));
+    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("template.xml.link"));
     JtwigModel model =
         JtwigModel.newModel()
             .with("about", request.getWebUrl())
@@ -91,7 +91,7 @@ public class RequestLinkService extends AbstractRestService {
             .with("resourceSmall", preview.toString())
             .with("resourceLarge", preview.toString());
 
-    response.setContentType(properties.get("linkContent"));
+    response.setContentType(properties.get("content.type.link.compact"));
     template.render(model, response.getOutputStream());
   }
 

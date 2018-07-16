@@ -39,7 +39,8 @@ public class RequestPreviewService extends AbstractRestService {
     String description = MarkdownParser.toHtml(mergeRequest.getDescription());
 
     PropertyReader properties = new PropertyReader();
-    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("requestRichHover"));
+    JtwigTemplate template =
+        JtwigTemplate.classpathTemplate(properties.get("template.hover.request"));
     JtwigModel model =
         JtwigModel.newModel()
             .with("title", mergeRequest.getTitle())

@@ -39,7 +39,8 @@ public class IssuePreviewService extends AbstractRestService {
     String description = MarkdownParser.toHtml(issue.getDescription());
 
     PropertyReader properties = new PropertyReader();
-    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("issueRichHover"));
+    JtwigTemplate template =
+        JtwigTemplate.classpathTemplate(properties.get("template.hover.issue"));
     JtwigModel model =
         JtwigModel.newModel()
             .with("title", issue.getTitle())

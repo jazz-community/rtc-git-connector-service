@@ -23,7 +23,8 @@ public class MergeRequestMapper {
     PropertyReader properties = new PropertyReader();
     final String link = self.toString();
     final String iconUrl =
-        String.format(properties.get("imageUrl"), baseUrl, properties.get("requestSmall"));
+        String.format(
+            properties.get("url.image"), baseUrl, properties.get("icon.gitlab.mergerequest.small"));
 
     final ContributorPrototype contributor =
         new ContributorPrototype(request.getAuthor().getName(), request.getAuthor().getWebUrl());

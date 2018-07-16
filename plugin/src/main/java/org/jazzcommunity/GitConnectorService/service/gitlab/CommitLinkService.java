@@ -56,9 +56,9 @@ public class CommitLinkService extends AbstractRestService {
     PropertyReader properties = new PropertyReader();
 
     String icon =
-        String.format(properties.get("gitCommitUrl"), parentService.getRequestRepositoryURL());
+        String.format(properties.get("url.commit"), parentService.getRequestRepositoryURL());
 
-    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("commitXmlTemplate"));
+    JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("template.xml.commit"));
     JtwigModel model =
         JtwigModel.newModel()
             .with("about", webUrl)
@@ -68,7 +68,7 @@ public class CommitLinkService extends AbstractRestService {
             .with("resourceSmall", preview.toString())
             .with("resourceLarge", preview.toString());
 
-    response.setContentType(properties.get("linkContent"));
+    response.setContentType(properties.get("content.type.link.compact"));
     template.render(model, response.getOutputStream());
   }
 

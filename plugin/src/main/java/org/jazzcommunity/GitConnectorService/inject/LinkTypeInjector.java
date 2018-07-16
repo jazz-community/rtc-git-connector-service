@@ -58,7 +58,7 @@ public class LinkTypeInjector {
   static {
     PropertyReader properties = new PropertyReader();
     CUSTOM_GIT_LINKS =
-        Arrays.asList(properties.get("customGitIssue"), properties.get("customGitRequest"));
+        Arrays.asList(properties.get("link.type.issue"), properties.get("link.type.mergerequest"));
   }
 
   private static void setDeletable() throws NoSuchFieldException, IllegalAccessException {

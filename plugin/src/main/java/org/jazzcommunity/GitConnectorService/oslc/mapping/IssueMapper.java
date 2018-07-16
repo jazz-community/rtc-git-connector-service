@@ -33,7 +33,8 @@ public final class IssueMapper {
     PropertyReader properties = new PropertyReader();
     final String link = self.toString();
     final String iconUrl =
-        String.format(properties.get("imageUrl"), baseUrl, properties.get("gitlabIssueSmall"));
+        String.format(
+            properties.get("url.image"), baseUrl, properties.get("icon.gitlab.issue.small"));
 
     // This mapping needs to be handled outside of the property map, because
     // of how ModelMapper determines type mappings using reflection. Moving
