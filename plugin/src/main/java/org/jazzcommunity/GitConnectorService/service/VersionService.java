@@ -10,7 +10,6 @@ import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
-import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.Version;
 

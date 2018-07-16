@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Assignee;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.jazzcommunity.GitConnectorService.olsc.type.issue.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.ContributorPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.RtcCmTypePrototype;
+import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeToken;
@@ -27,12 +29,12 @@ public final class IssueMapper {
    * @param self The web link to the current entity
    * @return An Oslc representation of 'issue'
    */
-  public static OslcIssue map(Issue issue, URL self, String baseUrl) {
+  public static OslcIssue map(Issue issue, URL self, String baseUrl) throws IOException {
+    PropertyReader properties = new PropertyReader();
     final String link = self.toString();
     final String iconUrl =
-        String.format(
-            "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/issue_gitlab_16x16.png",
-            baseUrl);
+        String.format(properties.get("imageUrl"), baseUrl, "issue_gitlab_16x16.png");
+
     // This mapping needs to be handled outside of the property map, because
     // of how ModelMapper determines type mappings using reflection. Moving
     // the ContributorBuilder invocation inside the TypeMap will always fail

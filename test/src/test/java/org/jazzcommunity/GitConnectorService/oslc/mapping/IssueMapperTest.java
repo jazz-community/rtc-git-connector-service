@@ -2,7 +2,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.gson.Gson;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -286,7 +286,7 @@ public class IssueMapperTest {
   }
 
   @Before
-  public void makeIssue() throws MalformedURLException {
+  public void makeIssue() throws IOException {
     String json =
         "{\n"
             + "    \"id\": 81560,\n"

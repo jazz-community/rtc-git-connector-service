@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService.oslc.mapping;
 
 import ch.sbi.minigit.type.gitlab.mergerequest.Assignee;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.jazzcommunity.GitConnectorService.olsc.type.merge_request.*;
 import org.jazzcommunity.GitConnectorService.oslc.type.ContributorPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.PrefixPrototype;
 import org.jazzcommunity.GitConnectorService.oslc.type.RtcCmTypePrototype;
+import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
@@ -16,12 +18,12 @@ public class MergeRequestMapper {
   private MergeRequestMapper() {}
 
   // iconurl should probably already be passed in here...
-  public static OslcMergeRequest map(MergeRequest request, URL self, String baseUrl) {
+  public static OslcMergeRequest map(MergeRequest request, URL self, String baseUrl)
+      throws IOException {
+    PropertyReader properties = new PropertyReader();
     final String link = self.toString();
-    final String iconUrl =
-        String.format(
-            "%sservice/org.jazzcommunity.GitConnectorService.IGitConnectorService/img/request_16x16.png",
-            baseUrl);
+    final String iconUrl = String.format(properties.get("imageUrl"), baseUrl, "request_16x16.png");
+
     final ContributorPrototype contributor =
         new ContributorPrototype(request.getAuthor().getName(), request.getAuthor().getWebUrl());
 
