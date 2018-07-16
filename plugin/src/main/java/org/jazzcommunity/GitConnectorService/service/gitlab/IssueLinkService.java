@@ -76,7 +76,7 @@ public class IssueLinkService extends AbstractRestService {
         String.format(
             properties.get("imageUrl"),
             parentService.getRequestRepositoryURL(),
-            "issue_gitlab_16x16.png");
+            properties.get("gitlabIssueSmall"));
 
     JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("linkXmlTemplate"));
     JtwigModel model =

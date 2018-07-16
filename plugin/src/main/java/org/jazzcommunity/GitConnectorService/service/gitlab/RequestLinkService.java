@@ -79,7 +79,7 @@ public class RequestLinkService extends AbstractRestService {
         String.format(
             properties.get("imageUrl"),
             parentService.getRequestRepositoryURL(),
-            "request_16x16.png");
+            properties.get("requestSmall"));
 
     JtwigTemplate template = JtwigTemplate.classpathTemplate(properties.get("linkXmlTemplate"));
     JtwigModel model =
