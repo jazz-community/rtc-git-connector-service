@@ -32,9 +32,6 @@ public class VersionService extends AbstractRestService {
     Version version = FrameworkUtil.getBundle(getClass()).getVersion();
     response.setContentType(MediaType.JSON_UTF_8.toString());
     response.getWriter().write(gson.toJson(new VersionAdapter(version)));
-
-    PropertyReader properties = new PropertyReader();
-    System.out.println(properties.get("imageUrl"));
   }
 
   private static final class VersionAdapter {
