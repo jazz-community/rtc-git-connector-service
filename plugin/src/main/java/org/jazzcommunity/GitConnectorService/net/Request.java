@@ -1,5 +1,6 @@
 package org.jazzcommunity.GitConnectorService.net;
 
+import com.google.common.net.MediaType;
 import java.io.IOException;
 import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ public class Request {
   }
 
   public static boolean isOslcRequest(HttpServletRequest request) {
-    return request.getHeader("Accept").contains("application/json");
+    return request.getHeader("Accept").contains(MediaType.JSON_UTF_8.toString());
   }
 
   // for debugging
