@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class PropertyReader {
   private final Properties properties;
@@ -24,7 +25,8 @@ public class PropertyReader {
       // If this exception is thrown, it is most likely a configuration issue.
       // There should never be a case where reading from a non-existing configuration
       // file should happen.
-      throw new RuntimeException("Configuration file not found. Properties will be invalid");
+      ResourceBundle messages = ResourceBundle.getBundle("messages");
+      throw new RuntimeException(messages.getString("exception.configuration-not-found"));
     }
   }
 
