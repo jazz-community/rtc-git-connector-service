@@ -37,17 +37,4 @@ public class CommitLinkService extends AbstractRestService {
   public void execute() throws IOException {
     throw new RuntimeException(messages.getString("exception.not-implemented"));
   }
-
-  private void sendLinkResponse(Commit commit, GitServiceArtifact parameters, String webUrl)
-      throws IOException {
-    throw new RuntimeException(messages.getString("exception.not-implemented"));
-  }
-
-  private Commit getCommit() throws IOException {
-    throw new RuntimeException(messages.getString("exception.not-implemented"));
-  }
-
-  private Project getProject() throws IOException {
-    throw new RuntimeException(messages.getString("exception.not-implemented"));
-  }
 }
