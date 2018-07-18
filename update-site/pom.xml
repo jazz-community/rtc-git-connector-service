@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>org.jazzcommunity.GitConnectorService.updatesite</artifactId>
   <packaging>eclipse-repository</packaging>
-
   <parent>
     <groupId>org.jazzcommunity.GitConnectorService</groupId>
     <artifactId>org.jazzcommunity.GitConnectorService.parent</artifactId>
     <version>1.8.2-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
-
   <build>
     <resources>
       <resource>
@@ -45,7 +41,6 @@
       </plugin>
     </plugins>
   </build>
-
   <profiles>
     <profile>
       <id>publish-jazz-artifact</id>
@@ -70,10 +65,8 @@
                 <configuration>
                   <tasks>
                     <echoproperties/>
-                    <copy file="target\repository\deployment-properties.ini"
-                      tofile="target\deployment-properties.ini"/>
-                    <taskdef name="artifactFilePublisher"
-                      classname="com.ibm.team.build.ant.task.ArtifactFilePublisherTask">
+                    <copy file="target\repository\deployment-properties.ini" tofile="target\deployment-properties.ini"/>
+                    <taskdef name="artifactFilePublisher" classname="com.ibm.team.build.ant.task.ArtifactFilePublisherTask">
                       <classpath>
                         <fileset dir="${buildtoolkit.path}">
                           <include name="*.jar"/>
@@ -81,11 +74,7 @@
                       </classpath>
                     </taskdef>
                     <!--suppress MavenModelInspection, MavenModelInspection, MavenModelInspection, MavenModelInspection -->
-                    <artifactFilePublisher buildResultUUID="${buildResultUUID}"
-                      repositoryAddress="${repositoryAddress}" userId="${buildUser}"
-                      passwordfile="${passFilePath}" verbose="true"
-                      filePath="target\${project.artifactId}-${project.version}.zip"
-                      label="${project.artifactId}"/>
+                    <artifactFilePublisher buildResultUUID="${buildResultUUID}" repositoryAddress="${repositoryAddress}" userId="${buildUser}" passwordfile="${passFilePath}" verbose="true" filePath="target\${project.artifactId}-${project.version}.zip" label="${project.artifactId}"/>
                   </tasks>
                 </configuration>
               </execution>
@@ -102,5 +91,4 @@
       </build>
     </profile>
   </profiles>
-
 </project>

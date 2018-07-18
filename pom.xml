@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>org.jazzcommunity.GitConnectorService</groupId>
   <artifactId>org.jazzcommunity.GitConnectorService.parent</artifactId>
   <version>1.8.2-SNAPSHOT</version>
   <packaging>pom</packaging>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tycho-version>1.2.0</tycho-version>
     <java-version>1.7</java-version>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -68,14 +63,12 @@
       <version>0.11.0</version>
     </dependency>
   </dependencies>
-
   <modules>
     <module>plugin</module>
     <module>feature</module>
     <module>update-site</module>
     <module>test</module>
   </modules>
-
   <build>
     <plugins>
       <plugin>
@@ -87,6 +80,22 @@
             <goals>
               <goal>format</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>au.com.acegi</groupId>
+        <artifactId>xml-format-maven-plugin</artifactId>
+        <version>3.0.7</version>
+        <executions>
+          <execution>
+            <id>xml-format</id>
+            <goals>
+              <goal>xml-format</goal>
+            </goals>
+            <configuration>
+              <indentSize>2</indentSize>
+            </configuration>
           </execution>
         </executions>
       </plugin>
