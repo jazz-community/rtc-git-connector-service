@@ -29,8 +29,4 @@ public class RequestLinkService extends AbstractRestService {
   public void execute() throws Exception {
     throw new RuntimeException(messages.getString("exception.not-implemented"));
   }
-
-  private void sendLinkResponse() throws IOException {
-    throw new RuntimeException(messages.getString("exception.not-implemented"));
-  }
 }
