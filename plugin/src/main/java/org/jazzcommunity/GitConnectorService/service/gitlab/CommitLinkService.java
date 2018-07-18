@@ -1,7 +1,5 @@
 package org.jazzcommunity.GitConnectorService.service.gitlab;
 
-import ch.sbi.minigit.type.gitlab.commit.Commit;
-import ch.sbi.minigit.type.gitlab.project.Project;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
@@ -11,7 +9,6 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
-import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 
 /**
  * Since the decision to use the built-in IBM rich hover and link functionality, our custom commit
