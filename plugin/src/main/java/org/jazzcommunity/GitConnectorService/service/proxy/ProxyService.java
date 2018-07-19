@@ -29,8 +29,8 @@ public class ProxyService extends AbstractRestService {
   @Override
   public void execute() throws Exception {
     String host = pathParameters.get("host");
-    // it would be nice if base service offered a "rest" of the url
-    String rest = restRequest.toString().substring("proxy/".length() + host.length() + 1);
+    int start = request.getRequestURI().indexOf("proxy");
+    String rest = request.getRequestURI().substring(start + "proxy/".length() + host.length() + 1);
     String requestUrl = String.format("https://%s/%s?%s", host, rest, request.getQueryString());
 
     URL url = new URL(requestUrl);
