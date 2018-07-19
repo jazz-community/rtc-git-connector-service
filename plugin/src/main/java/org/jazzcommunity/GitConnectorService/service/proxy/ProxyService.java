@@ -1,13 +1,15 @@
 package org.jazzcommunity.GitConnectorService.service.proxy;
 
+import com.google.common.io.CharStreams;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -34,12 +36,21 @@ public class ProxyService extends AbstractRestService {
     String rest = restRequest.toString().substring("proxy/".length() + host.length() + 1);
     String url = String.format("https://%s/%s", host, rest);
 
-    CloseableHttpClient client = HttpClientBuilder.create().build();
     HttpUriRequest apiRequest = RequestBuilder.get(url).build();
+
+    Enumeration<String> names = request.getHeaderNames();
+    while (names.hasMoreElements()) {
+      String header = names.nextElement();
+      apiRequest.addHeader(header, request.getHeader(header));
+    }
+
+    CloseableHttpClient client = HttpClientBuilder.create().build();
     try (CloseableHttpResponse apiResponse = client.execute(apiRequest);
         InputStream content = apiResponse.getEntity().getContent()) {
-      String result = IOUtils.toString(content);
+      String result = CharStreams.toString(new InputStreamReader(content, "UTF-8"));
       System.out.println(result);
+      // set headers in response
+      response.getWriter().write(result);
     }
   }
 }
