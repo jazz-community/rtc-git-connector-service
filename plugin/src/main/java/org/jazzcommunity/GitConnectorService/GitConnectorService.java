@@ -7,6 +7,7 @@ import org.jazzcommunity.GitConnectorService.service.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.service.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.service.gitlab.RequestLinkService;
 import org.jazzcommunity.GitConnectorService.service.gitlab.RequestPreviewService;
+import org.jazzcommunity.GitConnectorService.service.proxy.ProxyService;
 import org.jazzcommunity.GitConnectorService.service.resource.ImageService;
 
 /**
@@ -42,6 +43,8 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
     router.get("info/version", VersionService.class);
 
     router.get("img/{filename}", ImageService.class);
+
+    router.get("proxy/{host}", ProxyService.class);
 
     /**
      * This code is purposely commented out and not deleted! We have decided to use the IBM rich
