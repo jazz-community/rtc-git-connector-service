@@ -31,7 +31,7 @@ public class ProxyService extends AbstractRestService {
     String host = pathParameters.get("host");
     // it would be nice if base service offered a "rest" of the url
     String rest = restRequest.toString().substring("proxy/".length() + host.length() + 1);
-    String requestUrl = String.format("https://%s/%s", host, rest);
+    String requestUrl = String.format("https://%s/%s?%s", host, rest, request.getQueryString());
 
     URL url = new URL(requestUrl);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -58,6 +58,7 @@ public class ProxyService extends AbstractRestService {
 
       ByteStreams.copy(connection.getInputStream(), response.getOutputStream());
     } catch (Exception e) {
+      // this should log more details
       log.error(e.getMessage());
       ByteStreams.copy(connection.getErrorStream(), response.getOutputStream());
     } finally {
