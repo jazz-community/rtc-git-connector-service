@@ -59,7 +59,10 @@ public class ProxyService extends AbstractRestService {
     try {
       connection.connect();
       if (request.getContentLength() > 0) {
-        ByteStreams.copy(request.getInputStream(), connection.getOutputStream());
+        try (InputStream in = request.getInputStream();
+            OutputStream out = connection.getOutputStream()) {
+          ByteStreams.copy(in, out);
+        }
       }
 
       for (Entry<String, List<String>> headerEntry : connection.getHeaderFields().entrySet()) {
@@ -72,9 +75,9 @@ public class ProxyService extends AbstractRestService {
       }
 
       response.setStatus(connection.getResponseCode());
-      try (InputStream s = connection.getInputStream();
-          OutputStream o = response.getOutputStream()) {
-        ByteStreams.copy(s, o);
+      try (InputStream in = connection.getInputStream();
+          OutputStream out = response.getOutputStream()) {
+        ByteStreams.copy(in, out);
       }
     } catch (Exception e) {
       String error =
