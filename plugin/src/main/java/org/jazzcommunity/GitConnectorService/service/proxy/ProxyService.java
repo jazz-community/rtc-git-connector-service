@@ -7,6 +7,7 @@ import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -34,24 +35,14 @@ public class ProxyService extends AbstractRestService {
 
     URL url = new URL(requestUrl);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+    Enumeration<String> names = request.getHeaderNames();
+    while (names.hasMoreElements()) {
+      String header = names.nextElement();
+      connection.addRequestProperty(header, request.getHeader(header));
+    }
+
     connection.connect();
     ByteStreams.copy(connection.getInputStream(), response.getOutputStream());
-
-    //    HttpUriRequest apiRequest = RequestBuilder.get(url).build();
-    //
-    //    Enumeration<String> names = request.getHeaderNames();
-    //    while (names.hasMoreElements()) {
-    //      String header = names.nextElement();
-    //      apiRequest.addHeader(header, request.getHeader(header));
-    //    }
-    //
-    //    CloseableHttpClient client = HttpClientBuilder.create().build();
-    //    try (CloseableHttpResponse apiResponse = client.execute(apiRequest);
-    //        InputStream content = apiResponse.getEntity().getContent()) {
-    //      String result = CharStreams.toString(new InputStreamReader(content, "UTF-8"));
-    //      System.out.println(result);
-    //      // set headers in response
-    //      response.getWriter().write(result);
-    //    }
   }
 }
