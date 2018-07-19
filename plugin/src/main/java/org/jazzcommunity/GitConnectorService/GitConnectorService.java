@@ -45,6 +45,7 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
     router.get("img/{filename}", ImageService.class);
 
     router.get("proxy/{host}", ProxyService.class);
+    router.post("proxy/{host}", ProxyService.class);
 
     /**
      * This code is purposely commented out and not deleted! We have decided to use the IBM rich

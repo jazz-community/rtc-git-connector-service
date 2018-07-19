@@ -31,10 +31,9 @@ public class ProxyService extends AbstractRestService {
     String rest = restRequest.toString().substring("proxy/".length() + host.length() + 1);
     String requestUrl = String.format("https://%s/%s", host, rest);
 
-    System.out.println(requestUrl);
-
     URL url = new URL(requestUrl);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    connection.setRequestMethod(request.getMethod());
 
     Enumeration<String> names = request.getHeaderNames();
     while (names.hasMoreElements()) {
@@ -42,7 +41,14 @@ public class ProxyService extends AbstractRestService {
       connection.addRequestProperty(header, request.getHeader(header));
     }
 
-    connection.connect();
-    ByteStreams.copy(connection.getInputStream(), response.getOutputStream());
+    try {
+      connection.connect();
+      if (request.getContentLength() > 0) {
+        ByteStreams.copy(request.getInputStream(), connection.getOutputStream());
+      }
+      ByteStreams.copy(connection.getInputStream(), response.getOutputStream());
+    } catch (Exception e) {
+      ByteStreams.copy(connection.getErrorStream(), response.getOutputStream());
+    }
   }
 }
