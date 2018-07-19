@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map.Entry;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -44,6 +45,16 @@ public class ProxyService extends AbstractRestService {
       String value = request.getHeader(key);
       connection.addRequestProperty(key, value);
     }
+
+    StringBuilder requestCookie = new StringBuilder();
+    for (Cookie cookie : request.getCookies()) {
+      requestCookie.append(cookie.getName());
+      requestCookie.append("=");
+      requestCookie.append(cookie.getValue());
+      requestCookie.append(";");
+    }
+
+    connection.addRequestProperty("Cookie", requestCookie.toString());
 
     try {
       connection.connect();
