@@ -37,8 +37,9 @@ public class ProxyService extends AbstractRestService {
 
     Enumeration<String> names = request.getHeaderNames();
     while (names.hasMoreElements()) {
-      String header = names.nextElement();
-      connection.addRequestProperty(header, request.getHeader(header));
+      String key = names.nextElement();
+      String value = request.getHeader(key);
+      connection.addRequestProperty(key, value);
     }
 
     try {
