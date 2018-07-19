@@ -50,6 +50,8 @@ public class ProxyService extends AbstractRestService {
       ByteStreams.copy(connection.getInputStream(), response.getOutputStream());
     } catch (Exception e) {
       ByteStreams.copy(connection.getErrorStream(), response.getOutputStream());
+    } finally {
+      response.setStatus(connection.getResponseCode());
     }
   }
 }
