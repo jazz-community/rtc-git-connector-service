@@ -8,6 +8,8 @@ import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -47,8 +49,16 @@ public class ProxyService extends AbstractRestService {
       if (request.getContentLength() > 0) {
         ByteStreams.copy(request.getInputStream(), connection.getOutputStream());
       }
+
+      for (Entry<String, List<String>> headerEntry : connection.getHeaderFields().entrySet()) {
+        if (headerEntry.getKey() != null && headerEntry.getValue().size() > 0) {
+          response.addHeader(headerEntry.getKey(), headerEntry.getValue().get(0));
+        }
+      }
+
       ByteStreams.copy(connection.getInputStream(), response.getOutputStream());
     } catch (Exception e) {
+      log.error(e.getMessage());
       ByteStreams.copy(connection.getErrorStream(), response.getOutputStream());
     } finally {
       response.setStatus(connection.getResponseCode());
