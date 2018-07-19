@@ -1,10 +1,14 @@
 package org.jazzcommunity.GitConnectorService.service.proxy;
 
 import com.google.common.io.ByteStreams;
+import com.google.common.io.CharStreams;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Enumeration;
@@ -48,12 +52,8 @@ public class ProxyService extends AbstractRestService {
 
     StringBuilder requestCookie = new StringBuilder();
     for (Cookie cookie : request.getCookies()) {
-      requestCookie.append(cookie.getName());
-      requestCookie.append("=");
-      requestCookie.append(cookie.getValue());
-      requestCookie.append(";");
+      requestCookie.append(String.format("%s=%s;", cookie.getName(), cookie.getValue()));
     }
-
     connection.addRequestProperty("Cookie", requestCookie.toString());
 
     try {
@@ -63,18 +63,24 @@ public class ProxyService extends AbstractRestService {
       }
 
       for (Entry<String, List<String>> headerEntry : connection.getHeaderFields().entrySet()) {
+        if (headerEntry.getKey() == null) {
+          System.out.println("NULL header: " + headerEntry.getValue());
+        }
         if (headerEntry.getKey() != null && headerEntry.getValue().size() > 0) {
           response.addHeader(headerEntry.getKey(), headerEntry.getValue().get(0));
         }
       }
 
-      ByteStreams.copy(connection.getInputStream(), response.getOutputStream());
-    } catch (Exception e) {
-      // this should log more details
-      log.error(e.getMessage());
-      ByteStreams.copy(connection.getErrorStream(), response.getOutputStream());
-    } finally {
       response.setStatus(connection.getResponseCode());
+      try (InputStream s = connection.getInputStream();
+          OutputStream o = response.getOutputStream()) {
+        ByteStreams.copy(s, o);
+      }
+    } catch (Exception e) {
+      String error =
+          CharStreams.toString(new InputStreamReader(connection.getErrorStream(), "UTF-8"));
+      log.error(error);
+      response.sendError(connection.getResponseCode());
     }
   }
 }
