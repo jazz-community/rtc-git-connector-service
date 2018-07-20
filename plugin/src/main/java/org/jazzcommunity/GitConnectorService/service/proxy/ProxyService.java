@@ -41,8 +41,6 @@ public class ProxyService extends AbstractRestService {
 
     URL url = new URL(requestUrl);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-    String method = request.getMethod();
     connection.setRequestMethod(request.getMethod());
 
     Enumeration<String> names = request.getHeaderNames();
