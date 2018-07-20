@@ -41,6 +41,8 @@ public class ProxyService extends AbstractRestService {
 
     URL url = new URL(requestUrl);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+    String method = request.getMethod();
     connection.setRequestMethod(request.getMethod());
 
     Enumeration<String> names = request.getHeaderNames();
@@ -57,18 +59,17 @@ public class ProxyService extends AbstractRestService {
     connection.addRequestProperty("Cookie", requestCookie.toString());
 
     try {
-      connection.connect();
       if (request.getContentLength() > 0) {
+        connection.setDoOutput(true);
         try (InputStream in = request.getInputStream();
             OutputStream out = connection.getOutputStream()) {
           ByteStreams.copy(in, out);
         }
+      } else {
+        connection.connect();
       }
 
       for (Entry<String, List<String>> headerEntry : connection.getHeaderFields().entrySet()) {
-        if (headerEntry.getKey() == null) {
-          System.out.println("NULL header: " + headerEntry.getValue());
-        }
         if (headerEntry.getKey() != null && headerEntry.getValue().size() > 0) {
           response.addHeader(headerEntry.getKey(), headerEntry.getValue().get(0));
         }
@@ -80,9 +81,11 @@ public class ProxyService extends AbstractRestService {
         ByteStreams.copy(in, out);
       }
     } catch (Exception e) {
-      String error =
-          CharStreams.toString(new InputStreamReader(connection.getErrorStream(), "UTF-8"));
-      log.error(error);
+      if (connection.getErrorStream() != null) {
+        String error =
+            CharStreams.toString(new InputStreamReader(connection.getErrorStream(), "UTF-8"));
+        log.error(error);
+      }
       response.sendError(connection.getResponseCode());
     }
   }
