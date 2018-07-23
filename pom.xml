@@ -40,7 +40,7 @@
     <dependency>
       <groupId>com.siemens.bt.jazz.services.base</groupId>
       <artifactId>com.siemens.bt.jazz.services.base</artifactId>
-      <version>3.0.2-SNAPSHOT</version>
+      <version>3.0.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.siemens.bt.jazz.services.PersonalTokenService</groupId>
