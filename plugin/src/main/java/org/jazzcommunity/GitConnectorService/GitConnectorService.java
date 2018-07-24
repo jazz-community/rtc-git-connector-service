@@ -7,7 +7,6 @@ import org.jazzcommunity.GitConnectorService.service.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.service.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.service.gitlab.RequestLinkService;
 import org.jazzcommunity.GitConnectorService.service.gitlab.RequestPreviewService;
-import org.jazzcommunity.GitConnectorService.service.proxy.GitLabProjectService;
 import org.jazzcommunity.GitConnectorService.service.proxy.ProxyService;
 import org.jazzcommunity.GitConnectorService.service.resource.ImageService;
 
@@ -47,9 +46,6 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
 
     router.get("proxy/{host}", ProxyService.class);
     router.post("proxy/{host}", ProxyService.class);
-
-    // this end-point breaks with REST semantics, but for good reason.
-    router.post("gitlab/project", GitLabProjectService.class);
 
     /**
      * This code is purposely commented out and not deleted! We have decided to use the IBM rich
