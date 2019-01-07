@@ -23,4 +23,15 @@ public class Request {
       System.out.println(String.format("key: %s, value: %s", key, request.getHeader(key)));
     }
   }
+
+  public static boolean isUrlHoverRequest(HttpServletRequest request) {
+    if (request.getParameter("_context") == null
+        || request.getParameter("_selector") == null
+        || request.getParameter("_mediaType") == null) {
+      return false;
+    }
+    return request.getParameter("_context").contains("web")
+        && request.getParameter("_selector").contains("Hover")
+        && request.getParameter("_mediaType").contains("text/html");
+  }
 }

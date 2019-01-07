@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
+import org.jazzcommunity.GitConnectorService.html.MarkdownParser;
 import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
@@ -50,9 +51,34 @@ public class IssueLinkService extends AbstractRestService {
       sendLinkResponse(issue, parameters);
     } else if (Request.isOslcRequest(request)) {
       sendOslcResponse(issue, parameters);
+    } else if (Request.isUrlHoverRequest(request)) {
+      sendRichHover();
     } else {
       response.sendRedirect(issue.getWebUrl());
     }
+  }
+
+  private void sendRichHover() throws IOException {
+    URL url = new URL("https://" + pathParameters.get("host"));
+    GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
+    Issue issue =
+        api.getIssue(
+            pathParameters.getAsInteger("projectId"), pathParameters.getAsInteger("issueId"));
+
+    String description = MarkdownParser.toHtml(issue.getDescription());
+
+    PropertyReader properties = new PropertyReader();
+    JtwigTemplate template =
+        JtwigTemplate.classpathTemplate(properties.get("template.hover.issue"));
+    JtwigModel model =
+        JtwigModel.newModel()
+            .with("title", issue.getTitle())
+            .with("description", description)
+            .with("author", issue.getAuthor().getName())
+            .with("state", issue.getState());
+
+    response.setContentType(MediaType.HTML_UTF_8.toString());
+    template.render(model, response.getOutputStream());
   }
 
   private void sendOslcResponse(Issue issue, GitServiceArtifact parameters) throws IOException {
