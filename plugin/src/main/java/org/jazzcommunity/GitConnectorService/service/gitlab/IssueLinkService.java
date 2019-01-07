@@ -10,6 +10,7 @@ import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ import org.jazzcommunity.GitConnectorService.net.GitServiceArtifact;
 import org.jazzcommunity.GitConnectorService.net.Request;
 import org.jazzcommunity.GitConnectorService.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.olsc.type.issue.OslcIssue;
+import org.jazzcommunity.GitConnectorService.oslc.hover.IssueRichHover;
 import org.jazzcommunity.GitConnectorService.oslc.mapping.IssueMapper;
 import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.jtwig.JtwigModel;
@@ -52,33 +54,11 @@ public class IssueLinkService extends AbstractRestService {
     } else if (Request.isOslcRequest(request)) {
       sendOslcResponse(issue, parameters);
     } else if (Request.isUrlHoverRequest(request)) {
-      sendRichHover();
+      response.setContentType(MediaType.HTML_UTF_8.toString());
+      IssueRichHover.render(issue, parameters, response.getOutputStream());
     } else {
       response.sendRedirect(issue.getWebUrl());
     }
-  }
-
-  private void sendRichHover() throws IOException {
-    URL url = new URL("https://" + pathParameters.get("host"));
-    GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
-    Issue issue =
-        api.getIssue(
-            pathParameters.getAsInteger("projectId"), pathParameters.getAsInteger("issueId"));
-
-    String description = MarkdownParser.toHtml(issue.getDescription());
-
-    PropertyReader properties = new PropertyReader();
-    JtwigTemplate template =
-        JtwigTemplate.classpathTemplate(properties.get("template.hover.issue"));
-    JtwigModel model =
-        JtwigModel.newModel()
-            .with("title", issue.getTitle())
-            .with("description", description)
-            .with("author", issue.getAuthor().getName())
-            .with("state", issue.getState());
-
-    response.setContentType(MediaType.HTML_UTF_8.toString());
-    template.render(model, response.getOutputStream());
   }
 
   private void sendOslcResponse(Issue issue, GitServiceArtifact parameters) throws IOException {

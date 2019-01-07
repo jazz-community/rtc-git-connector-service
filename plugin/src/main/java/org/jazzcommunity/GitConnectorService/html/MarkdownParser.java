@@ -15,13 +15,9 @@ public class MarkdownParser {
     }
 
     List<Extension> extensions = Arrays.asList(TablesExtension.create());
-
     Parser parser = Parser.builder().extensions(extensions).build();
-
     Node document = parser.parse(markdown);
-
     HtmlRenderer renderer = HtmlRenderer.builder().extensions(extensions).build();
-
     return renderer.render(document);
   }
 }
