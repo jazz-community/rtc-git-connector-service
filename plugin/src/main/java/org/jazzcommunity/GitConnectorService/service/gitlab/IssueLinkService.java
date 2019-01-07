@@ -55,7 +55,7 @@ public class IssueLinkService extends AbstractRestService {
       sendOslcResponse(issue, parameters);
     } else if (Request.isUrlHoverRequest(request)) {
       response.setContentType(MediaType.HTML_UTF_8.toString());
-      IssueRichHover.render(issue, parameters, response.getOutputStream());
+      IssueRichHover.render(issue, response.getOutputStream());
     } else {
       response.sendRedirect(issue.getWebUrl());
     }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
 import org.jazzcommunity.GitConnectorService.html.MarkdownParser;
+import org.jazzcommunity.GitConnectorService.oslc.hover.IssueRichHover;
 import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
@@ -37,19 +38,8 @@ public class IssuePreviewService extends AbstractRestService {
         api.getIssue(
             pathParameters.getAsInteger("projectId"), pathParameters.getAsInteger("issueId"));
 
-    String description = MarkdownParser.toHtml(issue.getDescription());
-
-    PropertyReader properties = new PropertyReader();
-    JtwigTemplate template =
-        JtwigTemplate.classpathTemplate(properties.get("template.hover.issue"));
-    JtwigModel model =
-        JtwigModel.newModel()
-            .with("title", issue.getTitle())
-            .with("description", description)
-            .with("author", issue.getAuthor().getName())
-            .with("state", issue.getState());
-
+    // maybe use the render function as a decorator instead
     response.setContentType(MediaType.HTML_UTF_8.toString());
-    template.render(model, response.getOutputStream());
+    IssueRichHover.render(issue, response.getOutputStream());
   }
 }

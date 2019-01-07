@@ -11,8 +11,7 @@ import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
 public class IssueRichHover {
-  public static void render(Issue issue, GitServiceArtifact parameters, OutputStream stream) throws IOException {
-    URL url = new URL("https://" + parameters.getHost());
+  public static void render(Issue issue, OutputStream stream) throws IOException {
     String description = MarkdownParser.toHtml(issue.getDescription());
 
     PropertyReader properties = new PropertyReader();
