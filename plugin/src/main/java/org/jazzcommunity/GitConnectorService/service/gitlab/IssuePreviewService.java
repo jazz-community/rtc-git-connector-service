@@ -13,11 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.jazzcommunity.GitConnectorService.data.TokenHelper;
-import org.jazzcommunity.GitConnectorService.html.MarkdownParser;
 import org.jazzcommunity.GitConnectorService.oslc.hover.IssueRichHover;
-import org.jazzcommunity.GitConnectorService.properties.PropertyReader;
-import org.jtwig.JtwigModel;
-import org.jtwig.JtwigTemplate;
 
 public class IssuePreviewService extends AbstractRestService {
 
