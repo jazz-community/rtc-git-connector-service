@@ -43,6 +43,7 @@ public class UrlParser {
       }
     }
 
-    throw new IllegalArgumentException("Invalid data url. Doesn't contain commit data.");
+    String error = String.format("Invalid data url. Doesn't contain commit data. URL: %s", uri.toString());
+    throw new IllegalArgumentException(error);
   }
 }
