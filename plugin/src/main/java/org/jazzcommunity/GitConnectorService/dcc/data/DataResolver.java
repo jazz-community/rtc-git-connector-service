@@ -6,8 +6,8 @@ import com.ibm.team.repository.common.UUID;
 import java.io.IOException;
 import java.net.URI;
 import java.text.DateFormat;
-import org.jazzcommunity.git.datacollector.net.DataUrl;
-import org.jazzcommunity.git.datacollector.net.UrlParser;
+import org.jazzcommunity.GitConnectorService.dcc.net.DataUrl;
+import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 
 public class DataResolver implements Resolver<Commit> {
 
