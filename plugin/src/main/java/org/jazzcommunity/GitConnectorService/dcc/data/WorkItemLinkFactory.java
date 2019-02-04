@@ -44,7 +44,7 @@ public class WorkItemLinkFactory {
     // these should be maps with the key being the matcher regex, and the value being a collection
     // of links. That would probably work quite nicely
     // issues and requests can probably be merged after links are split
-    if (uri.getPath().contains("commit")) {
+    if (uri.getPath().contains("IGitResourceRestService")) {
       Link link = new Link<>(comment, uri, new DataResolver(itemId, uri));
       commits.add(link);
       return;
