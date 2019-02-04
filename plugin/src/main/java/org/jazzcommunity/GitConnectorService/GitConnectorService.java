@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService;
 
 import com.siemens.bt.jazz.services.base.BaseService;
+import com.siemens.bt.jazz.services.base.router.Router;
 import org.jazzcommunity.GitConnectorService.ccm.inject.LinkTypeInjector;
 import org.jazzcommunity.GitConnectorService.ccm.service.VersionService;
 import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.IssueLinkService;
@@ -26,9 +27,11 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
    */
   public GitConnectorService() {
     super();
-
     LinkTypeInjector.injectCustomLinks();
+    addCcmRoutes(router);
+  }
 
+  private void addCcmRoutes(Router router) {
     router.get("gitlab/{host}/project/{projectId}/issue/{issueId}/link", IssueLinkService.class);
     router.get(
         "gitlab/{host}/project/{projectId}/issue/{issueId}/preview", IssuePreviewService.class);
