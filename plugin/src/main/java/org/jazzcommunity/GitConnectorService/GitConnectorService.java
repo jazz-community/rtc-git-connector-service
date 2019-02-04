@@ -29,6 +29,10 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
     super();
     LinkTypeInjector.injectCustomLinks();
     addCcmRoutes(router);
+    addDccRoutes(router);
+  }
+
+  private void addDccRoutes(Router router) {
   }
 
   private void addCcmRoutes(Router router) {
