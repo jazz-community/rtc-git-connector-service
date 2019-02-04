@@ -1,0 +1,117 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix dcc: <http://jazz.net/ns/dcc#>.
+
+<http://jazz.net/ns/dcc/mapGroup#GitCommit>
+	a dcc:MapGroup;
+	dcterms:title "Git Commits";
+	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_commits>;
+	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_commits_lookup>;
+	dcc:dependency <http://jazz.net/ns/dcc/mapGroup#JFS_ODS>;
+    dcc:dependency <http://jazz.net/ns/dcc/mapGroup#RTC_Workitem>;
+	dcc:schedule "ods";
+	dcc:enabled "true".
+
+<http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_COMMIT>
+    a dcc:TableInfo;
+    dcc:schemaName "ODS";
+    dcc:tableName "GIT_COMMIT";
+    dcc:surrogateKey [ dcc:column "ID_PK" ]
+    .
+
+<http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_COMMIT_LOOKUP>
+    a dcc:TableInfo;
+    dcc:schemaName "ODS";
+    dcc:tableName "GIT_COMMIT_LOOKUP";
+    .
+
+<http://jazz.net/ns/dcc/resourceInfo#git_commit>
+	a dcc:ResourceInfo;
+	dcc:baseResourceGroup <http://jazz.net/ns/dcc/baseResourceGroup#RTCBaseResourceGroup>;
+	dcc:executionOrder "100";
+	dcc:version "6.0.1,6.0.2,6.0.3,6.0.4,6.0.5,6.0.6,6.0.7";
+	dcc:relativeURL "/service/org.jazzcommunity.git.datacollector.IDataCollectorService/commits";
+	dcc:baseXPath "/commits".
+	
+<http://jazz.net/ns/dcc/ODSTableMap#git_commits>
+	a dcc:ODSTableMap;
+	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_commit>;
+	rr:logicalTable [ 
+		dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_COMMIT>; 
+		dcc:deliveryKey [ rr:column "URL" ];
+        dcc:needLock "TRUE";
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/comment" ];
+        rr:objectMap [ rr:column "COMMENT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/commitUrl" ];
+        rr:objectMap [ rr:column "URL" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/commiterEmail" ];
+        rr:objectMap [ rr:column "COMMITER_EMAIL" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/commiterName" ];
+        rr:objectMap [ rr:column "COMMITER_NAME" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/date" ];
+        rr:objectMap [ rr:column "COMMIT_DATE" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/linkUrl" ];
+        rr:objectMap [ rr:column "LINK_URL" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/linkedFrom" ];
+        rr:objectMap [ rr:column "LINKED_FROM" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/repositoryKey" ];
+        rr:objectMap [ rr:column "REPOSITORY_KEY" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/sha" ];
+        rr:objectMap [ rr:column "SHA" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/shortSha" ];
+        rr:objectMap [ rr:column "SHORT_SHA" ]
+    ].
+
+<http://jazz.net/ns/dcc/ODSTableMap#git_commits_lookup>
+    a dcc:ODSTableMap;
+	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_commit>;
+	rr:logicalTable [ 
+		dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_COMMIT_LOOKUP>; 
+		dcc:deliveryKey [ rr:column "COMMIT_ID"; rr:column "REQUEST_ID" ];
+        dcc:needLock "TRUE";
+    ];
+    # FK insert to git commit
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:name "linkTarget"; dcc:XPath "/commit/commitUrl" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#git_commits>;
+            dcc:needLock "TRUE";
+            dcc:predicateColumnLookup [
+                dcc:predicateName "linkTarget";
+                rr:column "URL";
+            ];
+            rr:joinCondition [ rr:child "COMMIT_ID"; rr:parent "ID_PK"; ]
+        ];
+    ];
+    # FK insert to request (work item)
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/linkedFrom" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#RTC_Workitem>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;								
+            dcc:lookupKey "EXTERNAL_KEY2";
+            rr:joinCondition [ rr:child "REQUEST_ID"; rr:parent "REQUEST_ID" ];
+        ];
+    ].
