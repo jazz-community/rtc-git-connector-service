@@ -111,7 +111,7 @@ map:RIDW_VW_GIT_COMMIT_LOOKUP__link a d2rq:PropertyBridge;
     d2rq:refersToClassMap map:RIDW_VW_GIT_COMMIT;
     d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
     d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
-    rdfs:label "Git Commit Link";
+    d2rq:propertyDefinitionLabel "Git Commit Link";
     .
 
 #map:RIDW_VW_GIT_COMMIT__link a d2rq:PropertyBridge;

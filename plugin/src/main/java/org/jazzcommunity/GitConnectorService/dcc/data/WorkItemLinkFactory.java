@@ -63,7 +63,7 @@ public class WorkItemLinkFactory {
     }
 
     // TODO: This should just log a warning
-//    throw new IllegalArgumentException("Supplied link is not a valid git link type");
+    //    throw new IllegalArgumentException("Supplied link is not a valid git link type");
   }
 
   /** This is just a testing method for now */
