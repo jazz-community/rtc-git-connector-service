@@ -50,17 +50,17 @@ public class WorkItemLinkFactory {
       return;
     }
 
-    if (uri.getPath().contains("issue")) {
-      Link link = new Link<>(comment, uri, new UrlResolver(uri));
-      issues.add(link);
-      return;
-    }
-
-    if (uri.getPath().contains("merge-request")) {
-      Link link = new Link<>(comment, uri, new UrlResolver(uri));
-      requests.add(link);
-      return;
-    }
+//    if (uri.getPath().contains("issue")) {
+//      Link link = new Link<>(comment, uri, new UrlResolver(uri));
+//      issues.add(link);
+//      return;
+//    }
+//
+//    if (uri.getPath().contains("merge-request")) {
+//      Link link = new Link<>(comment, uri, new UrlResolver(uri));
+//      requests.add(link);
+//      return;
+//    }
 
     // TODO: This should just log a warning
     //    throw new IllegalArgumentException("Supplied link is not a valid git link type");
