@@ -136,22 +136,39 @@ map:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT__ref a d2rq:PropertyBridge;
     d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
     .
 
-#map:RIDW_VW_GIT_COMMIT_LOOKUP__link a d2rq:PropertyBridge;
-#    # this should then probably belong to request, so as
-#    # to make it only show up with workitems instea of git
-#    # commits.
-#    # Then probably create a git group with all the git
-#    # artifacts seperately.
-#    #d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
-#    d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
-#    # where do I need to define this?
-#    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP;
-#    #d2rq:refersToClassMap map:RIDW_VW_REQUEST;
-#    d2rq:refersToClassMap map:RIDW_VW_GIT_COMMIT;
-#    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
-#    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
-#    d2rq:propertyDefinitionLabel "Git Commit Link";
-#    .
+map:RIDW_VW_GIT_COMMIT_LOOKUP__link a d2rq:PropertyBridge;
+    # this should then probably belong to request, so as
+    # to make it only show up with workitems instea of git
+    # commits.
+    # Then probably create a git group with all the git
+    # artifacts seperately.
+    #d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
+    # where do I need to define this?
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP;
+    #d2rq:refersToClassMap map:RIDW_VW_REQUEST;
+    d2rq:refersToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
+    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+    d2rq:propertyDefinitionLabel "BLA BLA BLA BLA";
+    .
+
+map:RIDW_VW_GIT_COMMIT_TEST__link a d2rq:PropertyBridge;
+    # this should then probably belong to request, so as
+    # to make it only show up with workitems instea of git
+    # commits.
+    # Then probably create a git group with all the git
+    # artifacts seperately.
+    #d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
+    # where do I need to define this?
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_TEST;
+    #d2rq:refersToClassMap map:RIDW_VW_REQUEST;
+    d2rq:refersToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
+    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+    d2rq:propertyDefinitionLabel "BLUBBER BLA BLUBB";
+    .
 
 #map:RIDW_VW_GIT_COMMIT__link a d2rq:PropertyBridge;
 #    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
