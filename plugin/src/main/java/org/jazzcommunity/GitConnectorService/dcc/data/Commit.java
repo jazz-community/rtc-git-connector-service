@@ -2,7 +2,6 @@ package org.jazzcommunity.GitConnectorService.dcc.data;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -19,7 +18,7 @@ public class Commit {
   // when using gson on the naked date payload.
   @Expose
   @SerializedName("d")
-  private Date date;
+  private String date;
 
   @Expose
   @SerializedName("e")
@@ -49,7 +48,7 @@ public class Commit {
     return comment;
   }
 
-  public Date getDate() {
+  public String getDate() {
     return date;
   }
 
@@ -103,7 +102,7 @@ public class Commit {
     this.comment = comment;
   }
 
-  public void setDate(Date date) {
+  public void setDate(String date) {
     this.date = date;
   }
 

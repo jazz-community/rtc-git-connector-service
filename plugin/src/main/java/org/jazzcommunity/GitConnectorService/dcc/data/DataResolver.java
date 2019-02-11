@@ -28,7 +28,7 @@ public class DataResolver implements Resolver<Commit> {
     Gson gson = new GsonBuilder().setDateFormat(DateFormat.FULL, DateFormat.FULL).create();
     String decoded = BinaryJsonDecoder.decode(dataUrl.getData());
     Commit commit = gson.fromJson(decoded, Commit.class);
-    //    commit.setLinkedFrom(parent.getUuidValue());
+    commit.setLinkedFrom(parent.getUuidValue());
     commit.setLinkUrl(String.format("%s&preview=small", uri.toString()));
     return commit;
   }
