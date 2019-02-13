@@ -52,10 +52,15 @@ public class LinkCollector {
     ArrayList<WorkItemLinkFactory> links = new ArrayList<>();
 
     IQueryServer service = teamService.getService(IQueryServer.class);
+    IRepositoryItemService repositoryItemService = teamService.getService(IRepositoryItemService.class);
 
     List<IProjectAreaHandle> handles = getProjectAreaHandles();
     for (IProjectAreaHandle handle : handles) {
-      teamService.getLog().warn(handle);
+      IProjectArea pa = (IProjectArea) repositoryItemService.fetchItem(handle, null);
+      String archived = pa.isArchived() ? "archived" : "not archived";
+      String message = String.format("Project Area with UUID %s is %s", handle.getItemId(), archived);
+      teamService.getLog().warn(message);
+
       List<IQueryableAttribute> attributes = getLinkAttributes(handle);
       Term gitLinks = orTerm(handle, attributes);
       Term projectArea = projectAreaTerm(handle);
