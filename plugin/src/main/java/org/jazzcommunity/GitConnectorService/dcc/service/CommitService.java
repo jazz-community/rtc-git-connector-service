@@ -34,6 +34,7 @@ public class CommitService extends AbstractRestService {
    */
   @Override
   public void execute() throws Exception {
+    // TODO: Use builder pattern for creating a fluent collector interface with multiple filters
     Collection<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
     Commits commits = new Commits();
 
@@ -41,6 +42,7 @@ public class CommitService extends AbstractRestService {
       commits.addCommits(link.resolveCommits());
     }
 
+    // TODO: extract xml creation functionality to separate class
     response.setContentType(ContentType.APPLICATION_XML.toString());
     // dcc doesn't send a required encoding, but will error out on anything that isn't utf-8. I'm
     // not sure this is correct for every deployment configuration, but has been the same with every

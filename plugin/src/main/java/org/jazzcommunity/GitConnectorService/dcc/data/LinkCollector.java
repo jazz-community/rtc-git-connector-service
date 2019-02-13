@@ -35,6 +35,7 @@ public class LinkCollector {
   /**
    * Currently available git link types which map to queryable attributes. Maybe create an api
    * endpoint for this instead? And sort of keep track of this using the collector service?
+   * TODO: Extract to Enum
    */
   private final String[] linkTypes = {
     "link:com.ibm.team.git.workitem.linktype.gitCommit:target",
@@ -53,8 +54,7 @@ public class LinkCollector {
     String archived = pa.isArchived() ? "archived" : "not archived";
     String message =
         String.format(
-            "Project Area %s %s is %s and %s",
-            pa.getName(), pa.getItemId(), initialized, archived);
+            "Project Area %s %s is %s and %s", pa.getName(), pa.getItemId(), initialized, archived);
     teamService.getLog().warn(message);
   }
 
@@ -70,7 +70,8 @@ public class LinkCollector {
       IProjectArea area = getProjectArea(handle);
       logProjectArea(area);
 
-      // Workaround for 'broken' project areas for which we don't really know what the actual problem is.
+      // Workaround for 'broken' project areas for which we don't really know what the actual
+      // problem is.
       if (!area.isInitialized()) {
         continue;
       }
