@@ -15,6 +15,7 @@ import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.common.LogAdapter;
 import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
+import org.jazzcommunity.GitConnectorService.dcc.net.Pagination;
 import org.jazzcommunity.GitConnectorService.dcc.xml.Commits;
 
 public class CommitService extends AbstractRestService {
@@ -37,6 +38,10 @@ public class CommitService extends AbstractRestService {
   @Override
   public void execute() throws Exception {
     LogAdapter.parameters(log, request);
+    Pagination pagination = Pagination
+        .fromValues(request.getParameter("size"), request.getParameter("pos"));
+
+    System.out.println(pagination);
 
     // TODO: Use builder pattern for creating a fluent collector interface with multiple filters
     Collection<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();

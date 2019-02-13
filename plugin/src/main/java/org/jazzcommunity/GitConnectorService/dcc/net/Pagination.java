@@ -21,13 +21,22 @@ public final class Pagination {
     return start != 0;
   }
 
+  @Override
+  public String toString() {
+    return "Pagination{" +
+        "start=" + start +
+        ", end=" + end +
+        '}';
+  }
+
   public static Pagination fromValues(String size, String pos) {
     if (size == null) {
       return new Pagination(0, 0);
     } else if (size != null && pos == null) {
       return new Pagination(0, Integer.parseInt(size));
     }
-
-    return new Pagination(Integer.parseInt(size), Integer.parseInt(pos));
+    int s = Integer.parseInt(size);
+    int p = Integer.parseInt(pos);
+    return new Pagination(p, p + s);
   }
 }
