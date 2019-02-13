@@ -27,6 +27,8 @@ public class DataResolver implements Resolver<Commit> {
     // this will probably need some generic goodness in here to make sense...
     Gson gson = new GsonBuilder().setDateFormat(DateFormat.FULL, DateFormat.FULL).create();
     String decoded = BinaryJsonDecoder.decode(dataUrl.getData());
+    // TODO: this validation process should go into a custom jaxb marshaller usable with all
+    // payloads
     Commit commit = gson.fromJson(decoded, Commit.class);
     commit.setComment(stripIllegalXml(commit.getComment()));
     commit.setCommiterName(stripIllegalXml(commit.getCommiterName()));
