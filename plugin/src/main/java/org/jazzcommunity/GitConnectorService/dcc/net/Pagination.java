@@ -50,7 +50,7 @@ public final class Pagination {
     return "Pagination{" + "start=" + start + ", end=" + end + '}';
   }
 
-  public static Pagination fromValues(HttpServletRequest request) {
+  public static Pagination fromRequest(HttpServletRequest request) {
     String size = request.getParameter("size");
     String pos = request.getParameter("pos");
     List<NameValuePair> pairs =
