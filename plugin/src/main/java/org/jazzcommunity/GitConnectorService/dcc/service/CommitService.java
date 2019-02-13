@@ -5,7 +5,6 @@ import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.util.Collection;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
@@ -38,14 +37,12 @@ public class CommitService extends AbstractRestService {
   @Override
   public void execute() throws Exception {
     LogAdapter.parameters(log, request);
-    Pagination pagination = Pagination
-        .fromValues(request.getParameter("size"), request.getParameter("pos"));
-
-    System.out.println(pagination);
+    Pagination pagination = Pagination.fromValues(request);
 
     // TODO: Use builder pattern for creating a fluent collector interface with multiple filters
     Collection<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
     Commits commits = new Commits();
+    commits.setHref(pagination.getNext().toString());
 
     for (WorkItemLinkFactory link : links) {
       commits.addCommits(link.resolveCommits());

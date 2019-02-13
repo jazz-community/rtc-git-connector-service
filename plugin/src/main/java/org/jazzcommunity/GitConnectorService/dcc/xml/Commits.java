@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.jazzcommunity.GitConnectorService.dcc.data.Commit;
@@ -13,8 +14,20 @@ import org.jazzcommunity.GitConnectorService.dcc.data.Commit;
 @XmlRootElement(name = "commits")
 public class Commits {
 
+  @XmlAttribute private String href;
+
   @XmlElement(name = "commit")
   private List<Commit> commits = new ArrayList<>();
+
+  @XmlAttribute private String rel = "next";
+
+  public String getHref() {
+    return href;
+  }
+
+  public void setHref(String href) {
+    this.href = href;
+  }
 
   public void addCommit(Commit commit) {
     this.commits.add(commit);
