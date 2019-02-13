@@ -48,18 +48,32 @@ public class LinkCollector {
     this.teamService = teamService;
   }
 
+  private void logProjectArea(IProjectArea pa) {
+    String initialized = pa.isInitialized() ? "initialized" : "uninitialized";
+    String archived = pa.isArchived() ? "archived" : "not archived";
+    String message =
+        String.format(
+            "Project Area %s %s is %s and %s",
+            pa.getName(), pa.getItemId(), initialized, archived);
+    teamService.getLog().warn(message);
+  }
+
   public Collection<WorkItemLinkFactory> collect() throws TeamRepositoryException {
     ArrayList<WorkItemLinkFactory> links = new ArrayList<>();
 
     IQueryServer service = teamService.getService(IQueryServer.class);
-    IRepositoryItemService repositoryItemService = teamService.getService(IRepositoryItemService.class);
+    IRepositoryItemService repositoryItemService =
+        teamService.getService(IRepositoryItemService.class);
 
     List<IProjectAreaHandle> handles = getProjectAreaHandles();
     for (IProjectAreaHandle handle : handles) {
-      IProjectArea pa = (IProjectArea) repositoryItemService.fetchItem(handle, null);
-      String archived = pa.isArchived() ? "archived" : "not archived";
-      String message = String.format("Project Area with UUID %s is %s", handle.getItemId(), archived);
-      teamService.getLog().warn(message);
+      IProjectArea area = getProjectArea(handle);
+      logProjectArea(area);
+
+      // Workaround for 'broken' project areas for which we don't really know what the actual problem is.
+      if (!area.isInitialized()) {
+        continue;
+      }
 
       List<IQueryableAttribute> attributes = getLinkAttributes(handle);
       Term gitLinks = orTerm(handle, attributes);
@@ -81,8 +95,6 @@ public class LinkCollector {
       // https://rsjazz.wordpress.com/2012/10/29/using-work-item-queris-for-automation/
       results.setLimit(Integer.MAX_VALUE);
 
-      // we just need to this to print some nice human readable information about PAs here
-      IProjectArea area = getProjectArea(handle);
       // at this point, we should have all the work item results that we want to have
       while (results.hasNext(null)) {
         IResolvedResult<IWorkItem> result = results.next(null);
@@ -119,8 +131,6 @@ public class LinkCollector {
   /**
    * Get the properly typed item of a project area handle. This is needed if you want the full
    * information for a project area, such as it's name.
-   *
-   * <p>Mainly for demonstration purposes.
    *
    * @param handle Handle of the project area to get more information from
    * @return Project Area object
