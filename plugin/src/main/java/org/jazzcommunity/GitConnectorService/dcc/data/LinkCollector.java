@@ -55,6 +55,7 @@ public class LinkCollector {
 
     List<IProjectAreaHandle> handles = getProjectAreaHandles();
     for (IProjectAreaHandle handle : handles) {
+      teamService.getLog().warn(handle);
       List<IQueryableAttribute> attributes = getLinkAttributes(handle);
       Term gitLinks = orTerm(handle, attributes);
       Term projectArea = projectAreaTerm(handle);
