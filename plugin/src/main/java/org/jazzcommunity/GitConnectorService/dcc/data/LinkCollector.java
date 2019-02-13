@@ -55,7 +55,8 @@ public class LinkCollector {
     String archived = pa.isArchived() ? "archived" : "not archived";
     String message =
         String.format(
-            "Project Area %s %s is %s and %s", pa.getName(), pa.getItemId(), initialized, archived);
+            "Project Area '%s %s' is %s and %s",
+            pa.getName(), pa.getItemId(), initialized, archived);
     teamService.getLog().warn(message);
   }
 

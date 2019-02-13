@@ -8,9 +8,9 @@ import org.apache.commons.logging.Log;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
 
 public class LogAdapter {
-  public static void header(Log log, HttpServletRequest request) {
+  public static void headers(Log log, HttpServletRequest request) {
     for (String key : Collections.list(request.getHeaderNames())) {
-      log.debug(String.format("key: %s, value: %s", key, request.getHeader(key)));
+      log.error(String.format("key: %s, value: %s", key, request.getHeader(key)));
     }
   }
 
