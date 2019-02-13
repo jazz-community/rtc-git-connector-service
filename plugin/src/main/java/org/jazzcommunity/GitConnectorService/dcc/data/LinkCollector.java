@@ -35,7 +35,8 @@ public class LinkCollector {
   /**
    * Currently available git link types which map to queryable attributes. Maybe create an api
    * endpoint for this instead? And sort of keep track of this using the collector service?
-   * TODO: Extract to Enum
+   *
+   * <p>TODO: Extract to Enum
    */
   private final String[] linkTypes = {
     "link:com.ibm.team.git.workitem.linktype.gitCommit:target",
@@ -62,8 +63,6 @@ public class LinkCollector {
     ArrayList<WorkItemLinkFactory> links = new ArrayList<>();
 
     IQueryServer service = teamService.getService(IQueryServer.class);
-    IRepositoryItemService repositoryItemService =
-        teamService.getService(IRepositoryItemService.class);
 
     List<IProjectAreaHandle> handles = getProjectAreaHandles();
     for (IProjectAreaHandle handle : handles) {

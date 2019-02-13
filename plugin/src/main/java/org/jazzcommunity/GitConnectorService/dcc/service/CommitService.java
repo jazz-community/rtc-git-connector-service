@@ -11,6 +11,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
+import org.jazzcommunity.GitConnectorService.common.LogAdapter;
 import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
 import org.jazzcommunity.GitConnectorService.dcc.xml.Commits;
@@ -34,6 +35,7 @@ public class CommitService extends AbstractRestService {
    */
   @Override
   public void execute() throws Exception {
+    LogAdapter.parameters(log, request);
     // TODO: Use builder pattern for creating a fluent collector interface with multiple filters
     Collection<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
     Commits commits = new Commits();

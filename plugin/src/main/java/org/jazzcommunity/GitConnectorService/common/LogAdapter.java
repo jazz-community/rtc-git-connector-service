@@ -23,7 +23,7 @@ public class LogAdapter {
     for (Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
       String value = Joiner.on(", ").join(entry.getValue());
       String out = String.format("Parameter %s: %s", entry.getKey(), value);
-      log.debug(out);
+      log.error(out);
     }
   }
 
