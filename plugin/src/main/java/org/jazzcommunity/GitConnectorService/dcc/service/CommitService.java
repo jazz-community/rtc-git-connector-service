@@ -38,9 +38,9 @@ public class CommitService extends AbstractRestService {
     Commits commits = new Commits();
 
     for (WorkItemLinkFactory link : links) {
-      System.out.println(String.format("Item id: %s, uuid: %s", link.getId(), link.getItemId()));
       commits.addCommits(link.resolveCommits());
     }
+
     response.setContentType(ContentType.APPLICATION_XML.toString());
     // dcc doesn't send a required encoding, but will error out on anything that isn't utf-8. I'm
     // not sure this is correct for every deployment configuration, but has been the same with every

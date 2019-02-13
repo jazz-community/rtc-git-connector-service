@@ -5,8 +5,9 @@ import java.util.Collections;
 import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
+import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
 
-public class RequestLogging {
+public class LogAdapter {
   public static void header(Log log, HttpServletRequest request) {
     for (String key : Collections.list(request.getHeaderNames())) {
       log.debug(String.format("key: %s, value: %s", key, request.getHeader(key)));
@@ -24,5 +25,9 @@ public class RequestLogging {
       String out = String.format("Parameter %s: %s", entry.getKey(), value);
       log.debug(out);
     }
+  }
+
+  public static void link(Log log, WorkItemLinkFactory link) {
+    log.debug(String.format("Item id: %s, uuid: %s", link.getId(), link.getItemId()));
   }
 }
