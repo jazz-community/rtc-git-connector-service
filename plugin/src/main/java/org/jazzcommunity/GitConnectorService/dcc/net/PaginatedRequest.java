@@ -24,7 +24,8 @@ public final class PaginatedRequest {
   private final int start;
   private final int end;
 
-  private PaginatedRequest(String baseUrl, HttpServletRequest request, String cacheId, int start, int end) {
+  private PaginatedRequest(
+      String baseUrl, HttpServletRequest request, String cacheId, int start, int end) {
     this.baseUrl = baseUrl;
     this.request = request;
     this.cacheId = cacheId;
@@ -67,7 +68,8 @@ public final class PaginatedRequest {
     return "PaginatedRequest{" + "start=" + start + ", end=" + end + '}';
   }
 
-  public static PaginatedRequest fromRequest(String baseUrl, HttpServletRequest request, String cacheId) {
+  public static PaginatedRequest fromRequest(
+      String baseUrl, HttpServletRequest request, String cacheId) {
     String size = request.getParameter("size");
     String pos = request.getParameter("pos");
 

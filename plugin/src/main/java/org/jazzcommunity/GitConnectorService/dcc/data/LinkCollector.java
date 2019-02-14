@@ -30,7 +30,6 @@ import com.ibm.team.workitem.service.IQueryServer;
 import com.ibm.team.workitem.service.IWorkItemServer;
 import java.util.ArrayList;
 import java.util.List;
-import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 
 public class LinkCollector {
   /**
@@ -96,7 +95,7 @@ public class LinkCollector {
 
       // overcome query result limit:
       // https://rsjazz.wordpress.com/2012/10/29/using-work-item-queris-for-automation/
-            results.setLimit(Integer.MAX_VALUE);
+      results.setLimit(Integer.MAX_VALUE);
       ResultSize resultSize = results.getResultSize(null);
 
       // at this point, we should have all the work item results that we want to have

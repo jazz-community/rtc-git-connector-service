@@ -5,7 +5,6 @@ import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +14,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.common.LogAdapter;
+import org.jazzcommunity.GitConnectorService.dcc.data.Commit;
 import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
@@ -22,7 +22,7 @@ import org.jazzcommunity.GitConnectorService.dcc.xml.Commits;
 
 public class CommitService extends AbstractRestService {
 
-  private static final ConcurrentHashMap<String, ArrayList<WorkItemLinkFactory>> cache =
+  private static final ConcurrentHashMap<String, ArrayList<Commit>> cache =
       new ConcurrentHashMap<>();
 
   public CommitService(
@@ -46,40 +46,67 @@ public class CommitService extends AbstractRestService {
     String size = request.getParameter("size");
 
     if (size == null || Integer.valueOf(size) == 0) {
-      // this should just return the entire payload... though I'm not sure yet if we actually want to support that operation
+      // this should just return the entire payload... though I'm not sure yet if we actually want
+      // to support that operation
     }
 
     if (id == null) {
       // this is the start of a new dcc extraction job
       // first, we need to start a new 'collection' session.
       ArrayList<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
+      // actually, this is not what should be cached yet. This is only just the query with work
+      // items that have commit links. What I need now is another method that will resolve ALL of
+      // these in a flat list, and only that should then be cached. This needs to be an extra step
+      // and not right into the commit wrapper class.
+
+      // we now need to flatten the collection of all git links while resolving them
+      // this is what will then be cached
+      ArrayList<Commit> commits = new ArrayList<>();
+      for (WorkItemLinkFactory link : links) {
+        commits.addAll(link.resolveCommits());
+      }
       // this will be cached for all subsequent requests
       // the key is just a random string to index into the hashmap
       String random = RandomStringUtils.randomAlphanumeric(1 << 5);
-      cache.put(random, links);
+      cache.put(random, commits);
       // now, we need to create a pagination object with the next payload
-      PaginatedRequest pagination = PaginatedRequest
-          .fromRequest(parentService.getRequestRepositoryURL(), request, random);
+      PaginatedRequest pagination =
+          PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, random);
+
       // with this set, we can now create the first answer payload
-      Commits commits = new Commits();
-      commits.setHref(pagination.getNext().toString());
+      Commits answer = new Commits();
+      answer.setHref(pagination.getNext().toString());
       // and then fill them with the paginated values
-      for (int i = pagination.getStart(); i < pagination.getEnd(); i += 1) {
-      }
+      answer.addCommits(commits.subList(pagination.getStart(), pagination.getEnd()));
+      //      for (int i = pagination.getStart(); i < pagination.getEnd(); i += 1) {
+      //        answer.addCommits(commits.);
+      //      }
+      // and write it back as our response
+      // TODO: extract xml creation functionality to separate class
+      response.setContentType(ContentType.APPLICATION_XML.toString());
+      // dcc doesn't send a required encoding, but will error out on anything that isn't utf-8. I'm
+      // not sure this is correct for every deployment configuration, but has been the same with
+      // every
+      // instance that I have tested so far.
+      response.setCharacterEncoding("UTF-8");
+
+      Marshaller context = JAXBContext.newInstance(Commits.class).createMarshaller();
+      // makes the output human readable. This should probably be a flag or something so that we
+      // don't create additional overhead when running in production.
+      context.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      context.marshal(answer, response.getWriter());
     } else {
       // there should be a cached previous request
     }
-
   }
 
-  public void oldImplementation() throws Exception{
+  public void oldImplementation() throws Exception {
     LogAdapter.parameters(log, request);
     PaginatedRequest pagination =
         PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, "bla");
 
     // TODO: Use builder pattern for creating a fluent collector interface with multiple filters
-    ArrayList<WorkItemLinkFactory> links =
-        new LinkCollector(this.parentService).collect();
+    ArrayList<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
     Commits commits = new Commits();
     commits.setHref(pagination.getNext().toString());
 
