@@ -13,7 +13,6 @@ import javax.xml.bind.Marshaller;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
-import org.jazzcommunity.GitConnectorService.common.LogAdapter;
 import org.jazzcommunity.GitConnectorService.dcc.data.Commit;
 import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
@@ -22,6 +21,7 @@ import org.jazzcommunity.GitConnectorService.dcc.xml.Commits;
 
 public class CommitService extends AbstractRestService {
 
+  // TODO: Implement cache clearing
   private static final ConcurrentHashMap<String, ArrayList<Commit>> cache =
       new ConcurrentHashMap<>();
 
@@ -42,12 +42,33 @@ public class CommitService extends AbstractRestService {
    */
   @Override
   public void execute() throws Exception {
+    // TODO: Improve error handling
     String id = request.getParameter("id");
     String size = request.getParameter("size");
 
     if (size == null || Integer.valueOf(size) == 0) {
       // this should just return the entire payload... though I'm not sure yet if we actually want
       // to support that operation
+      throw new NoSuchMethodException("Invalid method call");
+    }
+
+    if (id != null) {
+      // this is the continuation of an existing request
+      // for now, we will just expect that the method is called with the proper size arguments
+      // TODO: Will have to take into account that the slice size might be larger than the data
+      PaginatedRequest pagination =
+          PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
+
+      // this is pretty much the same as in the other method, we now just build the responses
+      Commits answer = new Commits();
+      answer.setHref(pagination.getNext().toString());
+      answer.addCommits(cache.get(id).subList(pagination.getStart(), pagination.getEnd()));
+      response.setContentType(ContentType.APPLICATION_XML.toString());
+      response.setCharacterEncoding("UTF-8");
+      Marshaller context = JAXBContext.newInstance(Commits.class).createMarshaller();
+      context.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      context.marshal(answer, response.getWriter());
+      return;
     }
 
     if (id == null) {
@@ -78,61 +99,21 @@ public class CommitService extends AbstractRestService {
       answer.setHref(pagination.getNext().toString());
       // and then fill them with the paginated values
       answer.addCommits(commits.subList(pagination.getStart(), pagination.getEnd()));
-      //      for (int i = pagination.getStart(); i < pagination.getEnd(); i += 1) {
-      //        answer.addCommits(commits.);
-      //      }
       // and write it back as our response
       // TODO: extract xml creation functionality to separate class
       response.setContentType(ContentType.APPLICATION_XML.toString());
       // dcc doesn't send a required encoding, but will error out on anything that isn't utf-8. I'm
       // not sure this is correct for every deployment configuration, but has been the same with
-      // every
-      // instance that I have tested so far.
+      // every instance that I have tested so far.
       response.setCharacterEncoding("UTF-8");
-
       Marshaller context = JAXBContext.newInstance(Commits.class).createMarshaller();
       // makes the output human readable. This should probably be a flag or something so that we
       // don't create additional overhead when running in production.
       context.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
       context.marshal(answer, response.getWriter());
-    } else {
-      // there should be a cached previous request
-    }
-  }
-
-  public void oldImplementation() throws Exception {
-    LogAdapter.parameters(log, request);
-    PaginatedRequest pagination =
-        PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, "bla");
-
-    // TODO: Use builder pattern for creating a fluent collector interface with multiple filters
-    ArrayList<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
-    Commits commits = new Commits();
-    commits.setHref(pagination.getNext().toString());
-
-    System.out.println("\t" + pagination);
-
-    for (WorkItemLinkFactory link : links) {
-      commits.addCommits(link.resolveCommits());
+      return;
     }
 
-    for (int i = 0; i < 100; i += 1) {
-      System.out.println(RandomStringUtils.randomAlphanumeric(1 << 5));
-    }
-
-    System.out.println(String.format("\tCommit count: %s", commits.size()));
-
-    // TODO: extract xml creation functionality to separate class
-    response.setContentType(ContentType.APPLICATION_XML.toString());
-    // dcc doesn't send a required encoding, but will error out on anything that isn't utf-8. I'm
-    // not sure this is correct for every deployment configuration, but has been the same with every
-    // instance that I have tested so far.
-    response.setCharacterEncoding("UTF-8");
-
-    Marshaller context = JAXBContext.newInstance(Commits.class).createMarshaller();
-    // makes the output human readable. This should probably be a flag or something so that we
-    // don't create additional overhead when running in production.
-    context.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    context.marshal(commits, response.getWriter());
+    throw new NoSuchMethodException("Invalid method call");
   }
 }
