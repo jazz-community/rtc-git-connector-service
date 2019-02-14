@@ -57,6 +57,15 @@ public class CommitService extends AbstractRestService {
       // the key is just a random string to index into the hashmap
       String random = RandomStringUtils.randomAlphanumeric(1 << 5);
       cache.put(random, links);
+      // now, we need to create a pagination object with the next payload
+      PaginatedRequest pagination = PaginatedRequest
+          .fromRequest(parentService.getRequestRepositoryURL(), request, random);
+      // with this set, we can now create the first answer payload
+      Commits commits = new Commits();
+      commits.setHref(pagination.getNext().toString());
+      // and then fill them with the paginated values
+      for (int i = pagination.getStart(); i < pagination.getEnd(); i += 1) {
+      }
     } else {
       // there should be a cached previous request
     }
@@ -66,7 +75,7 @@ public class CommitService extends AbstractRestService {
   public void oldImplementation() throws Exception{
     LogAdapter.parameters(log, request);
     PaginatedRequest pagination =
-        PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request);
+        PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, "bla");
 
     // TODO: Use builder pattern for creating a fluent collector interface with multiple filters
     ArrayList<WorkItemLinkFactory> links =
