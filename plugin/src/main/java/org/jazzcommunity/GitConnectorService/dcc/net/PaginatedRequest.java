@@ -38,6 +38,18 @@ public final class PaginatedRequest {
     return end;
   }
 
+  public int getSize() {
+    return end - start;
+  }
+
+  public int getPage() {
+    if (start != 0) {
+      return end / start;
+    }
+
+    return 0;
+  }
+
   public boolean isPaginated() {
     return start != 0;
   }

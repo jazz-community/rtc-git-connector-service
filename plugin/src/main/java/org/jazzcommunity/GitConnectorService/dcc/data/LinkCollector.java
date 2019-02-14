@@ -97,7 +97,7 @@ public class LinkCollector {
 
       // overcome query result limit:
       // https://rsjazz.wordpress.com/2012/10/29/using-work-item-queris-for-automation/
-      results.setLimit(Integer.MAX_VALUE);
+//      results.setLimit(Integer.MAX_VALUE);
 
       // at this point, we should have all the work item results that we want to have
       while (results.hasNext(null)) {
