@@ -37,7 +37,8 @@ public class CommitService extends AbstractRestService {
   @Override
   public void execute() throws Exception {
     LogAdapter.parameters(log, request);
-    PaginatedRequest pagination = PaginatedRequest.fromRequest(request);
+    PaginatedRequest pagination =
+        PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request);
 
     // TODO: Use builder pattern for creating a fluent collector interface with multiple filters
     Collection<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
