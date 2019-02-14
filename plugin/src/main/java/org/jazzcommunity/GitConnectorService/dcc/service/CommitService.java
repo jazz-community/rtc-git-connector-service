@@ -67,7 +67,7 @@ public class CommitService extends AbstractRestService {
       Commits answer = new Commits();
       answer.setHref(pagination.getNext().toString());
       // TODO: this also needs a vastly superior solution
-      if (end <= pagination.getEnd()) {
+      if (pagination.getEnd() >= commits.size()) {
         answer.setHref(null);
         answer.setRel(null);
       }
@@ -77,6 +77,9 @@ public class CommitService extends AbstractRestService {
       Marshaller context = JAXBContext.newInstance(Commits.class).createMarshaller();
       context.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
       context.marshal(answer, response.getWriter());
+
+      log.error(pagination);
+
       return;
     }
 
@@ -95,6 +98,7 @@ public class CommitService extends AbstractRestService {
       for (WorkItemLinkFactory link : links) {
         commits.addAll(link.resolveCommits());
       }
+      log.error(String.format("Initial collection found %s links", commits.size()));
       // this will be cached for all subsequent requests
       // the key is just a random string to index into the hashmap
       String random = RandomStringUtils.randomAlphanumeric(1 << 5);
@@ -120,6 +124,9 @@ public class CommitService extends AbstractRestService {
       // don't create additional overhead when running in production.
       context.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
       context.marshal(answer, response.getWriter());
+
+      log.error(pagination);
+
       return;
     }
 
