@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.dcc.data.Commit;
 import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
+import org.jazzcommunity.GitConnectorService.dcc.data.TimeOutArrayList;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 import org.jazzcommunity.GitConnectorService.dcc.xml.Commits;
@@ -22,7 +23,7 @@ import org.jazzcommunity.GitConnectorService.dcc.xml.Commits;
 public class CommitService extends AbstractRestService {
 
   // TODO: Implement cache clearing
-  private static final ConcurrentHashMap<String, ArrayList<Commit>> cache =
+  private static final ConcurrentHashMap<String, TimeOutArrayList<Commit>> cache =
       new ConcurrentHashMap<>();
 
   public CommitService(
@@ -60,17 +61,22 @@ public class CommitService extends AbstractRestService {
           PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
 
       // this is an easy workaround for just now, definitely doesn't cover all cases
-      ArrayList<Commit> commits = cache.get(id);
+      TimeOutArrayList<Commit> commits = cache.get(id);
       int end = Math.min(pagination.getEnd(), commits.size());
 
       // this is pretty much the same as in the other method, we now just build the responses
       Commits answer = new Commits();
       answer.setHref(pagination.getNext().toString());
+
+      // check if we are done
       // TODO: this also needs a vastly superior solution
       if (pagination.getEnd() >= commits.size()) {
         answer.setHref(null);
         answer.setRel(null);
+        // because we're at the end, we can release the array list for GC
+        cache.remove(id);
       }
+
       answer.addCommits(commits.subList(pagination.getStart(), end));
       response.setContentType(ContentType.APPLICATION_XML.toString());
       response.setCharacterEncoding("UTF-8");
@@ -94,7 +100,7 @@ public class CommitService extends AbstractRestService {
 
       // we now need to flatten the collection of all git links while resolving them
       // this is what will then be cached
-      ArrayList<Commit> commits = new ArrayList<>();
+      TimeOutArrayList<Commit> commits = new TimeOutArrayList<>();
       for (WorkItemLinkFactory link : links) {
         commits.addAll(link.resolveCommits());
       }
