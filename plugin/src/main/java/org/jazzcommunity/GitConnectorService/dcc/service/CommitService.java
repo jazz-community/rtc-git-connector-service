@@ -4,11 +4,14 @@ import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.common.LogAdapter;
@@ -18,6 +21,9 @@ import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 import org.jazzcommunity.GitConnectorService.dcc.xml.Commits;
 
 public class CommitService extends AbstractRestService {
+
+  private static final ConcurrentHashMap<String, ArrayList<WorkItemLinkFactory>> cache =
+      new ConcurrentHashMap<>();
 
   public CommitService(
       Log log,
@@ -36,19 +42,49 @@ public class CommitService extends AbstractRestService {
    */
   @Override
   public void execute() throws Exception {
+    String id = request.getParameter("id");
+    String size = request.getParameter("size");
+
+    if (size == null || Integer.valueOf(size) == 0) {
+      // this should just return the entire payload... though I'm not sure yet if we actually want to support that operation
+    }
+
+    if (id == null) {
+      // this is the start of a new dcc extraction job
+      // first, we need to start a new 'collection' session.
+      ArrayList<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
+      // this will be cached for all subsequent requests
+      // the key is just a random string to index into the hashmap
+      String random = RandomStringUtils.randomAlphanumeric(1 << 5);
+      cache.put(random, links);
+    } else {
+      // there should be a cached previous request
+    }
+
+  }
+
+  public void oldImplementation() throws Exception{
     LogAdapter.parameters(log, request);
     PaginatedRequest pagination =
         PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request);
 
     // TODO: Use builder pattern for creating a fluent collector interface with multiple filters
-    Collection<WorkItemLinkFactory> links =
-        new LinkCollector(this.parentService, pagination).collect();
+    ArrayList<WorkItemLinkFactory> links =
+        new LinkCollector(this.parentService).collect();
     Commits commits = new Commits();
     commits.setHref(pagination.getNext().toString());
+
+    System.out.println("\t" + pagination);
 
     for (WorkItemLinkFactory link : links) {
       commits.addCommits(link.resolveCommits());
     }
+
+    for (int i = 0; i < 100; i += 1) {
+      System.out.println(RandomStringUtils.randomAlphanumeric(1 << 5));
+    }
+
+    System.out.println(String.format("\tCommit count: %s", commits.size()));
 
     // TODO: extract xml creation functionality to separate class
     response.setContentType(ContentType.APPLICATION_XML.toString());

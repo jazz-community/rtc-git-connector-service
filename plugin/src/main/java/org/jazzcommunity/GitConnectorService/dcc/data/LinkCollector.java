@@ -24,11 +24,11 @@ import com.ibm.team.workitem.common.model.IWorkItem;
 import com.ibm.team.workitem.common.model.IWorkItemReferences;
 import com.ibm.team.workitem.common.query.IQueryResult;
 import com.ibm.team.workitem.common.query.IResolvedResult;
+import com.ibm.team.workitem.common.query.ResultSize;
 import com.ibm.team.workitem.service.IAuditableServer;
 import com.ibm.team.workitem.service.IQueryServer;
 import com.ibm.team.workitem.service.IWorkItemServer;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 
@@ -46,11 +46,9 @@ public class LinkCollector {
   };
 
   private TeamRawService teamService;
-  private final PaginatedRequest pagination;
 
-  public LinkCollector(TeamRawService teamService, PaginatedRequest pagination) {
+  public LinkCollector(TeamRawService teamService) {
     this.teamService = teamService;
-    this.pagination = pagination;
   }
 
   private void logProjectArea(IProjectArea pa) {
@@ -63,7 +61,7 @@ public class LinkCollector {
     teamService.getLog().warn(message);
   }
 
-  public Collection<WorkItemLinkFactory> collect() throws TeamRepositoryException {
+  public ArrayList<WorkItemLinkFactory> collect() throws TeamRepositoryException {
     ArrayList<WorkItemLinkFactory> links = new ArrayList<>();
 
     IQueryServer service = teamService.getService(IQueryServer.class);
@@ -92,12 +90,14 @@ public class LinkCollector {
       combined.add(gitLinks);
       combined.add(projectArea);
 
+      // TODO: This should probably not work with resolved results, but resolve each page one by one
       IQueryResult<IResolvedResult<IWorkItem>> results =
           service.getResolvedExpressionResults(handle, combined, IWorkItem.FULL_PROFILE);
 
       // overcome query result limit:
       // https://rsjazz.wordpress.com/2012/10/29/using-work-item-queris-for-automation/
-//      results.setLimit(Integer.MAX_VALUE);
+            results.setLimit(Integer.MAX_VALUE);
+      ResultSize resultSize = results.getResultSize(null);
 
       // at this point, we should have all the work item results that we want to have
       while (results.hasNext(null)) {
