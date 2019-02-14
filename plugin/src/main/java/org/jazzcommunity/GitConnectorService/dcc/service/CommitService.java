@@ -41,10 +41,10 @@ public class CommitService extends AbstractRestService {
         PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request);
 
     // TODO: Use builder pattern for creating a fluent collector interface with multiple filters
-    Collection<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
+    Collection<WorkItemLinkFactory> links =
+        new LinkCollector(this.parentService, pagination).collect();
     Commits commits = new Commits();
     commits.setHref(pagination.getNext().toString());
-    System.out.println(pagination.getNext());
 
     for (WorkItemLinkFactory link : links) {
       commits.addCommits(link.resolveCommits());

@@ -30,6 +30,7 @@ import com.ibm.team.workitem.service.IWorkItemServer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 
 public class LinkCollector {
   /**
@@ -40,14 +41,16 @@ public class LinkCollector {
    */
   private final String[] linkTypes = {
     "link:com.ibm.team.git.workitem.linktype.gitCommit:target",
-    "link:org.jazzcommunity.git.link.git_issue:target",
-    "link:org.jazzcommunity.git.link.git_mergerequest:target"
+    //    "link:org.jazzcommunity.git.link.git_issue:target",
+    //    "link:org.jazzcommunity.git.link.git_mergerequest:target"
   };
 
   private TeamRawService teamService;
+  private final PaginatedRequest pagination;
 
-  public LinkCollector(TeamRawService teamService) {
+  public LinkCollector(TeamRawService teamService, PaginatedRequest pagination) {
     this.teamService = teamService;
+    this.pagination = pagination;
   }
 
   private void logProjectArea(IProjectArea pa) {
