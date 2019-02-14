@@ -5,6 +5,8 @@ import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,6 +92,14 @@ public class CommitService extends AbstractRestService {
     }
 
     if (id == null) {
+      // before we start, check if any previous jobs need to be dumped
+      Date now = new Date();
+      for (Entry<String, TimeOutArrayList<Commit>> entry : cache.entrySet()) {
+        if (entry.getValue().dump(now)) {
+          cache.remove(entry.getKey());
+        }
+      }
+
       // this is the start of a new dcc extraction job
       // first, we need to start a new 'collection' session.
       ArrayList<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
