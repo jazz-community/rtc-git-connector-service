@@ -25,6 +25,10 @@ public class Commits {
     return href;
   }
 
+  public void setRel(String rel) {
+    this.rel = rel;
+  }
+
   public void setHref(String href) {
     this.href = href;
   }

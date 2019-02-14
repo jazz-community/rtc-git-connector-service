@@ -59,10 +59,19 @@ public class CommitService extends AbstractRestService {
       PaginatedRequest pagination =
           PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
 
+      // this is an easy workaround for just now, definitely doesn't cover all cases
+      ArrayList<Commit> commits = cache.get(id);
+      int end = Math.min(pagination.getEnd(), commits.size());
+
       // this is pretty much the same as in the other method, we now just build the responses
       Commits answer = new Commits();
       answer.setHref(pagination.getNext().toString());
-      answer.addCommits(cache.get(id).subList(pagination.getStart(), pagination.getEnd()));
+      // TODO: this also needs a vastly superior solution
+      if (end <= pagination.getEnd()) {
+        answer.setHref(null);
+        answer.setRel(null);
+      }
+      answer.addCommits(commits.subList(pagination.getStart(), end));
       response.setContentType(ContentType.APPLICATION_XML.toString());
       response.setCharacterEncoding("UTF-8");
       Marshaller context = JAXBContext.newInstance(Commits.class).createMarshaller();
