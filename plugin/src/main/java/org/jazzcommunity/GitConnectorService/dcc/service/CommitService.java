@@ -101,9 +101,17 @@ public class CommitService extends AbstractRestService {
         }
       }
 
+      // check for archived attribute
+      boolean includeArchived =
+          request.getParameter("archived") != null
+              ? Boolean.valueOf(request.getParameter("archived"))
+              : false;
+
       // this is the start of a new dcc extraction job
       // first, we need to start a new 'collection' session.
-      ArrayList<WorkItemLinkFactory> links = new LinkCollector(this.parentService).collect();
+      System.out.println(String.format("Inluding archived: %s", includeArchived));
+      ArrayList<WorkItemLinkFactory> links =
+          new LinkCollector(this.parentService).collect(includeArchived);
       // actually, this is not what should be cached yet. This is only just the query with work
       // items that have commit links. What I need now is another method that will resolve ALL of
       // these in a flat list, and only that should then be cached. This needs to be an extra step

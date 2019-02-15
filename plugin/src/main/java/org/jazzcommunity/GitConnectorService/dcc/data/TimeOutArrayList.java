@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class TimeOutArrayList<T> {
   // TODO: This should be configurable somewhere
-  private static final long LIMIT = 30;
+  private static final long LIMIT = 5;
 
   private final ArrayList<T> list = new ArrayList<T>();
   private final Date creation = new Date();
@@ -23,7 +23,6 @@ public final class TimeOutArrayList<T> {
     } catch (RuntimeException e) {
       return Collections.EMPTY_LIST;
     }
-
   }
 
   public void addAll(Collection<T> commits) {

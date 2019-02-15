@@ -60,7 +60,9 @@ public class LinkCollector {
     teamService.getLog().warn(message);
   }
 
-  public ArrayList<WorkItemLinkFactory> collect() throws TeamRepositoryException {
+  // TODO: Replace flag by Enum / Filter Options
+  public ArrayList<WorkItemLinkFactory> collect(boolean includeArchived)
+      throws TeamRepositoryException {
     ArrayList<WorkItemLinkFactory> links = new ArrayList<>();
 
     IQueryServer service = teamService.getService(IQueryServer.class);
@@ -72,7 +74,12 @@ public class LinkCollector {
 
       // Workaround for 'broken' project areas for which we don't really know what the actual
       // problem is.
+      // TODO: Improve exclusion logic
       if (!area.isInitialized()) {
+        continue;
+      }
+
+      if (area.isArchived() && !includeArchived) {
         continue;
       }
 
