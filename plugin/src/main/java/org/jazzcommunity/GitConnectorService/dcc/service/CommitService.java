@@ -142,7 +142,7 @@ public class CommitService extends AbstractRestService {
       answer.setHref(pagination.getNext().toString());
       // and then fill them with the paginated values
       if (pagination.getEnd() > Integer.valueOf(size)) {
-        answer.addCommits(commits.subList(pagination.getStart(), Integer.valueOf(size)));
+        answer.addCommits(commits.subList(pagination.getStart(), Integer.valueOf(size) - 1));
       } else {
         answer.addCommits(commits.subList(pagination.getStart(), pagination.getEnd()));
       }
