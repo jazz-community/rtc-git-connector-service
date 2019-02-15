@@ -32,7 +32,7 @@ public class WorkItemLinkFactory {
     this.summary = summary;
   }
 
-  public void addLink(String comment, URI uri) {
+  public void addLink(String comment, URI uri, UUID projectArea) {
     // this is obviously super ugly, but easy for debugging right now. we shouldn't really have to
     // differentiate which links we are working on, except probably for commits.
 
@@ -45,7 +45,7 @@ public class WorkItemLinkFactory {
     // of links. That would probably work quite nicely
     // issues and requests can probably be merged after links are split
     if (uri.getPath().contains("IGitResourceRestService")) {
-      Link link = new Link<>(comment, uri, new DataResolver(itemId, uri));
+      Link link = new Link<>(comment, uri, projectArea, new DataResolver(this.itemId, uri));
       commits.add(link);
       return;
     }

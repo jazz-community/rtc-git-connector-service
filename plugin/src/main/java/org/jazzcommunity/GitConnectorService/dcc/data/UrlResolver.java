@@ -3,6 +3,7 @@ package org.jazzcommunity.GitConnectorService.dcc.data;
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
+import com.ibm.team.repository.common.UUID;
 import java.io.IOException;
 import java.net.URI;
 import org.jazzcommunity.GitConnectorService.dcc.net.RemoteUrl;
@@ -18,7 +19,7 @@ public class UrlResolver implements Resolver<Object> {
   }
 
   @Override
-  public Object resolve() {
+  public Object resolve(UUID projectArea) {
     // this will fetch data from gitlab/hub or wherever, and return a data object. Which data will
     // be used for what payloads hasn't been defined yet, so this will just print some data instead
     // for now.

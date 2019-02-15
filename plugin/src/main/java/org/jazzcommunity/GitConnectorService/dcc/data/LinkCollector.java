@@ -126,9 +126,9 @@ public class LinkCollector {
           if (descriptor.getLinkType().getLinkTypeId().contains("git")) {
             for (IReference reference : references.getReferences(descriptor)) {
               if (reference.isURIReference()) {
-                System.out.println(String.format("Project Area UUID: %s", handle.getItemId()));
                 IURIReference uriRef = (IURIReference) reference;
-                workItemLinkFactory.addLink(uriRef.getComment(), uriRef.getURI());
+                workItemLinkFactory.addLink(
+                    uriRef.getComment(), uriRef.getURI(), handle.getItemId());
               }
             }
           }

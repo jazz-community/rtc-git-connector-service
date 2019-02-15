@@ -1,5 +1,6 @@
 package org.jazzcommunity.GitConnectorService.dcc.data;
 
+import com.ibm.team.repository.common.UUID;
 import java.io.IOException;
 
 /**
@@ -9,5 +10,5 @@ import java.io.IOException;
 public interface Resolver<T> {
   // this might actually have to throw, but I'll keep error handling local for now, probably easier
   // to handle like this anyway.
-  T resolve() throws IOException;
+  T resolve(UUID projectArea) throws IOException;
 }

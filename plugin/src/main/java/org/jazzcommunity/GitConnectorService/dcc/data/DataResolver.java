@@ -22,7 +22,7 @@ public class DataResolver implements Resolver<Commit> {
   }
 
   @Override
-  public Commit resolve() throws IOException {
+  public Commit resolve(UUID projectArea) throws IOException {
     // dummy implementation for now, this should return some kind of data container
     // this will probably need some generic goodness in here to make sense...
     Gson gson = new GsonBuilder().setDateFormat(DateFormat.FULL, DateFormat.FULL).create();
@@ -37,6 +37,7 @@ public class DataResolver implements Resolver<Commit> {
     // that have obviously invalid decoded date completely.
     commit.setLinkedFrom(parent.getUuidValue());
     commit.setLinkUrl(String.format("%s&preview=small", uri.toString()));
+    commit.setProjectArea(projectArea.getUuidValue());
     return commit;
   }
 

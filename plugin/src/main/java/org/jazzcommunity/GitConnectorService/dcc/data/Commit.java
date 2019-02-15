@@ -44,6 +44,8 @@ public class Commit {
 
   private String linkUrl;
 
+  private String projectArea;
+
   public String getComment() {
     return comment;
   }
@@ -146,5 +148,13 @@ public class Commit {
         + "\',\n\tlink='"
         + linkUrl
         + "\',\n}";
+  }
+
+  public void setProjectArea(String projectArea) {
+    this.projectArea = projectArea;
+  }
+
+  public String getProjectArea() {
+    return projectArea;
   }
 }
