@@ -39,4 +39,8 @@ public final class TimeOutArrayList<T> {
     System.out.println(String.format("Needs to be removed: %s", difference > LIMIT));
     return difference > LIMIT;
   }
+
+  public ArrayList<T> getList() {
+    return list;
+  }
 }
