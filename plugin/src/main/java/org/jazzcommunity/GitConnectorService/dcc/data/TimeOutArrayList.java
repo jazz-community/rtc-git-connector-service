@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService.dcc.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -17,11 +18,20 @@ public final class TimeOutArrayList<T> {
   }
 
   public Collection<T> subList(int start, int end) {
-    return list.subList(start, end);
+    try {
+      return list.subList(start, end);
+    } catch (RuntimeException e) {
+      return Collections.EMPTY_LIST;
+    }
+
   }
 
   public void addAll(Collection<T> commits) {
     list.addAll(commits);
+  }
+
+  public boolean isEmpty() {
+    return list.isEmpty();
   }
 
   public boolean dump(Date date) {

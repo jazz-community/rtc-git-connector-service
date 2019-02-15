@@ -72,7 +72,8 @@ public class CommitService extends AbstractRestService {
 
       // check if we are done
       // TODO: this also needs a vastly superior solution
-      if (pagination.getEnd() >= commits.size()) {
+
+      if (pagination.getEnd() >= commits.size() || commits.isEmpty()) {
         answer.setHref(null);
         answer.setRel(null);
         // because we're at the end, we can release the array list for GC
