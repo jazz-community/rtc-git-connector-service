@@ -32,7 +32,7 @@
 	dcc:baseResourceGroup <http://jazz.net/ns/dcc/baseResourceGroup#RTCBaseResourceGroup>;
 	dcc:executionOrder "100";
 	dcc:version "6.0.1,6.0.2,6.0.3,6.0.4,6.0.5,6.0.6,6.0.7";
-    dcc:relativeURL "/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/dcc/commits?size=10";
+    dcc:relativeURL "/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/dcc/commits?size=100";
 	dcc:baseXPath "/commits".
 	
 <http://jazz.net/ns/dcc/ODSTableMap#git_commits>
