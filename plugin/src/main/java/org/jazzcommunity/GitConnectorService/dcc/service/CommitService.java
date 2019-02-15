@@ -141,7 +141,11 @@ public class CommitService extends AbstractRestService {
       Commits answer = new Commits();
       answer.setHref(pagination.getNext().toString());
       // and then fill them with the paginated values
-      answer.addCommits(commits.subList(pagination.getStart(), pagination.getEnd()));
+      if (pagination.getEnd() > Integer.valueOf(size)) {
+        answer.addCommits(commits.subList(pagination.getStart(), Integer.valueOf(size)));
+      } else {
+        answer.addCommits(commits.subList(pagination.getStart(), pagination.getEnd()));
+      }
       // and write it back as our response
       // TODO: extract xml creation functionality to separate class
       response.setContentType(ContentType.APPLICATION_XML.toString());
