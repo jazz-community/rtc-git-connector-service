@@ -10,7 +10,7 @@ import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
 public class LogAdapter {
   public static void headers(Log log, HttpServletRequest request) {
     for (String key : Collections.list(request.getHeaderNames())) {
-      log.error(String.format("key: %s, value: %s", key, request.getHeader(key)));
+      log.debug(String.format("key: %s, value: %s", key, request.getHeader(key)));
     }
   }
 
@@ -23,7 +23,7 @@ public class LogAdapter {
     for (Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
       String value = Joiner.on(", ").join(entry.getValue());
       String out = String.format("Parameter %s: %s", entry.getKey(), value);
-      log.error(out);
+      log.debug(out);
     }
   }
 
