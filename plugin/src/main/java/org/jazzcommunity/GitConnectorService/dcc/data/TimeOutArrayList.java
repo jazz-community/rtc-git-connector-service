@@ -8,9 +8,9 @@ import java.util.concurrent.TimeUnit;
 
 public final class TimeOutArrayList<T> {
   // TODO: This should be configurable somewhere
-  private static final long LIMIT = 5;
+  private static final long LIMIT = 30;
 
-  private final ArrayList<T> list = new ArrayList<T>();
+  private final ArrayList<T> list = new ArrayList<>();
   private final Date creation = new Date();
 
   public int size() {

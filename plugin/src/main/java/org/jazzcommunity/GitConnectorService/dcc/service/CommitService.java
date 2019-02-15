@@ -24,6 +24,9 @@ import org.jazzcommunity.GitConnectorService.dcc.xml.Commits;
 
 public class CommitService extends AbstractRestService {
 
+  // TODO: This should be configurable
+  private static final String DEFAULT_SIZE = "25";
+
   // TODO: Implement cache clearing
   private static final ConcurrentHashMap<String, TimeOutArrayList<Commit>> cache =
       new ConcurrentHashMap<>();
@@ -47,8 +50,10 @@ public class CommitService extends AbstractRestService {
   public void execute() throws Exception {
     // TODO: Improve error handling
     String id = request.getParameter("id");
-    String size = request.getParameter("size");
+    String size =
+        request.getParameter("size") != null ? request.getParameter("size") : DEFAULT_SIZE;
 
+    // TODO: Remove this after testing default size
     if (size == null || Integer.valueOf(size) == 0) {
       // this should just return the entire payload... though I'm not sure yet if we actually want
       // to support that operation
@@ -96,7 +101,7 @@ public class CommitService extends AbstractRestService {
       // before we start, check if any previous jobs need to be dumped
       Date now = new Date();
       for (Entry<String, TimeOutArrayList<Commit>> entry : cache.entrySet()) {
-        if (entry.getValue().dump(now)) {
+        if (entry.getValue().dump(now) && !entry.getKey().equals(id)) {
           cache.remove(entry.getKey());
         }
       }

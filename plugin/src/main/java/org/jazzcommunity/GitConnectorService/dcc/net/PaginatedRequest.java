@@ -70,7 +70,8 @@ public final class PaginatedRequest {
 
   public static PaginatedRequest fromRequest(
       String baseUrl, HttpServletRequest request, String cacheId) {
-    String size = request.getParameter("size");
+    // TODO: This already has a better solution, just have to consolidate size parameter handling
+    String size = request.getParameter("size") != null ? request.getParameter("size") : "25";
     String pos = request.getParameter("pos");
 
     if (size == null) {

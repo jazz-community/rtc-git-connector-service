@@ -74,11 +74,11 @@ public class LinkCollector {
 
       // Workaround for 'broken' project areas for which we don't really know what the actual
       // problem is.
-      // TODO: Improve exclusion logic
       if (!area.isInitialized()) {
         continue;
       }
 
+      // TODO: Improve exclusion logic. This needs a filter method
       if (area.isArchived() && !includeArchived) {
         continue;
       }
@@ -126,6 +126,7 @@ public class LinkCollector {
           if (descriptor.getLinkType().getLinkTypeId().contains("git")) {
             for (IReference reference : references.getReferences(descriptor)) {
               if (reference.isURIReference()) {
+                System.out.println(String.format("Project Area UUID: %s", handle.getItemId()));
                 IURIReference uriRef = (IURIReference) reference;
                 workItemLinkFactory.addLink(uriRef.getComment(), uriRef.getURI());
               }
