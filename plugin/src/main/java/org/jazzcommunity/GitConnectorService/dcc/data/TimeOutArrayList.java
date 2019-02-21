@@ -36,7 +36,6 @@ public final class TimeOutArrayList<T> {
   public boolean dump(Date date) {
     long milliseconds = Math.abs(this.creation.getTime() - date.getTime());
     long difference = TimeUnit.MINUTES.convert(milliseconds, TimeUnit.MILLISECONDS);
-    System.out.println(String.format("Needs to be removed: %s", difference > LIMIT));
     return difference > LIMIT;
   }
 
