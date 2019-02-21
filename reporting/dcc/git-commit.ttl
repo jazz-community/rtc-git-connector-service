@@ -40,7 +40,7 @@
 	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_commit>;
 	rr:logicalTable [ 
 		dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_COMMIT>; 
-		dcc:deliveryKey [ rr:column "URL" ];
+		dcc:deliveryKey [ rr:column "URL"; rr:column "PROJECT_ID" ];
         dcc:needLock "TRUE";
     ];
     rr:predicateObjectMap [
@@ -82,6 +82,16 @@
     rr:predicateObjectMap [
         rr:predicateMap [ dcc:XPath "/commit/shortSha" ];
         rr:objectMap [ rr:column "SHORT_SHA" ]
+    ];
+    # FK to project
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/commit/projectArea" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_ProjectArea>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;								
+            dcc:lookupKey "EXTERNAL_KEY2";
+            rr:joinCondition [ rr:child "PROJECT_ID"; rr:parent "PROJECT_ID" ];
+        ];
     ].
 
 <http://jazz.net/ns/dcc/ODSTableMap#git_commits_lookup>
