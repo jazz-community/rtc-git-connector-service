@@ -18,6 +18,8 @@ public final class TimeOutArrayList<T> {
   }
 
   public Collection<T> subList(int start, int end) {
+    // TODO: Replace try with actual range check.
+    // We don't need to pollute the stack with an exception
     try {
       return list.subList(start, end);
     } catch (RuntimeException e) {

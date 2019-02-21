@@ -112,7 +112,7 @@ public class CommitService extends AbstractRestService {
 
       // this is the start of a new dcc extraction job
       // first, we need to start a new 'collection' session.
-      System.out.println(String.format("Inluding archived: %s", includeArchived));
+      log.info(String.format("Inluding archived: %s", includeArchived));
       ArrayList<WorkItemLinkFactory> links =
           new LinkCollector(this.parentService).collect(includeArchived);
       // actually, this is not what should be cached yet. This is only just the query with work
