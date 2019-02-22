@@ -16,14 +16,7 @@ map:RIDW_VW_GIT_COMMIT a d2rq:ClassMap;
     d2rq:uriColumn "RIDW.VW_GIT_COMMIT.URL";
     d2rq:class ridw:RIDW_VW_GIT_COMMIT;
     jrs:table "RIDW.VW_GIT_COMMIT";
-    # this seems to be the property that makes an artifact show up
-    # in the report builder under 'choose data' -> yes, but also in the links
-    #jrs:metaModel "CM";
     jrs:metaModel "METRICS_CM";
-    # not sure what this does, maybe this will hide it in the main view
-    # but make it show up in the relations drop down?
-    # no, this doesn't seem to be something I know
-    #jrs:refersToClassMap map:RIDW_VW_REQUEST;
     d2rq:classDefinitionLabel "Git Commit";
     .
 
@@ -136,83 +129,12 @@ map:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT__ref a d2rq:PropertyBridge;
     d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
     .
 
-map:RIDW_VW_GIT_COMMIT_LOOKUP__link a d2rq:PropertyBridge;
-    # this should then probably belong to request, so as
-    # to make it only show up with workitems instea of git
-    # commits.
-    # Then probably create a git group with all the git
-    # artifacts seperately.
-    #d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+# link that shows up in UI
+map:RIDW_VW_REQUEST_GIT_COMMIT_LOOKUP__link a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
-    # where do I need to define this?
-    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP;
-    #d2rq:refersToClassMap map:RIDW_VW_REQUEST;
+    d2rq:property ridw:RIDW_VW_REQUEST_GIT_COMMIT_LOOKUP;
     d2rq:refersToClassMap map:RIDW_VW_GIT_COMMIT;
     d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
     d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
-    d2rq:propertyDefinitionLabel "BLA BLA BLA BLA";
+    d2rq:propertyDefinitionLabel "Git Commit Link";
     .
-
-map:RIDW_VW_GIT_COMMIT_TEST__link a d2rq:PropertyBridge;
-    # this should then probably belong to request, so as
-    # to make it only show up with workitems instea of git
-    # commits.
-    # Then probably create a git group with all the git
-    # artifacts seperately.
-    #d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
-    d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
-    # where do I need to define this?
-    d2rq:property ridw:RIDW_VW_GIT_COMMIT_TEST;
-    #d2rq:refersToClassMap map:RIDW_VW_REQUEST;
-    d2rq:refersToClassMap map:RIDW_VW_GIT_COMMIT;
-    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
-    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
-    d2rq:propertyDefinitionLabel "BLUBBER BLA BLUBB";
-    .
-
-#map:RIDW_VW_GIT_COMMIT__link a d2rq:PropertyBridge;
-#    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
-#    d2rq:property ridw:RIDW_VW_GIT_COMMIT;
-#    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
-#    d2rq:join "RIDW.VW_GIT_COMMIT.PARENT => RIDW.VW_GIT_COMMIT.EXTERNAL_KEY2";
-#    .
-
-#map:RIDW_VW_GIT_COMMIT_LINKED_FROM__ref a d2rq:PropertyBridge;
-#    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
-#    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LINKED_FROM;
-#    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
-#    d2rq:join "RIDW.VW_GIT_COMMIT.LINKED_FROM => RIDW.VW_REQUEST.EXTERNAL_KEY2";
-#    d2rq:propertyDefinitionLabel "Git Commit Work Item";
-#    .
-#
-#map:RIDW_VW_REQUEST_REQUEST_ID__ref a d2rq:PropertyBridge;
-#    d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
-#    d2rq:property ridw:RIDW_VW_REQUEST_EXTERNAL_KEY2;
-#    d2rq:refersToClassMap map:RIDW_VW_GIT_COMMIT;
-#    d2rq:join "RIDW.VW_REQUEST.EXTERNAL_KEY2 => RIDW.VW_GIT_COMMIT.LINKED_FROM";
-#    d2rq:propertyDefinitionLabel "Git Commit";
-#    .
-
-# I think what I need is an (n:m) mapping, such as this:
-# Table RIDW.VW_REQUEST_BUILD_LOOKUP (n:m)
-#map:RIDW_VW_REQUEST_BUILD_LOOKUP__link a d2rq:PropertyBridge;
-#	d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
-#	d2rq:property ridw:RIDW_VW_REQUEST_BUILD_LOOKUP;
-#	d2rq:refersToClassMap map:RIDW_VW_BUILD;
-#	d2rq:join "RIDW.VW_REQUEST_BUILD_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
-#	d2rq:join "RIDW.VW_REQUEST_BUILD_LOOKUP.BUILD_ID => RIDW.VW_BUILD.BUILD_ID";
-#	.
-
-# there are also other (n:m) properties, most of them with a name __link
-# maybe searching for d2rq:belongsToClassMap map:RIDW_VW_REQUEST; for __links and __labels etc.
-
-# there is also __ref, which I also don't really understand. I'm not sure if these magic
-# names have any kind of extended meaning...
-
-# REQUEST_ID is not something that comes from ccm, so that will probably require custom
-# insert logic... -> looks like external_key2 is the uuid of the work item. I might be able
-# to work with that when joining...
-
-# Ok, so joining in advanced sql seems to work. But for showing them in the UI, it seems that
-# just simple data links won't work. Also, links seem to only work when they are auditablelink
-# types, such as https://localhost:9443/ccm/resource/itemOid/com.ibm.team.links.AuditableLink/_xWhQYPShEeievNWW5tmq9A
