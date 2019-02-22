@@ -11,7 +11,9 @@ CREATE TABLE RIODS.GIT_COMMIT (
 	-- uuids are always 128-bit by specification
     -- 36 characters for string representation are defined in the corresponding
     -- RFC: https://tools.ietf.org/html/rfc4122#section-3
-    LINKED_FROM VARCHAR(36),
+    -- However, EXTERNAL_KEY2, where it is used in the RIODS database, are
+    -- always defined as CHAR(40). We adhere to this convention
+    LINKED_FROM CHAR(40),
 	REPOSITORY_KEY VARCHAR(1024),
     -- sha hashes are 40 hex symbols, but it is now possible to choose different
     -- hash algorithms for git (custom configuration)
