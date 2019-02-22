@@ -9,7 +9,9 @@ CREATE TABLE RIODS.GIT_COMMIT (
 	COMMIT_DATE TIMESTAMP,
     LINK_URL VARCHAR(2083),
 	-- uuids are always 128-bit by specification
-    LINKED_FROM VARCHAR(128),
+    -- 36 characters for string representation are defined in the corresponding
+    -- RFC: https://tools.ietf.org/html/rfc4122#section-3
+    LINKED_FROM VARCHAR(36),
 	REPOSITORY_KEY VARCHAR(1024),
     -- sha hashes are 40 hex symbols, but it is now possible to choose different
     -- hash algorithms for git (custom configuration)
