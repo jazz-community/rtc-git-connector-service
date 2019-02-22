@@ -10,22 +10,29 @@ CREATE VIEW RIDW.VW_GIT_COMMIT (
     URL,
     LINKED_FROM,
 	REPOSITORY_KEY,
+    -- Information about the project area
+    PROJECT_ID,
+    PROJECT_NAME
 	SHA,
     -- short sha needs to be called id for the implicit UI mapping
 	ID,
     PK
 ) AS
 (SELECT 
-	COMMENT,
-	URL,
-	COMMITER_EMAIL,
-	COMMITER_NAME,
-	COMMIT_DATE,
-    LINK_URL,
-    LINKED_FROM,
-	REPOSITORY_KEY,
-	SHA,
-	SHORT_SHA,
-    ID_PK
+	C.COMMENT,
+	C.URL,
+	C.COMMITER_EMAIL,
+	C.COMMITER_NAME,
+	C.COMMIT_DATE,
+    C.LINK_URL,
+    C.LINKED_FROM,
+	C.REPOSITORY_KEY,
+    P.PROJECT_ID,
+    P.NAME,
+	C.SHA,
+	C.SHORT_SHA,
+    C.ID_PK
 FROM
-	RIODS.GIT_COMMIT);
+	RIODS.GIT_COMMIT C 
+    JOIN RIODS.Project P
+      ON P.project_id = C.project_id);
