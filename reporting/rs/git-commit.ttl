@@ -90,6 +90,27 @@ map:RIDW_VW_GIT_COMMIT_ID a d2rq:PropertyBridge;
     d2rq:propertyDefinitionLabel "ID";
     .
 
+map:RIDW_VW_GIT_COMMIT_PROJECT_ID a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_PROJECT_ID;
+    d2rq:column "RIDW.VW_GIT_COMMIT.PROJECT_ID";
+    d2rq:propertyDefinitionLabel "Project ID";
+    .
+
+map:RIDW_VW_GIT_COMMIT_PROJECT_NAME a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_PROJECT_NAME;
+    d2rq:column "RIDW.VW_GIT_COMMIT.PROJECT_NAME";
+    d2rq:propertyDefinitionLabel "Project Name";
+    .
+
+map:RIDW_VW_GIT_COMMIT_PROJECT_ID__ref a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_PROJECT_ID;
+    d2rq:refersToClassMap map:RIDW_VW_PROJECT;
+    d2rq:join "RIDW.VW_GIT_COMMIT.PROJECT_ID => RIDW.VW_PROJECT.PROJECT_ID";
+    .
+
 # Table RIDW_VW_GIT_COMMIT_LOOKUP
 map:RIDW_VW_GIT_COMMIT_LOOKUP a d2rq:ClassMap;
     d2rq:dataStorage map:database;
