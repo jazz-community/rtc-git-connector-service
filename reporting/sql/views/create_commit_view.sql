@@ -12,7 +12,7 @@ CREATE VIEW RIDW.VW_GIT_COMMIT (
 	REPOSITORY_KEY,
     -- Information about the project area
     PROJECT_ID,
-    PROJECT_NAME
+    PROJECT_NAME,
 	SHA,
     -- short sha needs to be called id for the implicit UI mapping
 	ID,
