@@ -1,12 +1,18 @@
 # RTC Git Connector Service
 RTC Git Connector Service provides the server side functionality for [RTC Git Connector](https://github.com/jazz-community/rtc-git-connector). This includes providing custom link styles for Git Artifacts, Rich Hover capability for these links across RTC and extensions for DCC and Report Builder to enable reporting of Git information.
 
+# Table of Contents
+
 -   [Setup](#setup)
     -   [Prerequisites](#prerequisites)
     -   [Installation](#installation)
-    -   [Reporting](#reporting)
-    -   [Contributing](#contributing)
-    -   [Licensing](#licensing)
+-   [Reporting](#reporting)
+    -   [Prerequisites](#prerequisites-1)
+    -   [Deployment](#deployment)
+    -   [Update](#update)
+    -   [Example](#example)
+-   [Contributing](#contributing)
+-   [Licensing](#licensing)
 
 # Setup
 Deploying this service only makes sense in conjunction with the [RTC Git Connector](https://github.com/jazz-community/rtc-git-connector). Detailed instructions for installing RTC Git Connector can be taken from it's [readme](https://github.com/jazz-community/rtc-git-connector/blob/master/README.md).
