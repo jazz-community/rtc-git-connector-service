@@ -51,24 +51,26 @@ The required SQL Files are in the `reporting/sql_db2_derby/` folder of this repo
 2. Head to the dcc start page, eg. `https://your-rtc-server/dcc/web`. Import the data collection definitions.
 
 ![Collection Job Import](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/dcc_load_jobs.png)
+
 3. Verify that the Git DCC Jobs have been loaded successfully. The Jobs should be listed in the ODS Data Collection section.
 
 ![Job Import Verification](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/dcc_jobs_loaded.png)
 
 ### Deploy Report Builder Definitions
-The required SQL Files are in the `reporting/sql_db2_derby/views` folder of this repository or the released update site zip file in `org.jazzcommunity.GitConnectorService-update-site/reporting`. Please note that the order in which the views are created is important, and should be followed as is presented here.
-
 1. Copy all ttl files from the `reporting/rs` folder to the `server/conf/rs/metadata` folder of your RTC installation.
 2. Import report definitions: 
     1. Go to the admin section of report builder and click on Data Sources
 
 ![Report Builder Admin View](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/rs_admin_section.png)
+
     2. Choose the Rational Data Warehouse Data Source
 
 ![Report Builder Data Sources](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/rs_data_sources.png)
+
     3. Reload definitions
 
 ![Report Builder Resource Refresh](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/rs_refresh-source.png)
+
 3. Verify that the report definitions have been loaded sucessfully: After the successful update of the metamodel, you should see the git artifacts when creating a reporting and selecting "Choose an artifact"
 
 ![Report Builder Showing Git Commit](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/rs_choose_artifact.png)
@@ -85,7 +87,56 @@ Now, continue with the steps in the [Deployment](#deployment) section to create 
 ## Example
 This example shows how deployment of the reporting capabilities can be done with RTC and DB2 hosted on Windows.
 
-1. 
+### Prepare Database
+
+1. Start a DB2 command line window as the user who created the Jazz database.
+2. Change directory to the sql scripts of this package.
+
+`cd /d d:\IBM\BT-Updatesites\reporting\sql_db2_derby`
+
+3. Connect to Data Warehouse Database
+
+`db2 connect to <database>`
+
+4. Drop existing views and tables if they exist
+
+`db2 -tvf .\drop_before_update.sql`
+
+5. Create the tables and views in the correct order
+
+```
+db2 -tvf .\tables\create_commit_table.sql
+db2 -tvf .\tables\create_commit_lookup_table.sql
+db2 -tvf .\views\create_commit_view.sql
+db2 -tvf .\views\create_commit_lookup_view.sql
+```
+
+6. Disconnect the command line session
+
+`db2 disconnect <database>`
+
+### Deploy Data Collection Files
+
+1. Copy the files in `reporting/dcc` to `server/conf/dcc/mapping`
+
+`cp .\dcc\git-commit.ttl D:\IBM\JazzLiberty_DCC_606\server\conf\dcc\mapping`
+
+2. Import data collection definitions as shown in the [instructions](#deploy-data-collection-files)
+    1. Open DCC Web, eg. from `https://jazz-home-uri/dcc/web`
+    2. Click the load button
+
+### Deploy Report Builder Definitions
+
+1. Copy the files in `reporting/rs` to `server/conf/rs/metadata`
+
+`cp .\rs\git-commit.ttl D:\IBM\JazzLiberty_RS_606\server\conf\rs\metadata`
+
+2. Reload the report definitions as shown in the [instructions](#deploy-report-builder-definitions)
+    1. Open report builder, eg. from `https://jazz-home-uri/rs/reports`
+    2. Go to the Admin View
+    3. Open Data Source
+    4. Choose the *Rational Data Warehouse* Data Source
+    5. Click refresh
 
 # Contributing
 Please use the [Issue Tracker](https://github.com/jazz-community/rtc-git-connector-service/issues) of this repository to report issues or suggest enhancements.
