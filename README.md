@@ -36,28 +36,30 @@ If you have previously deployed another version of RTC Git Connector Service wit
 ## Deployment
 This section gives a high level description of deploying the required reporting components. A detailed [Example](#example) is also provided in a later section.
 
-### DCC
-The required SQL Files are in the `reporting/sql_db2_derby/tables` folder of this repository or the released update site zip file. Please note that the order in which the tables are created is important, and should be followed as is presented here.
+### Prepare Database
+The required SQL Files are in the `reporting/sql_db2_derby/` folder of this repository or the released update site zip file, split up by subfolders for tables and views. Please note that the order in which the scripts are executed is important, and should be followed as is presented here.
 
 1. Using a SQL Client / database administration tool, connect to the Data Warehouse Database.
 2. Run the `create_commit_table.sql` file to create the `RIODS.GIT_COMMIT` table.
 3. Run the `create_commit_lookup_table.sql` file to create the `RIODS.GIT_COMMIT_LOOKUP` table.
-4. Copy all ttl files from the `reporting/dcc` folder to the `server/conf/dcc/mapping` folder of your RTC installation.
-5. Head to the dcc start page, eg. `https://your-rtc-server/dcc/web`. Import the data collection definitions.
+4. Run the `create_commit_view.sql` file to create the `RIDW.VW_GIT_COMMIT` view.
+5. Run the `create_commit_lookup_view.sql` file to create the `RIDW.VW_GIT_COMMIT_LOOKUP` view.
+
+### Deploy Data Collection Files
+
+1. Copy all ttl files from the `reporting/dcc` folder to the `server/conf/dcc/mapping` folder of your RTC installation.
+2. Head to the dcc start page, eg. `https://your-rtc-server/dcc/web`. Import the data collection definitions.
 
 ![Collection Job Import](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/dcc_load_jobs.png)
-6. Verify that the Git DCC Jobs have been loaded successfully. The Jobs should be listed in the ODS Data Collection section.
+3. Verify that the Git DCC Jobs have been loaded successfully. The Jobs should be listed in the ODS Data Collection section.
 
 ![Job Import Verification](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/dcc_jobs_loaded.png)
 
-### RS
+### Deploy Report Builder Definitions
 The required SQL Files are in the `reporting/sql_db2_derby/views` folder of this repository or the released update site zip file in `org.jazzcommunity.GitConnectorService-update-site/reporting`. Please note that the order in which the views are created is important, and should be followed as is presented here.
 
-1. Using a SQL Client / database administration tool, connect to the Data Warehouse Database.
-2. Run the `create_commit_view.sql` file to create the `RIDW.VW_GIT_COMMIT` view.
-2. Run the `create_commit_lookup_view.sql` file to create the `RIDW.VW_GIT_COMMIT_LOOKUP` view.
-4. Copy all ttl files from the `reporting/rs` folder to the `server/conf/rs/metadata` folder of your RTC installation.
-5. Import report definitions: 
+1. Copy all ttl files from the `reporting/rs` folder to the `server/conf/rs/metadata` folder of your RTC installation.
+2. Import report definitions: 
     1. Go to the admin section of report builder and click on Data Sources
 
 ![Report Builder Admin View](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/rs_admin_section.png)
@@ -67,7 +69,7 @@ The required SQL Files are in the `reporting/sql_db2_derby/views` folder of this
     3. Reload definitions
 
 ![Report Builder Resource Refresh](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/rs_refresh-source.png)
-6. Verify that the report definitions have been loaded sucessfully: After the successful update of the metamodel, you should see the git artifacts when creating a reporting and selecting "Choose an artifact"
+3. Verify that the report definitions have been loaded sucessfully: After the successful update of the metamodel, you should see the git artifacts when creating a reporting and selecting "Choose an artifact"
 
 ![Report Builder Showing Git Commit](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/rs_choose_artifact.png)
 
