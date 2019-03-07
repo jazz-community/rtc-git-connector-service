@@ -16,7 +16,7 @@
     </fileSet>
     <fileSet>
       <directory>${project.parent.basedir}/reporting</directory>
-      <outputDirectory>reporting</outputDirectory>
+      <outputDirectory>${project.groupId}-update-site/reporting</outputDirectory>
     </fileSet>
   </fileSets>
   <files>
