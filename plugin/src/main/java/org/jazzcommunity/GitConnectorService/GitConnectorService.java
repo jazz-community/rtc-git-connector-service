@@ -1,14 +1,16 @@
 package org.jazzcommunity.GitConnectorService;
 
 import com.siemens.bt.jazz.services.base.BaseService;
-import org.jazzcommunity.GitConnectorService.inject.LinkTypeInjector;
-import org.jazzcommunity.GitConnectorService.service.VersionService;
-import org.jazzcommunity.GitConnectorService.service.gitlab.IssueLinkService;
-import org.jazzcommunity.GitConnectorService.service.gitlab.IssuePreviewService;
-import org.jazzcommunity.GitConnectorService.service.gitlab.RequestLinkService;
-import org.jazzcommunity.GitConnectorService.service.gitlab.RequestPreviewService;
-import org.jazzcommunity.GitConnectorService.service.proxy.ProxyService;
-import org.jazzcommunity.GitConnectorService.service.resource.ImageService;
+import com.siemens.bt.jazz.services.base.router.Router;
+import org.jazzcommunity.GitConnectorService.ccm.inject.LinkTypeInjector;
+import org.jazzcommunity.GitConnectorService.ccm.service.VersionService;
+import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.IssueLinkService;
+import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.IssuePreviewService;
+import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.RequestLinkService;
+import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.RequestPreviewService;
+import org.jazzcommunity.GitConnectorService.ccm.service.proxy.ProxyService;
+import org.jazzcommunity.GitConnectorService.ccm.service.resource.ImageService;
+import org.jazzcommunity.GitConnectorService.dcc.service.CommitService;
 
 /**
  * Entry point for the Service, called by the Jazz class loader.
@@ -26,9 +28,16 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
    */
   public GitConnectorService() {
     super();
-
     LinkTypeInjector.injectCustomLinks();
+    addCcmRoutes(router);
+    addDccRoutes(router);
+  }
 
+  private void addDccRoutes(Router router) {
+    router.get("dcc/commits", CommitService.class);
+  }
+
+  private void addCcmRoutes(Router router) {
     router.get("gitlab/{host}/project/{projectId}/issue/{issueId}/link", IssueLinkService.class);
     router.get(
         "gitlab/{host}/project/{projectId}/issue/{issueId}/preview", IssuePreviewService.class);

@@ -14,6 +14,10 @@
       <directory>${project.build.directory}/repository/plugins/</directory>
       <outputDirectory>${project.groupId}-update-site/plugins</outputDirectory>
     </fileSet>
+    <fileSet>
+      <directory>${project.parent.basedir}/reporting</directory>
+      <outputDirectory>reporting</outputDirectory>
+    </fileSet>
   </fileSets>
   <files>
     <file>

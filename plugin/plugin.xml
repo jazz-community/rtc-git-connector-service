@@ -19,6 +19,9 @@
         <requiredService interface="com.ibm.team.repository.common.service.IQueryService"/>
         <requiredService interface="com.ibm.team.repository.service.IServerQueryService"/>
         <requiredService interface="com.ibm.team.build.internal.common.ITeamBuildService"/>
+        <requiredService interface="com.ibm.team.workitem.service.IQueryServer"/>
+        <requiredService interface="com.ibm.team.workitem.service.IAuditableServer"/>
+        <requiredService interface="com.ibm.team.workitem.service.IWorkItemServer"/>
       </prerequisites>
     </serviceProvider>
   </extension>

@@ -1,0 +1,161 @@
+@prefix map: <#> .
+@prefix db: <> .
+@prefix ridw: <http://jazz.net/ns/reporting/dwse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+@prefix jdbc: <http://d2rq.org/terms/jdbc/> .
+@prefix jrs: <http://jazz.net/jrs/reportbuilder/datawarehouse#> .
+@prefix sg: <http://jazz.net/ns/reporting/sparqlgateway#> .
+
+# Table RIDW.VW_GIT_COMMIT
+map:RIDW_VW_GIT_COMMIT a d2rq:ClassMap;
+    jrs:primaryKey "RIDW.VW_GIT_COMMIT.URL";
+    d2rq:dataStorage map:database;
+    d2rq:uriColumn "RIDW.VW_GIT_COMMIT.URL";
+    d2rq:class ridw:RIDW_VW_GIT_COMMIT;
+    jrs:table "RIDW.VW_GIT_COMMIT";
+    jrs:metaModel "METRICS_CM";
+    d2rq:classDefinitionLabel "Git Commit";
+    .
+
+map:RIDW_VW_GIT_COMMIT_NAME a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_NAME;
+    d2rq:column "RIDW.VW_GIT_COMMIT.NAME";
+    d2rq:propertyDefinitionLabel "Comment";
+    .
+
+map:RIDW_VW_GIT_COMMIT_EXTERNAL_LINK a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_EXTERNAL_LINK;
+    d2rq:column "RIDW.VW_GIT_COMMIT.EXTERNAL_LINK";
+    d2rq:propertyDefinitionLabel "External Link Url";
+    .
+
+map:RIDW_VW_GIT_COMMIT_COMMITER_EMAIL a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_COMMITER_EMAIL;
+    d2rq:column "RIDW.VW_GIT_COMMIT.COMMITER_EMAIL";
+    d2rq:propertyDefinitionLabel "Commiter Email";
+    .
+
+map:RIDW_VW_GIT_COMMIT_COMMITER_NAME a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_COMMITER_NAME;
+    d2rq:column "RIDW.VW_GIT_COMMIT.COMMITER_NAME";
+    d2rq:propertyDefinitionLabel "Commiter Name";
+    .
+
+map:RIDW_VW_GIT_COMMIT_COMMIT_DATE a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_DATE;
+    d2rq:column "RIDW.VW_GIT_COMMIT.COMMIT_DATE";
+    d2rq:propertyDefinitionLabel "Commit Date";
+    .
+
+map:RIDW_VW_GIT_COMMIT_URL a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_URL;
+    d2rq:column "RIDW.VW_GIT_COMMIT.URL";
+    d2rq:propertyDefinitionLabel "URL";
+    .
+
+map:RIDW_VW_GIT_COMMIT_LINKED_FROM a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LINKED_FROM;
+    d2rq:column "RIDW.VW_GIT_COMMIT.LINKED_FROM";
+    d2rq:propertyDefinitionLabel "Linked from Work Item";
+    .
+
+map:RIDW_VW_GIT_COMMIT_REPOSITORY_KEY a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_REPOSITORY_KEY;
+    d2rq:column "RIDW.VW_GIT_COMMIT.REPOSITORY_KEY";
+    d2rq:propertyDefinitionLabel "Repository Key";
+    .
+
+map:RIDW_VW_GIT_COMMIT_SHA a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_SHA;
+    d2rq:column "RIDW.VW_GIT_COMMIT.SHA";
+    d2rq:propertyDefinitionLabel "Commit Sha";
+    .
+
+map:RIDW_VW_GIT_COMMIT_ID a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_ID;
+    d2rq:column "RIDW.VW_GIT_COMMIT.ID";
+    d2rq:propertyDefinitionLabel "ID";
+    .
+
+map:RIDW_VW_GIT_COMMIT_PROJECT_ID a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_PROJECT_ID;
+    d2rq:column "RIDW.VW_GIT_COMMIT.PROJECT_ID";
+    d2rq:propertyDefinitionLabel "Project ID";
+    .
+
+map:RIDW_VW_GIT_COMMIT_PROJECT_NAME a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_PROJECT_NAME;
+    d2rq:column "RIDW.VW_GIT_COMMIT.PROJECT_NAME";
+    d2rq:propertyDefinitionLabel "Project Name";
+    .
+
+map:RIDW_VW_GIT_COMMIT_PROJECT_ID__ref a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_PROJECT_ID;
+    d2rq:refersToClassMap map:RIDW_VW_PROJECT;
+    d2rq:join "RIDW.VW_GIT_COMMIT.PROJECT_ID => RIDW.VW_PROJECT.PROJECT_ID";
+    .
+
+# Table RIDW_VW_GIT_COMMIT_LOOKUP
+map:RIDW_VW_GIT_COMMIT_LOOKUP a d2rq:ClassMap;
+    d2rq:dataStorage map:database;
+    d2rq:class ridw:RIDW_VW_GIT_COMMIT_LOOKUP;
+    jrs:table "RIDW.VW_GIT_COMMIT_LOOKUP";
+    .
+
+map:RIDW_VW_GIT_COMMIT_LOOKUP__label a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
+    #d2rq:property rdfs:label;
+    d2rq:propertyDefinitionLabel "Git Commit Link";
+    .
+
+map:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT_ID
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT_ID;
+    d2rq:column "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID";
+    .
+
+map:RIDW_VW_GIT_COMMIT_LOOKUP_REQUEST_ID
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP_REQUEST_ID;
+    d2rq:column "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID";
+    .
+
+map:RIDW_VW_GIT_COMMIT_LOOKUP_REQUEST__ref a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP_REQUEST;
+    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
+    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+    .
+
+map:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT__ref a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
+    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT;
+    d2rq:refersToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
+    .
+
+# link that shows up in UI
+map:RIDW_VW_REQUEST_GIT_COMMIT_LOOKUP__link a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
+    d2rq:property ridw:RIDW_VW_REQUEST_GIT_COMMIT_LOOKUP;
+    d2rq:refersToClassMap map:RIDW_VW_GIT_COMMIT;
+    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
+    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+    d2rq:propertyDefinitionLabel "Git Commit Link";
+    .
