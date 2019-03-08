@@ -7,12 +7,15 @@ import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import org.apache.commons.logging.Log;
+import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.common.GitLink;
-import org.jazzcommunity.GitConnectorService.dcc.data.IssueResolver;
 import org.jazzcommunity.GitConnectorService.dcc.data.Link;
 import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
+import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
 
 public class IssueService extends AbstractRestService {
@@ -49,14 +52,18 @@ public class IssueService extends AbstractRestService {
     // the caching and pagination should be extracted, but only once I know which parts can actually
     // be generic
 
+    Issues issues = new Issues();
+
     // just show how the flat list can be used to defer resolving
     for (Link<LinkedIssue> issueLink : flat) {
       LinkedIssue issue = issueLink.resolve();
-      if (issue != null) {
-        System.out.println(IssueResolver.issueToString(issue));
-      } else {
-        System.out.println(issueLink);
-      }
+      issues.addIssue(issue);
     }
+
+    response.setContentType(ContentType.APPLICATION_XML.toString());
+    response.setCharacterEncoding("UTF-8");
+    Marshaller marshaller = JAXBContext.newInstance(Issues.class).createMarshaller();
+    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    marshaller.marshal(issues, response.getWriter());
   }
 }

@@ -32,11 +32,11 @@ public class Issues {
     this.href = href;
   }
 
-  public void addCommit(LinkedIssue issue) {
+  public void addIssue(LinkedIssue issue) {
     this.issues.add(issue);
   }
 
-  public void addCommits(Collection<LinkedIssue> issues) {
+  public void addIssues(Collection<LinkedIssue> issues) {
     this.issues.addAll(issues);
   }
 
