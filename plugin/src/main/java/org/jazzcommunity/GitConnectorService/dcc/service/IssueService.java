@@ -5,20 +5,31 @@ import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.common.GitLink;
 import org.jazzcommunity.GitConnectorService.dcc.data.Link;
 import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
+import org.jazzcommunity.GitConnectorService.dcc.data.TimeOutArrayList;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
+import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
 
 public class IssueService extends AbstractRestService {
+
+  private static final String DEFAULT_SIZE = "20";
+  private static final ConcurrentHashMap<String, TimeOutArrayList<Link<LinkedIssue>>> cache =
+      new ConcurrentHashMap<>();
 
   public IssueService(
       Log log,
@@ -32,38 +43,82 @@ public class IssueService extends AbstractRestService {
 
   @Override
   public void execute() throws Exception {
-    // TODO: All pagination stuff should be extracted to a controller
-    ArrayList<WorkItemLinkFactory> links =
-        new LinkCollector(new GitLink[] {GitLink.GIT_ISSUE}, this.parentService).collect(false);
-
-    // as opposed to the data urls, I won't want to resolve data right away. Instead, every
-    // paginated call should resolve just the amount that is in the url
-
-    // As a first step, I will take apart the collection logic to better match the requirements that
-    // dcc imposes on how data is handled
-
-    // First, I want to flatten the link collection:
-    ArrayList<Link<LinkedIssue>> flat = new ArrayList<>();
-    for (WorkItemLinkFactory link : links) {
-      flat.addAll(link.getIssues());
-    }
-
-    // this flattened link collection is then what I want to use for caching
-    // the caching and pagination should be extracted, but only once I know which parts can actually
-    // be generic
-
-    Issues issues = new Issues();
-
-    // just show how the flat list can be used to defer resolving
-    for (Link<LinkedIssue> issueLink : flat) {
-      LinkedIssue issue = issueLink.resolve();
-      issues.addIssue(issue);
-    }
-
     response.setContentType(ContentType.APPLICATION_XML.toString());
     response.setCharacterEncoding("UTF-8");
     Marshaller marshaller = JAXBContext.newInstance(Issues.class).createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    marshaller.marshal(issues, response.getWriter());
+
+    // TODO: All pagination stuff should be extracted to a controller
+
+    String id = request.getParameter("id");
+    String size =
+        request.getParameter("size") != null ? request.getParameter("size") : DEFAULT_SIZE;
+
+    // get from cache if ongoing call
+    if (id != null) {
+      PaginatedRequest pagination =
+          PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
+
+      TimeOutArrayList<Link<LinkedIssue>> issues = cache.get(id);
+      int end = Math.min(pagination.getEnd(), issues.size());
+
+      Issues answer = new Issues();
+      answer.setHref(pagination.getNext().toString());
+
+      if (pagination.getEnd() >= issues.size() || issues.isEmpty()) {
+        answer.setHref(null);
+        answer.setRel(null);
+        cache.remove(id);
+      }
+
+      Collection<Link<LinkedIssue>> links = issues.subList(pagination.getStart(), end);
+      for (Link<LinkedIssue> link : links) {
+        answer.addIssue(link.resolve());
+      }
+
+      marshaller.marshal(answer, response.getWriter());
+    } else {
+      Date now = new Date();
+      for (Entry<String, TimeOutArrayList<Link<LinkedIssue>>> entry : cache.entrySet()) {
+        if (entry.getValue().dump(now) && !id.equals(entry.getKey())) {
+          cache.remove(entry.getKey());
+        }
+      }
+
+      boolean includeArchived =
+          request.getParameter("archived") != null
+              ? Boolean.valueOf(request.getParameter("archived"))
+              : false;
+
+      ArrayList<WorkItemLinkFactory> deferredLinks =
+          new LinkCollector(new GitLink[] {GitLink.GIT_ISSUE}, this.parentService)
+              .collect(includeArchived);
+
+      TimeOutArrayList<Link<LinkedIssue>> issues = new TimeOutArrayList<>();
+      for (WorkItemLinkFactory deferredLink : deferredLinks) {
+        issues.addAll(deferredLink.getIssues());
+      }
+
+      String random = RandomStringUtils.randomAlphanumeric(1 << 5);
+      cache.put(random, issues);
+
+      PaginatedRequest pagination =
+          PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, random);
+
+      Issues answer = new Issues();
+      answer.setHref(pagination.getNext().toString());
+
+      if (pagination.getEnd() > issues.size()) {
+        for (Link<LinkedIssue> link : issues.getList()) {
+          answer.addIssue(link.resolve());
+        }
+      } else {
+        for (Link<LinkedIssue> link : issues.subList(pagination.getStart(), pagination.getEnd())) {
+          answer.addIssue(link.resolve());
+        }
+      }
+
+      marshaller.marshal(answer, response.getWriter());
+    }
   }
 }
