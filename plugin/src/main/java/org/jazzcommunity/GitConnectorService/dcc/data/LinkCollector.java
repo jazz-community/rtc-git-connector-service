@@ -50,16 +50,6 @@ public class LinkCollector {
     this.teamService = teamService;
   }
 
-  private void logProjectArea(IProjectArea pa) {
-    String initialized = pa.isInitialized() ? "initialized" : "uninitialized";
-    String archived = pa.isArchived() ? "archived" : "not archived";
-    String message =
-        String.format(
-            "Project Area '%s %s' is %s and %s",
-            pa.getName(), pa.getItemId(), initialized, archived);
-    teamService.getLog().warn(message);
-  }
-
   // TODO: Replace flag by Enum / Filter Options
   public ArrayList<WorkItemLinkFactory> collect(boolean includeArchived)
       throws TeamRepositoryException {
@@ -243,5 +233,15 @@ public class LinkCollector {
     ItemQueryIterator<IProjectAreaHandle> iterator =
         new ItemQueryIterator<>(server, query, null, null, ReadMode.COMMITTED);
     return iterator.toList(null);
+  }
+
+  private void logProjectArea(IProjectArea pa) {
+    String initialized = pa.isInitialized() ? "initialized" : "uninitialized";
+    String archived = pa.isArchived() ? "archived" : "not archived";
+    String message =
+        String.format(
+            "Project Area '%s %s' is %s and %s",
+            pa.getName(), pa.getItemId(), initialized, archived);
+    teamService.getLog().info(message);
   }
 }
