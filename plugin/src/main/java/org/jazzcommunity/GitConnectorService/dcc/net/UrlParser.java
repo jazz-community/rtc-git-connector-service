@@ -31,7 +31,12 @@ public class UrlParser {
     Matcher matcher = pattern.matcher(uri.getPath());
     matcher.find();
     return new RemoteUrl(
-        matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5));
+        uri,
+        matcher.group(1),
+        matcher.group(2),
+        matcher.group(3),
+        matcher.group(4),
+        matcher.group(5));
   }
 
   public static DataUrl parseData(URI uri) {

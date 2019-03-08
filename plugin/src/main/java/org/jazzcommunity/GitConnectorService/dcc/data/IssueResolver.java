@@ -54,7 +54,7 @@ public class IssueResolver implements Resolver<Issue> {
 
           LinkedIssue issue = LinkedIssue.fromIssue(original);
           issue.setLinkedFrom(parent.getUuidValue());
-          // TODO: like in commit, this should also set the rich hover url as the link url
+          issue.setLinkUrl(remoteUrl.asPreview());
           issue.setProjectArea(projectArea.getUuidValue());
 
           return issue;
