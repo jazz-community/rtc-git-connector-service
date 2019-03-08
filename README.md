@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjazz-community%2Frtc-git-connector-service.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjazz-community%2Frtc-git-connector-service?ref=badge_shield)
+
 # RTC Git Connector Service
 RTC Git Connector Service provides the server side functionality for [RTC Git Connector](https://github.com/jazz-community/rtc-git-connector). This includes providing custom link styles for Git Artifacts, Rich Hover capability for these links across RTC and extensions for DCC and Report Builder to enable reporting of Git information.
 
@@ -57,7 +59,6 @@ The required SQL Files are in the `reporting/sql_db2_derby/` folder of this repo
 2. Head to the dcc start page, eg. `https://your-rtc-server/dcc/web`. Import the data collection definitions.
 
 ![Collection Job Import](https://github.com/jazz-community/rtc-git-connector-service/blob/master/documentation/dcc_load_jobs.png)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjazz-community%2Frtc-git-connector-service.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjazz-community%2Frtc-git-connector-service?ref=badge_shield)
 
 3. Verify that the Git DCC Jobs have been loaded successfully. The Jobs should be listed in the ODS Data Collection section.
 
