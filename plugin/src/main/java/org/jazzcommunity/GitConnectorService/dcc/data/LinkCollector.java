@@ -30,24 +30,16 @@ import com.ibm.team.workitem.service.IQueryServer;
 import com.ibm.team.workitem.service.IWorkItemServer;
 import java.util.ArrayList;
 import java.util.List;
-import org.jazzcommunity.GitConnectorService.common.GitLinks;
+import org.jazzcommunity.GitConnectorService.common.GitLink;
 
 public class LinkCollector {
-  /**
-   * Currently available git link types which map to queryable attributes. Maybe create an api
-   * endpoint for this instead? And sort of keep track of this using the collector service?
-   *
-   * <p>TODO: Extract to Enum. No, use the properties instead.
-   */
-  private final String[] linkTypes = {GitLinks.GIT_COMMIT.asTarget()
-    //    "link:com.ibm.team.git.workitem.linktype.gitCommit:target",
-    //    "link:org.jazzcommunity.git.link.git_issue:target",
-    //    "link:org.jazzcommunity.git.link.git_mergerequest:target"
-  };
+
+  private final GitLink[] linkTypes;
 
   private TeamRawService teamService;
 
-  public LinkCollector(TeamRawService teamService) {
+  public LinkCollector(GitLink[] linkTypes, TeamRawService teamService) {
+    this.linkTypes = linkTypes;
     this.teamService = teamService;
   }
 
@@ -214,9 +206,10 @@ public class LinkCollector {
     List<IQueryableAttribute> attributes = new ArrayList<>();
     IQueryableAttributeFactory factory = QueryableAttributes.getFactory(IWorkItem.ITEM_TYPE);
 
-    for (String type : linkTypes) {
+    for (GitLink type : linkTypes) {
       IQueryableAttribute attribute =
-          factory.findAttribute(handle, type, teamService.getService(IAuditableServer.class), null);
+          factory.findAttribute(
+              handle, type.asTarget(), teamService.getService(IAuditableServer.class), null);
       attributes.add(attribute);
     }
 
