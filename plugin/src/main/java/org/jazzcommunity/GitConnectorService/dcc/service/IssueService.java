@@ -47,7 +47,11 @@ public class IssueService extends AbstractRestService {
 
     for (Link<Issue> issueLink : flat) {
       Issue issue = issueLink.resolve();
-      System.out.println(UrlResolver.issueToString(issue));
+      if (issue != null) {
+        System.out.println(UrlResolver.issueToString(issue));
+      } else {
+        System.out.println(issueLink);
+      }
     }
   }
 }

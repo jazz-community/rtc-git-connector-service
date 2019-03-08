@@ -25,4 +25,14 @@ public class Link<T> {
   public T resolve() throws IOException {
     return (T) resolver.resolve(projectArea);
   }
+
+  @Override
+  public String toString() {
+    return "Link{" +
+        "comment='" + comment + '\'' +
+        ", uri=" + uri +
+        ", projectArea=" + projectArea +
+        ", resolver=" + resolver +
+        '}';
+  }
 }
