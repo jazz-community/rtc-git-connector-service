@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.jazzcommunity.GitConnectorService.common.GitLink;
+import org.jazzcommunity.GitConnectorService.dcc.data.IssueResolver;
 import org.jazzcommunity.GitConnectorService.dcc.data.Link;
 import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
-import org.jazzcommunity.GitConnectorService.dcc.data.UrlResolver;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
 
 public class IssueService extends AbstractRestService {
@@ -45,10 +45,15 @@ public class IssueService extends AbstractRestService {
       flat.addAll(link.getIssues());
     }
 
+    // this flattened link collection is then what I want to use for caching
+    // the caching and pagination should be extracted, but only once I know which parts can actually
+    // be generic
+
+    // just show how the flat list can be used to defer resolving
     for (Link<Issue> issueLink : flat) {
       Issue issue = issueLink.resolve();
       if (issue != null) {
-        System.out.println(UrlResolver.issueToString(issue));
+        System.out.println(IssueResolver.issueToString(issue));
       } else {
         System.out.println(issueLink);
       }

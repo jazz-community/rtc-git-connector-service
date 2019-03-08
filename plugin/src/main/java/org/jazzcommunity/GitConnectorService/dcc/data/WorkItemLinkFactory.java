@@ -51,7 +51,7 @@ public class WorkItemLinkFactory {
     }
 
     if (uri.getPath().contains("issue")) {
-      Link link = new Link<>(comment, uri, projectArea, new UrlResolver(uri));
+      Link link = new Link<>(comment, uri, projectArea, new IssueResolver(uri));
       issues.add(link);
       return;
     }
