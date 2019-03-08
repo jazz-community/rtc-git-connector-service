@@ -1,5 +1,6 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
+import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
@@ -9,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.jazzcommunity.GitConnectorService.common.GitLink;
+import org.jazzcommunity.GitConnectorService.dcc.data.Link;
 import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
+import org.jazzcommunity.GitConnectorService.dcc.data.UrlResolver;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
 
 public class IssueService extends AbstractRestService {
@@ -35,5 +38,16 @@ public class IssueService extends AbstractRestService {
 
     // As a first step, I will take apart the collection logic to better match the requirements that
     // dcc imposes on how data is handled
+
+    // First, I want to flatten the link collection:
+    ArrayList<Link<Issue>> flat = new ArrayList<>();
+    for (WorkItemLinkFactory link : links) {
+      flat.addAll(link.getIssues());
+    }
+
+    for (Link<Issue> issueLink : flat) {
+      Issue issue = issueLink.resolve();
+      System.out.println(UrlResolver.issueToString(issue));
+    }
   }
 }

@@ -87,6 +87,10 @@ public class WorkItemLinkFactory {
     }
   }
 
+  public Collection<Link<Issue>> getIssues() {
+    return this.issues;
+  }
+
   public int getId() {
     return id;
   }

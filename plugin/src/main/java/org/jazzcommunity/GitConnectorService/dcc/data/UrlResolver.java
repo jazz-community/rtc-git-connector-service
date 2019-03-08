@@ -69,7 +69,7 @@ public class UrlResolver implements Resolver<Object> {
     return null;
   }
 
-  private static String issueToString(Issue issue) {
+  public static String issueToString(Issue issue) {
     return "Issue {"
         + "\n\tIid: "
         + issue.getIid()
@@ -80,7 +80,7 @@ public class UrlResolver implements Resolver<Object> {
         + "\n}";
   }
 
-  private static String requestToString(MergeRequest request) {
+  public static String requestToString(MergeRequest request) {
     return "Issue {"
         + "\n\tIid: "
         + request.getIid()
