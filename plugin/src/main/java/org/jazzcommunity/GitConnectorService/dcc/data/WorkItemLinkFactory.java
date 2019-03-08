@@ -50,11 +50,11 @@ public class WorkItemLinkFactory {
       return;
     }
 
-    //    if (uri.getPath().contains("issue")) {
-    //      Link link = new Link<>(comment, uri, new UrlResolver(uri));
-    //      issues.add(link);
-    //      return;
-    //    }
+    if (uri.getPath().contains("issue")) {
+      Link link = new Link<>(comment, uri, projectArea, new UrlResolver(uri));
+      issues.add(link);
+      return;
+    }
     //
     //    if (uri.getPath().contains("merge-request")) {
     //      Link link = new Link<>(comment, uri, new UrlResolver(uri));
