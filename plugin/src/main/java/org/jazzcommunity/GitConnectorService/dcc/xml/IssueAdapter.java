@@ -3,12 +3,15 @@ package org.jazzcommunity.GitConnectorService.dcc.xml;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import org.modelmapper.ModelMapper;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class IssueAdapter extends Issue {
   private String linkedFrom;
   private String linkUrl;
   private String projectArea;
+
+  private IssueAdapter() {}
 
   public String getLinkedFrom() {
     return linkedFrom;
@@ -32,5 +35,11 @@ public class IssueAdapter extends Issue {
 
   public void setProjectArea(String projectArea) {
     this.projectArea = projectArea;
+  }
+
+  public static IssueAdapter fromIssue(Issue issue) {
+    // use modelmapper to map.
+    ModelMapper mapper = new ModelMapper();
+    return mapper.map(issue, IssueAdapter.class);
   }
 }
