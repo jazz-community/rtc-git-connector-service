@@ -1,6 +1,5 @@
 package org.jazzcommunity.GitConnectorService.dcc.data;
 
-import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.ibm.team.foundation.common.text.XMLString;
 import com.ibm.team.repository.common.UUID;
@@ -8,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
 
 /**
  * Currently, this class just includes link data and potential resolution endpoints for how to fetch
@@ -22,7 +22,7 @@ public class WorkItemLinkFactory {
   private final XMLString summary;
 
   private final ArrayList<Link<Commit>> commits = new ArrayList<>();
-  private final ArrayList<Link<Issue>> issues = new ArrayList<>();
+  private final ArrayList<Link<LinkedIssue>> issues = new ArrayList<>();
   private final ArrayList<Link<MergeRequest>> requests = new ArrayList<>();
 
   public WorkItemLinkFactory(String projectArea, int id, UUID itemId, XMLString summary) {
@@ -51,7 +51,7 @@ public class WorkItemLinkFactory {
     }
 
     if (uri.getPath().contains("issue")) {
-      Link link = new Link<>(comment, uri, projectArea, new IssueResolver(uri));
+      Link link = new Link<>(comment, uri, projectArea, new IssueResolver(this.itemId, uri));
       issues.add(link);
       return;
     }
@@ -87,7 +87,7 @@ public class WorkItemLinkFactory {
     }
   }
 
-  public Collection<Link<Issue>> getIssues() {
+  public Collection<Link<LinkedIssue>> getIssues() {
     return this.issues;
   }
 

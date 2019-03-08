@@ -8,18 +8,21 @@ import java.io.IOException;
 import java.net.URI;
 import org.jazzcommunity.GitConnectorService.dcc.net.RemoteUrl;
 import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
+import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
 
 // this is just until I fix it properly
 public class IssueResolver implements Resolver<Issue> {
 
+  private final UUID parent;
   private final RemoteUrl remoteUrl;
 
-  public IssueResolver(URI uri) {
+  public IssueResolver(UUID parent, URI uri) {
+    this.parent = parent;
     remoteUrl = UrlParser.parseRemote(uri);
   }
 
   @Override
-  public Issue resolve(UUID projectArea) {
+  public LinkedIssue resolve(UUID projectArea) {
     // this will fetch data from gitlab/hub or wherever, and return a data object. Which data will
     // be used for what payloads hasn't been defined yet, so this will just print some data instead
     // for now.
@@ -44,10 +47,16 @@ public class IssueResolver implements Resolver<Issue> {
     switch (remoteUrl.getArtifact()) {
       case "issue":
         try {
-          Issue issue =
+          Issue original =
               api.getIssue(
                   Integer.valueOf(remoteUrl.getProjectId()),
                   Integer.valueOf(remoteUrl.getArtifactId()));
+
+          LinkedIssue issue = LinkedIssue.fromIssue(original);
+          issue.setLinkedFrom(parent.getUuidValue());
+          // TODO: like in commit, this should also set the rich hover url as the link url
+          issue.setProjectArea(projectArea.getUuidValue());
+
           return issue;
         } catch (IOException e) {
           e.printStackTrace();

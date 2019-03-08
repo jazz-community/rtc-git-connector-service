@@ -1,6 +1,5 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
-import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
@@ -14,6 +13,7 @@ import org.jazzcommunity.GitConnectorService.dcc.data.IssueResolver;
 import org.jazzcommunity.GitConnectorService.dcc.data.Link;
 import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
+import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
 
 public class IssueService extends AbstractRestService {
 
@@ -40,7 +40,7 @@ public class IssueService extends AbstractRestService {
     // dcc imposes on how data is handled
 
     // First, I want to flatten the link collection:
-    ArrayList<Link<Issue>> flat = new ArrayList<>();
+    ArrayList<Link<LinkedIssue>> flat = new ArrayList<>();
     for (WorkItemLinkFactory link : links) {
       flat.addAll(link.getIssues());
     }
@@ -50,8 +50,8 @@ public class IssueService extends AbstractRestService {
     // be generic
 
     // just show how the flat list can be used to defer resolving
-    for (Link<Issue> issueLink : flat) {
-      Issue issue = issueLink.resolve();
+    for (Link<LinkedIssue> issueLink : flat) {
+      LinkedIssue issue = issueLink.resolve();
       if (issue != null) {
         System.out.println(IssueResolver.issueToString(issue));
       } else {

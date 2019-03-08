@@ -16,7 +16,7 @@ public class Issues {
   @XmlAttribute private String href;
 
   @XmlElement(name = "issue")
-  private List<IssueAdapter> issues = new ArrayList<>();
+  private List<LinkedIssue> issues = new ArrayList<>();
 
   @XmlAttribute private String rel = "next";
 
@@ -32,11 +32,11 @@ public class Issues {
     this.href = href;
   }
 
-  public void addCommit(IssueAdapter issue) {
+  public void addCommit(LinkedIssue issue) {
     this.issues.add(issue);
   }
 
-  public void addCommits(Collection<IssueAdapter> issues) {
+  public void addCommits(Collection<LinkedIssue> issues) {
     this.issues.addAll(issues);
   }
 

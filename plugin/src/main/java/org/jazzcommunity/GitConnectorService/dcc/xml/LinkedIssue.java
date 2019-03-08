@@ -6,12 +6,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import org.modelmapper.ModelMapper;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class IssueAdapter extends Issue {
+public class LinkedIssue extends Issue {
   private String linkedFrom;
   private String linkUrl;
   private String projectArea;
 
-  private IssueAdapter() {}
+  private LinkedIssue() {}
 
   public String getLinkedFrom() {
     return linkedFrom;
@@ -37,9 +37,8 @@ public class IssueAdapter extends Issue {
     this.projectArea = projectArea;
   }
 
-  public static IssueAdapter fromIssue(Issue issue) {
-    // use modelmapper to map.
+  public static LinkedIssue fromIssue(Issue issue) {
     ModelMapper mapper = new ModelMapper();
-    return mapper.map(issue, IssueAdapter.class);
+    return mapper.map(issue, LinkedIssue.class);
   }
 }
