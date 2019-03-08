@@ -10,16 +10,16 @@ import org.jazzcommunity.GitConnectorService.dcc.net.RemoteUrl;
 import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 
 // this is just until I fix it properly
-public class UrlResolver implements Resolver<Object> {
+public class IssueResolver implements Resolver<Issue> {
 
   private final RemoteUrl remoteUrl;
 
-  public UrlResolver(URI uri) {
+  public IssueResolver(URI uri) {
     remoteUrl = UrlParser.parseRemote(uri);
   }
 
   @Override
-  public Object resolve(UUID projectArea) {
+  public Issue resolve(UUID projectArea) {
     // this will fetch data from gitlab/hub or wherever, and return a data object. Which data will
     // be used for what payloads hasn't been defined yet, so this will just print some data instead
     // for now.
@@ -48,22 +48,10 @@ public class UrlResolver implements Resolver<Object> {
               api.getIssue(
                   Integer.valueOf(remoteUrl.getProjectId()),
                   Integer.valueOf(remoteUrl.getArtifactId()));
-          System.out.println(issueToString(issue));
+          return issue;
         } catch (IOException e) {
           e.printStackTrace();
         }
-        break;
-      case "merge-request":
-        try {
-          MergeRequest request =
-              api.getMergeRequest(
-                  Integer.valueOf(remoteUrl.getProjectId()),
-                  Integer.valueOf(remoteUrl.getArtifactId()));
-          System.out.println(requestToString(request));
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-        break;
     }
 
     return null;

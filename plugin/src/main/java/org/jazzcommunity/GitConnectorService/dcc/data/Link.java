@@ -28,11 +28,16 @@ public class Link<T> {
 
   @Override
   public String toString() {
-    return "Link{" +
-        "comment='" + comment + '\'' +
-        ", uri=" + uri +
-        ", projectArea=" + projectArea +
-        ", resolver=" + resolver +
-        '}';
+    return "Link{"
+        + "comment='"
+        + comment
+        + '\''
+        + ", uri="
+        + uri
+        + ", projectArea="
+        + projectArea
+        + ", resolver="
+        + resolver
+        + '}';
   }
 }
