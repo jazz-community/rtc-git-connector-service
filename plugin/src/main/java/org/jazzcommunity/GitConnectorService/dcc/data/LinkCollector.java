@@ -30,16 +30,17 @@ import com.ibm.team.workitem.service.IQueryServer;
 import com.ibm.team.workitem.service.IWorkItemServer;
 import java.util.ArrayList;
 import java.util.List;
+import org.jazzcommunity.GitConnectorService.common.GitLinks;
 
 public class LinkCollector {
   /**
    * Currently available git link types which map to queryable attributes. Maybe create an api
    * endpoint for this instead? And sort of keep track of this using the collector service?
    *
-   * <p>TODO: Extract to Enum
+   * <p>TODO: Extract to Enum. No, use the properties instead.
    */
-  private final String[] linkTypes = {
-    "link:com.ibm.team.git.workitem.linktype.gitCommit:target",
+  private final String[] linkTypes = {GitLinks.GIT_COMMIT.asTarget()
+    //    "link:com.ibm.team.git.workitem.linktype.gitCommit:target",
     //    "link:org.jazzcommunity.git.link.git_issue:target",
     //    "link:org.jazzcommunity.git.link.git_mergerequest:target"
   };
