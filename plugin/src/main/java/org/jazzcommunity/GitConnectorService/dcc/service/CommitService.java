@@ -115,8 +115,7 @@ public class CommitService extends AbstractRestService {
       // first, we need to start a new 'collection' session.
       log.info(String.format("Inluding archived: %s", includeArchived));
       ArrayList<WorkItemLinkFactory> links =
-          new LinkCollector(new GitLink[] {GitLink.GIT_COMMIT}, this.parentService)
-              .collect(includeArchived);
+          new LinkCollector(GitLink.GIT_COMMIT, this.parentService).collect(includeArchived);
       // actually, this is not what should be cached yet. This is only just the query with work
       // items that have commit links. What I need now is another method that will resolve ALL of
       // these in a flat list, and only that should then be cached. This needs to be an extra step

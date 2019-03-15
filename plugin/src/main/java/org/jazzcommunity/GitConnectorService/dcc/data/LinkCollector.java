@@ -38,6 +38,10 @@ public class LinkCollector {
 
   private TeamRawService teamService;
 
+  public LinkCollector(GitLink linkType, TeamRawService teamService) {
+    this(new GitLink[] {linkType}, teamService);
+  }
+
   public LinkCollector(GitLink[] linkTypes, TeamRawService teamService) {
     this.linkTypes = linkTypes;
     this.teamService = teamService;

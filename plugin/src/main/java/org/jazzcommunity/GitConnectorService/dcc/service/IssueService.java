@@ -91,8 +91,7 @@ public class IssueService extends AbstractRestService {
               : false;
 
       ArrayList<WorkItemLinkFactory> deferredLinks =
-          new LinkCollector(new GitLink[] {GitLink.GIT_ISSUE}, this.parentService)
-              .collect(includeArchived);
+          new LinkCollector(GitLink.GIT_ISSUE, this.parentService).collect(includeArchived);
 
       TimeOutArrayList<Link<LinkedIssue>> issues = new TimeOutArrayList<>();
       for (WorkItemLinkFactory deferredLink : deferredLinks) {
