@@ -41,6 +41,10 @@ public final class TimeOutArrayList<T> {
     return difference > LIMIT;
   }
 
+  // this should probably refresh the 'creation' date, which instead should be the time of
+  // last access. That way, a long time between calls will keep the cache valid. However,
+  // that probably requires more testing on how long many http requests can actually take
+  // when working with production data.
   public ArrayList<T> getList() {
     return list;
   }
