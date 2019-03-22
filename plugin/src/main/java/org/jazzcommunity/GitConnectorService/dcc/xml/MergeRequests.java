@@ -1,17 +1,14 @@
 package org.jazzcommunity.GitConnectorService.dcc.xml;
 
-import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
-
-import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "mergerequests")
 public class MergeRequests {
-  @XmlAttribute
-  private String href;
+  @XmlAttribute private String href;
 
   @XmlElement(name = "mergerequest")
   private List<LinkedMergeRequest> mergeRequests = new ArrayList<>();
