@@ -1,6 +1,5 @@
 package org.jazzcommunity.GitConnectorService.dcc.data;
 
-import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.ibm.team.foundation.common.text.XMLString;
 import com.ibm.team.repository.common.UUID;
 import java.io.IOException;
@@ -8,6 +7,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
+import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedMergeRequest;
 
 /**
  * Currently, this class just includes link data and potential resolution endpoints for how to fetch
@@ -23,7 +23,7 @@ public class WorkItemLinkFactory {
 
   private final ArrayList<Link<Commit>> commits = new ArrayList<>();
   private final ArrayList<Link<LinkedIssue>> issues = new ArrayList<>();
-  private final ArrayList<Link<MergeRequest>> requests = new ArrayList<>();
+  private final ArrayList<Link<LinkedMergeRequest>> requests = new ArrayList<>();
 
   public WorkItemLinkFactory(String projectArea, int id, UUID itemId, XMLString summary) {
     this.projectArea = projectArea;
@@ -55,12 +55,12 @@ public class WorkItemLinkFactory {
       issues.add(link);
       return;
     }
-    //
-    //    if (uri.getPath().contains("merge-request")) {
-    //      Link link = new Link<>(comment, uri, new UrlResolver(uri));
-    //      requests.add(link);
-    //      return;
-    //    }
+
+    if (uri.getPath().contains("merge-request")) {
+      Link link = new Link<>(comment, uri, projectArea, new MergeRequestResolver(this.itemId, uri));
+      requests.add(link);
+      return;
+    }
 
     // TODO: This should just log a warning
     //    throw new IllegalArgumentException("Supplied link is not a valid git link type");
@@ -85,6 +85,10 @@ public class WorkItemLinkFactory {
     for (Link request : requests) {
       request.resolve();
     }
+  }
+
+  public Collection<Link<LinkedMergeRequest>> getRequests() {
+    return this.requests;
   }
 
   public Collection<Link<LinkedIssue>> getIssues() {
