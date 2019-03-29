@@ -100,7 +100,7 @@ public class CommitService extends AbstractRestService {
       // before we start, check if any previous jobs need to be dumped
       Date now = new Date();
       for (Entry<String, TimeOutArrayList<Commit>> entry : cache.entrySet()) {
-        if (entry.getValue().dump(now) && !id.equals(entry.getKey())) {
+        if (entry.getValue().dump(now)) {
           cache.remove(entry.getKey());
         }
       }

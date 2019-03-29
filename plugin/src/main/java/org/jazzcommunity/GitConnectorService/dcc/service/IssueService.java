@@ -80,7 +80,7 @@ public class IssueService extends AbstractRestService {
     } else {
       Date now = new Date();
       for (Entry<String, TimeOutArrayList<Link<LinkedIssue>>> entry : cache.entrySet()) {
-        if (entry.getValue().dump(now) && !id.equals(entry.getKey())) {
+        if (entry.getValue().dump(now)) {
           cache.remove(entry.getKey());
         }
       }

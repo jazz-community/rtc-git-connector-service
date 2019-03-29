@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
@@ -75,7 +74,7 @@ public class MergeRequestService extends AbstractRestService {
     } else {
       Date now = new Date();
       for (Map.Entry<String, TimeOutArrayList<Link<LinkedMergeRequest>>> entry : cache.entrySet()) {
-        if (entry.getValue().dump(now) && !id.equals(entry.getKey())) {
+        if (entry.getValue().dump(now)) {
           cache.remove(entry.getKey());
         }
       }
@@ -93,20 +92,22 @@ public class MergeRequestService extends AbstractRestService {
         requests.addAll(deferredLink.getRequests());
       }
 
-      String random= RandomStringUtils.randomAlphabetic(1 << 5);
+      String random = RandomStringUtils.randomAlphabetic(1 << 5);
       cache.put(random, requests);
 
-      PaginatedRequest pagination = PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, random);
+      PaginatedRequest pagination =
+          PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, random);
 
       MergeRequests answer = new MergeRequests();
       answer.setHref(pagination.getNext().toString());
 
       if (pagination.getEnd() > requests.size()) {
-          for (Link<LinkedMergeRequest> link : requests.getList()) {
-            answer.addMergeRequest(link.resolve());
-          }
+        for (Link<LinkedMergeRequest> link : requests.getList()) {
+          answer.addMergeRequest(link.resolve());
+        }
       } else {
-        for (Link<LinkedMergeRequest> link : requests.subList(pagination.getStart(), pagination.getEnd())) {
+        for (Link<LinkedMergeRequest> link :
+            requests.subList(pagination.getStart(), pagination.getEnd())) {
           answer.addMergeRequest(link.resolve());
         }
       }
