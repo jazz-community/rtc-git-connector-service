@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.apache.commons.logging.Log;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedMergeRequest;
 
@@ -20,16 +21,18 @@ public class WorkItemLinkFactory {
   private final int id;
   private final UUID itemId;
   private final XMLString summary;
+  private Log log;
 
   private final ArrayList<Link<Commit>> commits = new ArrayList<>();
   private final ArrayList<Link<LinkedIssue>> issues = new ArrayList<>();
   private final ArrayList<Link<LinkedMergeRequest>> requests = new ArrayList<>();
 
-  public WorkItemLinkFactory(String projectArea, int id, UUID itemId, XMLString summary) {
+  public WorkItemLinkFactory(String projectArea, int id, UUID itemId, XMLString summary, Log log) {
     this.projectArea = projectArea;
     this.id = id;
     this.itemId = itemId;
     this.summary = summary;
+    this.log = log;
   }
 
   public void addLink(String comment, URI uri, UUID projectArea) {
@@ -50,15 +53,30 @@ public class WorkItemLinkFactory {
       return;
     }
 
-    if (uri.getPath().contains("issue")) {
-      Link link = new Link<>(comment, uri, projectArea, new IssueResolver(this.itemId, uri));
-      issues.add(link);
+    if (uri.getPath().contains("IGitConnectorService") && uri.getPath().contains("issue")) {
+      try {
+        IssueResolver resolver = new IssueResolver(this.itemId, uri);
+        Link link = new Link<>(comment, uri, projectArea, resolver);
+        issues.add(link);
+      } catch (Exception e) {
+        this.log.warn(
+            String.format(
+                "Could not parse issue link from %s with uri %s", this.itemId, uri.getPath()));
+      }
       return;
     }
 
-    if (uri.getPath().contains("merge-request")) {
-      Link link = new Link<>(comment, uri, projectArea, new MergeRequestResolver(this.itemId, uri));
-      requests.add(link);
+    if (uri.getPath().contains("IGitConnectorService") && uri.getPath().contains("merge-request")) {
+      try {
+        MergeRequestResolver resolver = new MergeRequestResolver(this.itemId, uri);
+        Link link = new Link<>(comment, uri, projectArea, resolver);
+        requests.add(link);
+      } catch (Exception e) {
+        this.log.warn(
+            String.format(
+                "Could not parse merge request link from %s with uri %s",
+                this.itemId, uri.getPath()));
+      }
       return;
     }
 

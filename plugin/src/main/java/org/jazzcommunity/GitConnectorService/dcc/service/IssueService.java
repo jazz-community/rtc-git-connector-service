@@ -27,7 +27,6 @@ import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
 
 public class IssueService extends AbstractRestService {
 
-  private static final String DEFAULT_SIZE = "20";
   private static final ConcurrentHashMap<String, TimeOutArrayList<Link<LinkedIssue>>> cache =
       new ConcurrentHashMap<>();
 
@@ -51,8 +50,6 @@ public class IssueService extends AbstractRestService {
     // TODO: All pagination stuff should be extracted to a controller
 
     String id = request.getParameter("id");
-    String size =
-        request.getParameter("size") != null ? request.getParameter("size") : DEFAULT_SIZE;
 
     // get from cache if ongoing call
     if (id != null) {

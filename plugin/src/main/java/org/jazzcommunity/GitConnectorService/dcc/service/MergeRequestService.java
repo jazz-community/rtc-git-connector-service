@@ -24,7 +24,6 @@ import org.jazzcommunity.GitConnectorService.dcc.xml.MergeRequests;
 
 public class MergeRequestService extends AbstractRestService {
 
-  private static final String DEFAULT_SIZE = "20";
   private static final ConcurrentHashMap<String, TimeOutArrayList<Link<LinkedMergeRequest>>> cache =
       new ConcurrentHashMap<>();
 
@@ -46,8 +45,6 @@ public class MergeRequestService extends AbstractRestService {
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
     String id = request.getParameter("id");
-    String size =
-        request.getParameter("size") != null ? request.getParameter("size") : DEFAULT_SIZE;
 
     if (id != null) {
       PaginatedRequest pagination =

@@ -100,7 +100,11 @@ public class LinkCollector {
         // object for aggregating link data
         WorkItemLinkFactory workItemLinkFactory =
             new WorkItemLinkFactory(
-                area.getName(), item.getId(), item.getItemId(), item.getHTMLSummary());
+                area.getName(),
+                item.getId(),
+                item.getItemId(),
+                item.getHTMLSummary(),
+                teamService.getLog());
         // adding this shouldn't be manual, and probably the whole data structure(s) used here
         // should be a lot more refined
         links.add(workItemLinkFactory);
