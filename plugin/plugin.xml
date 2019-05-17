@@ -22,6 +22,7 @@
         <requiredService interface="com.ibm.team.workitem.service.IQueryServer"/>
         <requiredService interface="com.ibm.team.workitem.service.IAuditableServer"/>
         <requiredService interface="com.ibm.team.workitem.service.IWorkItemServer"/>
+        <requiredService interface="com.ibm.team.git.common.internal.IGitRepositoryRegistrationService"/>
       </prerequisites>
     </serviceProvider>
   </extension>

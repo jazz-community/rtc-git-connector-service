@@ -32,7 +32,9 @@ Require-Bundle:
  com.ibm.team.process.common,
  com.ibm.team.process.service,
  com.ibm.team.build.common,
- com.ibm.team.build.service
+ com.ibm.team.build.service,
+ com.ibm.team.git.service,
+ com.ibm.team.git.common
 Bundle-ClassPath: target/dependency/gson-2.8.5.jar,
  target/dependency/com.siemens.bt.jazz.services.base-3.0.3-SNAPSHOT.jar,
  target/dependency/com.siemens.bt.jazz.services.PersonalTokenService-1.0.2-SNAPSHOT.jar,
@@ -56,6 +58,9 @@ Bundle-ClassPath: target/dependency/gson-2.8.5.jar,
  .
 Import-Package: com.ibm.team.jfs.app,
  com.ibm.team.jfs.app.http.util,
+ com.ibm.team.git.service,
+ com.ibm.team.git.common,
+ com.ibm.team.git.common.internal,
  javax.activation,
  javax.annotation,
  javax.servlet;version="2.5.0",
