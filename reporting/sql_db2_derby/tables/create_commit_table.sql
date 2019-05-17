@@ -7,7 +7,7 @@ CREATE TABLE RIODS.GIT_COMMIT (
 	COMMITER_EMAIL VARCHAR(512),
 	COMMITER_NAME VARCHAR(512),
 	COMMIT_DATE TIMESTAMP,
-    LINK_URL VARCHAR(2083),
+  LINK_URL VARCHAR(2083),
 	-- uuids are always 128-bit by specification
     -- 36 characters for string representation are defined in the corresponding
     -- RFC: https://tools.ietf.org/html/rfc4122#section-3
@@ -33,5 +33,5 @@ CREATE TABLE RIODS.GIT_COMMIT (
     -- when the dcc job runs. Additional abstraction layer.
 	ID_PK INTEGER NOT NULL, 
 	CONSTRAINT GIT_COMMIT_PK PRIMARY KEY (ID_PK),
-    CONSTRAINT PROJECT_FK FOREIGN KEY (PROJECT_ID) REFERENCES RIODS.PROJECT(PROJECT_ID)
+  CONSTRAINT PROJECT_FK FOREIGN KEY (PROJECT_ID) REFERENCES RIODS.PROJECT(PROJECT_ID)
 );
