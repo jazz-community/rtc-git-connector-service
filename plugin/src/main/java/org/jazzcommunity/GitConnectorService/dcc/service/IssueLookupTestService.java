@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
 import com.ibm.team.git.common.internal.IGitRepositoryRegistrationService;
+import com.ibm.team.git.common.model.IGitRepositoryDescriptor;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
@@ -25,6 +26,13 @@ public class IssueLookupTestService extends AbstractRestService {
   public void execute() throws Exception {
     IGitRepositoryRegistrationService service =
         parentService.getService(IGitRepositoryRegistrationService.class);
+
+    IGitRepositoryDescriptor[] repositories =
+        service.getAllRegisteredGitRepositories(null, null, true, true);
+
+    for (IGitRepositoryDescriptor repository : repositories) {
+      System.out.println(repository.getName());
+    }
 
     response.getWriter().write("Yep, working");
   }
