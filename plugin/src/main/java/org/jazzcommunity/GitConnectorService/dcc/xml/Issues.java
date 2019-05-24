@@ -14,8 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "issues")
 public class Issues {
 
-  @XmlAttribute
-  private String href;
+  @XmlAttribute private String href;
 
   @XmlElement(name = "issue")
   private List<Issue> issues = new ArrayList<>();

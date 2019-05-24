@@ -22,8 +22,8 @@ import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.data.TimeOutArrayList;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
-import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssues;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
+import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssues;
 
 public class IssueService extends AbstractRestService {
 
