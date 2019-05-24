@@ -1,9 +1,5 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
-import ch.sbi.minigit.gitlab.GitlabApi;
-import ch.sbi.minigit.type.gitlab.issue.Issue;
-import com.ibm.team.git.common.internal.IGitRepositoryRegistrationService;
-import com.ibm.team.git.common.model.IGitRepositoryDescriptor;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
@@ -11,10 +7,12 @@ import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBContext;
 import org.apache.commons.logging.Log;
+import org.apache.http.entity.ContentType;
+import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
 
 public class IssueLookupTestService extends AbstractRestService {
 
@@ -30,25 +28,9 @@ public class IssueLookupTestService extends AbstractRestService {
 
   @Override
   public void execute() throws Exception {
-    IGitRepositoryRegistrationService service =
-        parentService.getService(IGitRepositoryRegistrationService.class);
-
-    IGitRepositoryDescriptor[] repositories =
-        service.getAllRegisteredGitRepositories(null, null, true, true);
-
-    for (IGitRepositoryDescriptor repository : repositories) {
-      URL url = new URL(repository.getUrl());
-      String project = encodeProject(url);
-
-      GitlabApi api = new GitlabApi(String.format("%s://%s", url.getProtocol(), url.getHost()));
-      Iterable<Collection<Issue>> pages = api.iterateIssues(project);
-
-      for (Collection<Issue> page : pages) {
-        for (Issue issue : page) {
-          response.getWriter().write(String.format("%s%n", issue.getTitle()));
-        }
-      }
-    }
+    response.setContentType(ContentType.APPLICATION_XML.toString());
+    response.setCharacterEncoding("UTF-8");
+    JAXBContext.newInstance(Issues.class).createMarshaller();
   }
 
   public String encodeProject(URL url) throws UnsupportedEncodingException {

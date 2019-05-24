@@ -22,7 +22,7 @@ import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.data.TimeOutArrayList;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
-import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
+import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssues;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
 
 public class IssueService extends AbstractRestService {
@@ -44,7 +44,7 @@ public class IssueService extends AbstractRestService {
   public void execute() throws Exception {
     response.setContentType(ContentType.APPLICATION_XML.toString());
     response.setCharacterEncoding("UTF-8");
-    Marshaller marshaller = JAXBContext.newInstance(Issues.class).createMarshaller();
+    Marshaller marshaller = JAXBContext.newInstance(LinkedIssues.class).createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
     // TODO: All pagination stuff should be extracted to a controller
@@ -59,7 +59,7 @@ public class IssueService extends AbstractRestService {
       TimeOutArrayList<Link<LinkedIssue>> issues = cache.get(id);
       int end = Math.min(pagination.getEnd(), issues.size());
 
-      Issues answer = new Issues();
+      LinkedIssues answer = new LinkedIssues();
       answer.setHref(pagination.getNext().toString());
 
       if (pagination.getEnd() >= issues.size() || issues.isEmpty()) {
@@ -101,7 +101,7 @@ public class IssueService extends AbstractRestService {
       PaginatedRequest pagination =
           PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, random);
 
-      Issues answer = new Issues();
+      LinkedIssues answer = new LinkedIssues();
       answer.setHref(pagination.getNext().toString());
 
       if (pagination.getEnd() > issues.size()) {

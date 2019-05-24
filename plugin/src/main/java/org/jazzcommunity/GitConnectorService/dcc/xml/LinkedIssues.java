@@ -1,6 +1,5 @@
 package org.jazzcommunity.GitConnectorService.dcc.xml;
 
-import ch.sbi.minigit.type.gitlab.issue.Issue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,13 +11,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "issues")
-public class Issues {
+public class LinkedIssues {
 
-  @XmlAttribute
-  private String href;
+  @XmlAttribute private String href;
 
   @XmlElement(name = "issue")
-  private List<Issue> issues = new ArrayList<>();
+  private List<LinkedIssue> issues = new ArrayList<>();
 
   @XmlAttribute private String rel = "next";
 
@@ -34,11 +32,11 @@ public class Issues {
     this.href = href;
   }
 
-  public void addIssue(Issue issue) {
+  public void addIssue(LinkedIssue issue) {
     this.issues.add(issue);
   }
 
-  public void addIssues(Collection<Issue> issues) {
+  public void addIssues(Collection<LinkedIssue> issues) {
     this.issues.addAll(issues);
   }
 
