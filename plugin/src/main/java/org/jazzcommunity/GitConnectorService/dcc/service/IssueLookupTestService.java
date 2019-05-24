@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.ibm.team.git.common.internal.IGitRepositoryRegistrationService;
 import com.ibm.team.git.common.model.IGitRepositoryDescriptor;
 import com.ibm.team.repository.service.TeamRawService;
@@ -10,6 +11,7 @@ import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -36,31 +38,21 @@ public class IssueLookupTestService extends AbstractRestService {
 
     for (IGitRepositoryDescriptor repository : repositories) {
       URL url = new URL(repository.getUrl());
+      String project = getEncodedProject(url);
+
       GitlabApi api = new GitlabApi(String.format("%s://%s", url.getProtocol(), url.getHost()));
+      Collection<Issue> issues = api.getIssues(project);
 
-      String output =
-          String.format(
-              "Name: %s Link: %s Host: %s://%s Path: %s Project: %s",
-              repository.getName(),
-              repository.getUrl(),
-              url.getProtocol(),
-              url.getHost(),
-              url.getPath(),
-              getEncodedProject(url));
-
-      response.getWriter().write(output);
-
-      //      Project project = api.getProject(encodedProject);
-      //      response.getWriter().write(project.getId());
+      for (Issue issue : issues) {
+        response.getWriter().write(String.format("%s%n", issue.getTitle()));
+      }
     }
   }
 
   public String getEncodedProject(URL url) throws UnsupportedEncodingException {
     String path = url.getPath();
     // remove leading slash and optional file ending
-    path = path
-        .replaceFirst("^\\/", "")
-        .replaceAll(".git$", "");
+    path = path.replaceFirst("^\\/", "").replaceAll(".git$", "");
     // url-encode project path so that it can be used for navigation in gitlab
     return URLEncoder.encode(path, "UTF-8");
   }
