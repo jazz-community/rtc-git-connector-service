@@ -38,18 +38,20 @@ public class IssueLookupTestService extends AbstractRestService {
 
     for (IGitRepositoryDescriptor repository : repositories) {
       URL url = new URL(repository.getUrl());
-      String project = getEncodedProject(url);
+      String project = encodeProject(url);
 
       GitlabApi api = new GitlabApi(String.format("%s://%s", url.getProtocol(), url.getHost()));
-      Collection<Issue> issues = api.getIssues(project);
+      Iterable<Collection<Issue>> pages = api.iterateIssues(project);
 
-      for (Issue issue : issues) {
-        response.getWriter().write(String.format("%s%n", issue.getTitle()));
+      for (Collection<Issue> page : pages) {
+        for (Issue issue : page) {
+          response.getWriter().write(String.format("%s%n", issue.getTitle()));
+        }
       }
     }
   }
 
-  public String getEncodedProject(URL url) throws UnsupportedEncodingException {
+  public String encodeProject(URL url) throws UnsupportedEncodingException {
     String path = url.getPath();
     // remove leading slash and optional file ending
     path = path.replaceFirst("^\\/", "").replaceAll(".git$", "");
