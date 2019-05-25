@@ -23,7 +23,7 @@ public final class TimeOutArrayList<T> {
     try {
       return list.subList(start, end);
     } catch (RuntimeException e) {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
   }
 

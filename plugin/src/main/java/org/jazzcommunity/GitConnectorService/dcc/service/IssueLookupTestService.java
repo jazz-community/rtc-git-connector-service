@@ -8,7 +8,7 @@ import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.net.URL;
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +17,7 @@ import org.jazzcommunity.GitConnectorService.dcc.data.IssueProvider;
 
 public class IssueLookupTestService extends AbstractRestService {
 
-  private static final ConcurrentHashMap<String, IssueProvider> cache = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, Iterator<Issue>> cache = new ConcurrentHashMap<>();
 
   public IssueLookupTestService(
       Log log,
@@ -49,17 +49,7 @@ public class IssueLookupTestService extends AbstractRestService {
       for (IGitRepositoryDescriptor repository : repositories) {
         URL url = new URL(repository.getUrl());
         provider.addRepository(url);
-        System.out.println(url);
       }
-
-      provider.start();
-      while (provider.hasNext()) {
-        Collection<Issue> page = provider.getPage(25);
-        for (Issue issue : page) {
-          response.getWriter().write(String.format("%s%n", issue.getTitle()));
-        }
-      }
-
     } else { // continue where we left off with the last 25 issues
     }
   }
