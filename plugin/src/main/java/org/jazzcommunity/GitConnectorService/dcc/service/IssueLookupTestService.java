@@ -66,6 +66,7 @@ public class IssueLookupTestService extends AbstractRestService {
       Collection<Issue> page = provider.getPage(pagination.size());
       Issues answer = new Issues();
       answer.addIssues(page);
+      answer.setHref(pagination.getNext().toString());
 
       marshaller.marshal(answer, response.getWriter());
     } else { // continue where we left off with the last 25 issues
@@ -82,6 +83,8 @@ public class IssueLookupTestService extends AbstractRestService {
         answer.setHref(null);
         answer.setRel(null);
         cache.remove(id);
+      } else {
+        answer.setHref(pagination.getNext().toString());
       }
 
       marshaller.marshal(answer, response.getWriter());
