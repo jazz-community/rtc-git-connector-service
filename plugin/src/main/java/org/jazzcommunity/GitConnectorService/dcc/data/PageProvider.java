@@ -1,7 +1,6 @@
 package org.jazzcommunity.GitConnectorService.dcc.data;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
-import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.common.collect.Iterables;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -12,26 +11,31 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class IssueProvider {
+public class PageProvider<T> {
 
-  private Iterable<Issue> issues = Collections.emptyList();
-  private Iterator<Issue> current;
+  private final String resource;
+  private final Class<T[]> type;
+  private Iterable<T> issues = Collections.emptyList();
+  private Iterator<T> current;
 
-  public IssueProvider() {}
+  public PageProvider(String resource, Class<T[]> Type) {
+    this.resource = resource;
+    type = Type;
+  }
 
   public void addRepository(URL url) throws IOException {
     GitlabApi api = new GitlabApi(getBaseUrl(url));
     String project = encodeProject(url);
-    issues = Iterables.concat(issues, api.iterateIssues(project));
+    issues = Iterables.concat(issues, api.iterateProjectResource(project, resource, type));
   }
 
-  public Collection<Issue> getPage(int size) {
+  public Collection<T> getPage(int size) {
     // initiate collection
     if (current == null) {
       current = issues.iterator();
     }
 
-    ArrayList<Issue> result = new ArrayList<>(size);
+    ArrayList<T> result = new ArrayList<>(size);
 
     for (int i = 0; i < size && current.hasNext(); i += 1) {
       result.add(current.next());

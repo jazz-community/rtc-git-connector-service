@@ -17,13 +17,13 @@ import javax.xml.bind.Marshaller;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
-import org.jazzcommunity.GitConnectorService.dcc.data.IssueProvider;
+import org.jazzcommunity.GitConnectorService.dcc.data.PageProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
 
 public class IssueService extends AbstractRestService {
 
-  private static final ConcurrentHashMap<String, IssueProvider> cache = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, PageProvider<Issue>> cache = new ConcurrentHashMap<>();
 
   public IssueService(
       Log log,
@@ -45,7 +45,7 @@ public class IssueService extends AbstractRestService {
     String id = request.getParameter("id");
 
     if (id == null) { // initiate new project area collection
-      IssueProvider provider = new IssueProvider();
+      PageProvider<Issue> provider = new PageProvider<>("issue", Issue[].class);
       IGitRepositoryRegistrationService service =
           parentService.getService(IGitRepositoryRegistrationService.class);
 
@@ -73,7 +73,7 @@ public class IssueService extends AbstractRestService {
       PaginatedRequest pagination =
           PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), this.request, id);
 
-      IssueProvider provider = cache.get(id);
+      PageProvider<Issue> provider = cache.get(id);
       Issues answer = new Issues();
 
       Collection<Issue> page = provider.getPage(pagination.size());
