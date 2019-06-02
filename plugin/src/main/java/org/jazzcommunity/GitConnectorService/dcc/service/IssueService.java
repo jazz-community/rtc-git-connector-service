@@ -1,13 +1,14 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
+import ch.sbi.minigit.type.gitlab.issue.Issue;
+import com.ibm.team.git.common.internal.IGitRepositoryRegistrationService;
+import com.ibm.team.git.common.model.IGitRepositoryDescriptor;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
-import java.util.ArrayList;
+import java.net.URL;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,19 +17,13 @@ import javax.xml.bind.Marshaller;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
-import org.jazzcommunity.GitConnectorService.common.GitLink;
-import org.jazzcommunity.GitConnectorService.dcc.data.Link;
-import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
-import org.jazzcommunity.GitConnectorService.dcc.data.TimeOutArrayList;
-import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
+import org.jazzcommunity.GitConnectorService.dcc.data.IssueProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
-import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
-import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssues;
+import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
 
 public class IssueService extends AbstractRestService {
 
-  private static final ConcurrentHashMap<String, TimeOutArrayList<Link<LinkedIssue>>> cache =
-      new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, IssueProvider> cache = new ConcurrentHashMap<>();
 
   public IssueService(
       Log log,
@@ -44,74 +39,52 @@ public class IssueService extends AbstractRestService {
   public void execute() throws Exception {
     response.setContentType(ContentType.APPLICATION_XML.toString());
     response.setCharacterEncoding("UTF-8");
-    Marshaller marshaller = JAXBContext.newInstance(LinkedIssues.class).createMarshaller();
+    Marshaller marshaller = JAXBContext.newInstance(Issues.class).createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-    // TODO: All pagination stuff should be extracted to a controller
 
     String id = request.getParameter("id");
 
-    // get from cache if ongoing call
-    if (id != null) {
-      PaginatedRequest pagination =
-          PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
-
-      TimeOutArrayList<Link<LinkedIssue>> issues = cache.get(id);
-      int end = Math.min(pagination.getEnd(), issues.size());
-
-      LinkedIssues answer = new LinkedIssues();
-      answer.setHref(pagination.getNext().toString());
-
-      if (pagination.getEnd() >= issues.size() || issues.isEmpty()) {
-        answer.setHref(null);
-        answer.setRel(null);
-        cache.remove(id);
-      }
-
-      Collection<Link<LinkedIssue>> links = issues.subList(pagination.getStart(), end);
-      for (Link<LinkedIssue> link : links) {
-        answer.addIssue(link.resolve());
-      }
-
-      marshaller.marshal(answer, response.getWriter());
-    } else {
-      Date now = new Date();
-      for (Entry<String, TimeOutArrayList<Link<LinkedIssue>>> entry : cache.entrySet()) {
-        if (entry.getValue().dump(now)) {
-          cache.remove(entry.getKey());
-        }
-      }
-
-      boolean includeArchived =
-          request.getParameter("archived") != null
-              ? Boolean.valueOf(request.getParameter("archived"))
-              : false;
-
-      ArrayList<WorkItemLinkFactory> deferredLinks =
-          new LinkCollector(GitLink.GIT_ISSUE, this.parentService).collect(includeArchived);
-
-      TimeOutArrayList<Link<LinkedIssue>> issues = new TimeOutArrayList<>();
-      for (WorkItemLinkFactory deferredLink : deferredLinks) {
-        issues.addAll(deferredLink.getIssues());
-      }
+    if (id == null) { // initiate new project area collection
+      IssueProvider provider = new IssueProvider();
+      IGitRepositoryRegistrationService service =
+          parentService.getService(IGitRepositoryRegistrationService.class);
 
       String random = RandomStringUtils.randomAlphanumeric(1 << 5);
-      cache.put(random, issues);
+      cache.put(random, provider);
+
+      IGitRepositoryDescriptor[] repositories =
+          service.getAllRegisteredGitRepositories(null, null, true, true);
+
+      for (IGitRepositoryDescriptor repository : repositories) {
+        URL url = new URL(repository.getUrl());
+        provider.addRepository(url);
+      }
 
       PaginatedRequest pagination =
           PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, random);
 
-      LinkedIssues answer = new LinkedIssues();
+      Collection<Issue> page = provider.getPage(pagination.size());
+      Issues answer = new Issues();
+      answer.addIssues(page);
       answer.setHref(pagination.getNext().toString());
 
-      if (pagination.getEnd() > issues.size()) {
-        for (Link<LinkedIssue> link : issues.getList()) {
-          answer.addIssue(link.resolve());
-        }
+      marshaller.marshal(answer, response.getWriter());
+    } else { // continue where we left off with the last 25 issues
+      PaginatedRequest pagination =
+          PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), this.request, id);
+
+      IssueProvider provider = cache.get(id);
+      Issues answer = new Issues();
+
+      Collection<Issue> page = provider.getPage(pagination.size());
+      answer.addIssues(page);
+
+      if (page.isEmpty() || page.size() < pagination.size()) {
+        answer.setHref(null);
+        answer.setRel(null);
+        cache.remove(id);
       } else {
-        for (Link<LinkedIssue> link : issues.subList(pagination.getStart(), pagination.getEnd())) {
-          answer.addIssue(link.resolve());
-        }
+        answer.setHref(pagination.getNext().toString());
       }
 
       marshaller.marshal(answer, response.getWriter());
