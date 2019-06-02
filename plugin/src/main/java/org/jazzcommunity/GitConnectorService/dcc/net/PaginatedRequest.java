@@ -35,6 +35,10 @@ public final class PaginatedRequest {
     this.end = end;
   }
 
+  public int size() {
+    return end - start;
+  }
+
   public int getStart() {
     return start;
   }
