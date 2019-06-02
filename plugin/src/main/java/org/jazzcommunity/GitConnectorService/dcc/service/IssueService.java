@@ -45,7 +45,7 @@ public class IssueService extends AbstractRestService {
     String id = request.getParameter("id");
 
     if (id == null) { // initiate new project area collection
-      PageProvider<Issue> provider = new PageProvider<>("issue", Issue[].class);
+      PageProvider<Issue> provider = new PageProvider<>("issues", Issue[].class);
       IGitRepositoryRegistrationService service =
           parentService.getService(IGitRepositoryRegistrationService.class);
 
