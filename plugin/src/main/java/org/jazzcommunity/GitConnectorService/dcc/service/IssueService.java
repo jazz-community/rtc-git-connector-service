@@ -23,7 +23,8 @@ import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
 
 public class IssueService extends AbstractRestService {
 
-  private static final ConcurrentHashMap<String, PageProvider<Issue>> cache = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, PageProvider<Issue>> cache =
+      new ConcurrentHashMap<>();
 
   public IssueService(
       Log log,
@@ -46,6 +47,7 @@ public class IssueService extends AbstractRestService {
 
     if (id == null) { // initiate new project area collection
       PageProvider<Issue> provider = new PageProvider<>("issues", Issue[].class);
+      // TODO: Extract to pagination controller
       IGitRepositoryRegistrationService service =
           parentService.getService(IGitRepositoryRegistrationService.class);
 

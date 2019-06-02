@@ -1,5 +1,6 @@
 package org.jazzcommunity.GitConnectorService.dcc.xml;
 
+import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +12,7 @@ public class MergeRequests {
   @XmlAttribute private String href;
 
   @XmlElement(name = "mergerequest")
-  private List<LinkedMergeRequest> mergeRequests = new ArrayList<>();
+  private List<MergeRequest> mergeRequests = new ArrayList<>();
 
   @XmlAttribute private String rel = "next";
 
@@ -27,11 +28,11 @@ public class MergeRequests {
     this.href = href;
   }
 
-  public void addMergeRequest(LinkedMergeRequest request) {
+  public void addMergeRequest(MergeRequest request) {
     this.mergeRequests.add(request);
   }
 
-  public void addMergeRequests(Collection<LinkedMergeRequest> requests) {
+  public void addMergeRequests(Collection<MergeRequest> requests) {
     this.mergeRequests.addAll(requests);
   }
 
