@@ -26,7 +26,8 @@ public class PageProvider<T> {
   public void addRepository(URL url) throws IOException {
     GitlabApi api = new GitlabApi(getBaseUrl(url));
     String project = encodeProject(url);
-    issues = Iterables.concat(issues, api.iterateProjectResource(project, resource, type));
+    Iterable<T> resource = api.iterateProjectResource(project, this.resource, type);
+    issues = Iterables.concat(issues, resource);
   }
 
   public Collection<T> getPage(int size) {
