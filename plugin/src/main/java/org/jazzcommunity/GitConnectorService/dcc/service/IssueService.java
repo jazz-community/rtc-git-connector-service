@@ -63,9 +63,8 @@ public class IssueService extends AbstractRestService {
           provider.addRepository(url);
         } catch (Exception e) {
           String message =
-              String.format("Repository %s could not be reached: %s", url, e.getMessage());
+              String.format("Repository at '%s' could not be reached: '%s'", url, e.getMessage());
           log.info(message);
-          System.out.println(message);
         }
       }
 

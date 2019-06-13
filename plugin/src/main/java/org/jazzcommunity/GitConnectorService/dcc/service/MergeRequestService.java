@@ -61,7 +61,13 @@ public class MergeRequestService extends AbstractRestService {
 
       for (IGitRepositoryDescriptor repository : repositories) {
         URL url = new URL(repository.getUrl());
-        provider.addRepository(url);
+        try {
+          provider.addRepository(url);
+        } catch (Exception e) {
+          String message =
+              String.format("Repository at '%s' could not be reached: '%s'", url, e.getMessage());
+          log.info(message);
+        }
       }
 
       PaginatedRequest pagination =
