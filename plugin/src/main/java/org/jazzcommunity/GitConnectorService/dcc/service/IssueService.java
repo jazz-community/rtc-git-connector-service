@@ -58,12 +58,15 @@ public class IssueService extends AbstractRestService {
           service.getAllRegisteredGitRepositories(null, null, true, true);
 
       for (IGitRepositoryDescriptor repository : repositories) {
-        URL url = new URL(repository.getUrl());
         try {
+          URL url = new URL(repository.getUrl());
           provider.addRepository(url);
         } catch (Exception e) {
           String message =
-              String.format("Repository at '%s' could not be reached: '%s'", url, e.getMessage());
+              String.format(
+                  "Repository at '%s' could not be reached: '%s'",
+                  repository.getUrl(), e.getMessage());
+
           log.info(message);
         }
       }
