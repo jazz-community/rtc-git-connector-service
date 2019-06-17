@@ -4,6 +4,7 @@ import com.siemens.bt.jazz.services.base.BaseService;
 import com.siemens.bt.jazz.services.base.router.Router;
 import org.jazzcommunity.GitConnectorService.ccm.inject.LinkTypeInjector;
 import org.jazzcommunity.GitConnectorService.ccm.service.VersionService;
+import org.jazzcommunity.GitConnectorService.ccm.service.development.RegisterRepositoryService;
 import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.RequestLinkService;
@@ -59,6 +60,9 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
 
     router.get("proxy/{host}", ProxyService.class);
     router.post("proxy/{host}", ProxyService.class);
+
+    // this service should only work in debug modes
+    router.post("repositories", RegisterRepositoryService.class);
 
     /**
      * This code is purposely commented out and not deleted! We have decided to use the IBM rich
