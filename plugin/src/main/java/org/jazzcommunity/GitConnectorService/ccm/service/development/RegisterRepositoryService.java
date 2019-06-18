@@ -15,6 +15,7 @@ import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
+import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.ccm.data.GitRepository;
 
@@ -37,7 +38,7 @@ public class RegisterRepositoryService extends AbstractRestService {
     URL url = new URL(parentService.getPublicRepositoryURL());
 
     if (!url.getHost().equals("localhost")) {
-      response.setStatus(403);
+      response.setStatus(HttpStatus.SC_FORBIDDEN);
       response.setContentType(ContentType.TEXT_HTML.toString());
       response.getWriter().write("Operation only supported during development.");
       return;
@@ -50,9 +51,17 @@ public class RegisterRepositoryService extends AbstractRestService {
     GitRepository[] repositories = gson.fromJson(raw, GitRepository[].class);
     IProcessAreaHandle dummyOwner = getDummyOwner();
     for (GitRepository repository : repositories) {
-      service.registerGitRepository(
-          repository.getUrl(), repository.getName(), "", null, dummyOwner, "", false);
+      try {
+        service.registerGitRepository(
+            repository.getUrl(), repository.getName(), "", null, dummyOwner, "", false);
+      } catch (Exception e) {
+        String message =
+            String.format("Repository %s could not be registered: %s", repository.getUrl(), e);
+        log.error(message);
+      }
     }
+
+    response.setStatus(HttpStatus.SC_CREATED);
   }
 
   private IProcessAreaHandle getDummyOwner() throws TeamRepositoryException {
