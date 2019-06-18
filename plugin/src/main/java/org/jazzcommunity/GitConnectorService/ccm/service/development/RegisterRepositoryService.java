@@ -2,6 +2,10 @@ package org.jazzcommunity.GitConnectorService.ccm.service.development;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ibm.team.git.common.internal.IGitRepositoryRegistrationService;
+import com.ibm.team.git.common.model.IGitRepositoryDescriptor;
+import com.ibm.team.process.common.IProcessAreaHandle;
+import com.ibm.team.repository.common.TeamRepositoryException;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
@@ -39,10 +43,24 @@ public class RegisterRepositoryService extends AbstractRestService {
       return;
     }
 
+    IGitRepositoryRegistrationService service =
+        parentService.getService(IGitRepositoryRegistrationService.class);
+
     String raw = RequestReader.readAsString(request);
     GitRepository[] repositories = gson.fromJson(raw, GitRepository[].class);
+    IProcessAreaHandle dummyOwner = getDummyOwner();
     for (GitRepository repository : repositories) {
-      System.out.println(String.format("name: %s, url: %s", repository.getName(), repository.getUrl()));
+      service.registerGitRepository(
+          repository.getUrl(), repository.getName(), "", null, dummyOwner, "", false);
     }
+  }
+
+  private IProcessAreaHandle getDummyOwner() throws TeamRepositoryException {
+    IGitRepositoryRegistrationService service =
+        parentService.getService(IGitRepositoryRegistrationService.class);
+
+    IGitRepositoryDescriptor[] rs = service.getAllRegisteredGitRepositories(null, null, true, true);
+
+    return rs[0].getOwner();
   }
 }
