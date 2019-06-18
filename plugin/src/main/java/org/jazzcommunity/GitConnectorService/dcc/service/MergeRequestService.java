@@ -44,6 +44,9 @@ public class MergeRequestService extends AbstractRestService {
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
     String id = request.getParameter("id");
+    String timeoutParameter = request.getParameter("timeout");
+    // set a sane connection timeout for initial connection request
+    int timeout = timeoutParameter == null ? 2000 : Integer.valueOf(timeoutParameter);
 
     if (id == null) {
       PageProvider<MergeRequest> provider =
@@ -62,7 +65,7 @@ public class MergeRequestService extends AbstractRestService {
       for (IGitRepositoryDescriptor repository : repositories) {
         URL url = new URL(repository.getUrl());
         try {
-          provider.addRepository(url);
+          provider.addRepository(url, timeout);
         } catch (Exception e) {
           String message =
               String.format("Repository at '%s' could not be reached: '%s'", url, e.getMessage());

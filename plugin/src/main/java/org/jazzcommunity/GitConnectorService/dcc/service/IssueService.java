@@ -44,6 +44,9 @@ public class IssueService extends AbstractRestService {
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
     String id = request.getParameter("id");
+    String timeoutParameter = request.getParameter("timeout");
+    // set a sane connection timeout for initial connection request
+    int timeout = timeoutParameter == null ? 2000 : Integer.valueOf(timeoutParameter);
 
     if (id == null) { // initiate new project area collection
       PageProvider<Issue> provider = new PageProvider<>("issues", Issue[].class);
@@ -60,13 +63,14 @@ public class IssueService extends AbstractRestService {
       for (IGitRepositoryDescriptor repository : repositories) {
         try {
           URL url = new URL(repository.getUrl());
-          provider.addRepository(url);
+          provider.addRepository(url, timeout);
         } catch (Exception e) {
           String message =
               String.format(
-                  "Repository at '%s' could not be reached: '%s'",
+                  "Repository at '%s' could not be reached or is not a gitlab repository: '%s'",
                   repository.getUrl(), e.getMessage());
 
+          System.out.println(message);
           log.info(message);
         }
       }
