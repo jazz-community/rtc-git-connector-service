@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.dcc.data;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabApiFactory;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.ibm.team.repository.common.UUID;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class MergeRequestResolver implements Resolver<MergeRequest> {
 
   @Override
   public MergeRequest resolve(UUID projectArea) {
-    GitlabApi api = new GitlabApi("https://" + remoteUrl.getServiceUrl());
+    GitlabApi api = GitlabApiFactory.getInstance("https://" + remoteUrl.getServiceUrl());
 
     try {
       MergeRequest original =

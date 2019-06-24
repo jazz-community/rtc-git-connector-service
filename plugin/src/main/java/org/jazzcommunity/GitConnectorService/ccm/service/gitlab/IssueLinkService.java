@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.ccm.service.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabApiFactory;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.common.net.MediaType;
 import com.google.gson.Gson;
@@ -98,7 +99,8 @@ public class IssueLinkService extends AbstractRestService {
 
   private Issue getIssue() throws IOException {
     URL url = new URL("https://" + pathParameters.get("host"));
-    GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
+    GitlabApi api =
+        GitlabApiFactory.getInstance(url.toString(), TokenHelper.getToken(url, parentService));
 
     return api.getIssue(
         pathParameters.getAsInteger("projectId"), pathParameters.getAsInteger("issueId"));

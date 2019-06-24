@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.dcc.data;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabApiFactory;
 import com.google.common.collect.Iterables;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -24,7 +25,7 @@ public class PageProvider<T> {
   }
 
   public void addRepository(URL url, int timeout) throws IOException {
-    GitlabApi api = new GitlabApi(getBaseUrl(url), timeout);
+    GitlabApi api = GitlabApiFactory.getInstance(getBaseUrl(url), timeout);
     String project = encodeProject(url);
     Iterable<T> resource = api.iterateProjectResource(project, this.resource, type);
     issues = Iterables.concat(issues, resource);

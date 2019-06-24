@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.dcc.data;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabApiFactory;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.ibm.team.repository.common.UUID;
@@ -23,7 +24,7 @@ public class IssueResolver implements Resolver<Issue> {
 
   @Override
   public LinkedIssue resolve(UUID projectArea) {
-    GitlabApi api = new GitlabApi("https://" + remoteUrl.getServiceUrl());
+    GitlabApi api = GitlabApiFactory.getInstance("https://" + remoteUrl.getServiceUrl());
 
     // as well as that, this differentiation should probably be handled by the factory, if we are
     // working with issues or requests or whatever and just try to fetch the proper payload.
