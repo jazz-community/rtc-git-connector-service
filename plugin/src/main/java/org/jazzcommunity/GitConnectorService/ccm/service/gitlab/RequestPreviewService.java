@@ -1,7 +1,7 @@
 package org.jazzcommunity.GitConnectorService.ccm.service.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
-import ch.sbi.minigit.gitlab.GitlabApiFactory;
+import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.google.common.net.MediaType;
 import com.ibm.team.repository.service.TeamRawService;
@@ -33,7 +33,7 @@ public class RequestPreviewService extends AbstractRestService {
   public void execute() throws Exception {
     URL url = new URL("https://" + pathParameters.get("host"));
     GitlabApi api =
-        GitlabApiFactory.getInstance(url.toString(), TokenHelper.getToken(url, parentService));
+        GitlabWebFactory.getInstance(url.toString(), TokenHelper.getToken(url, parentService));
     MergeRequest mergeRequest =
         api.getMergeRequest(
             pathParameters.getAsInteger("projectId"),
