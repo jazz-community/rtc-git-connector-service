@@ -33,9 +33,9 @@
       <version>0.11.0</version>
     </dependency>
     <dependency>
-      <groupId>ch.sbi</groupId>
-      <artifactId>minigit</artifactId>
-      <version>1.3.0-SNAPSHOT</version>
+      <groupId>ch.sbi.minigit</groupId>
+      <artifactId>mini-git-library</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.siemens.bt.jazz.services.base</groupId>
