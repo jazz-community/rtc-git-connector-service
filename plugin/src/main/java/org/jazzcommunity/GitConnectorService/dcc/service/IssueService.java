@@ -70,7 +70,6 @@ public class IssueService extends AbstractRestService {
                   "Repository at '%s' could not be reached or is not a gitlab repository: '%s'",
                   repository.getUrl(), e.getMessage());
 
-          System.out.println(message);
           log.info(message);
         }
       }
