@@ -2,6 +2,7 @@ package org.jazzcommunity.GitConnectorService.dcc.net;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.gitlab.GitlabWebFactory;
+import ch.sbi.minigit.type.gitlab.issue.Assignee;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.user.User;
 import java.io.IOException;
@@ -26,8 +27,23 @@ public class UserRepository {
   public void addEmails(Collection<Issue> issues) {
     for (Issue issue : issues) {
       if (issue.getAuthor() != null) {
-        User author = getUser(issue.getAuthor().getId(), issue.getAuthor().getWebUrl());
-        issue.getAuthor().setPublicEmail(author.getPublicEmail());
+        User user = getUser(issue.getAuthor().getId(), issue.getAuthor().getWebUrl());
+        issue.getAuthor().setPublicEmail(user.getPublicEmail());
+      }
+
+      if (issue.getAssignee() != null) {
+        User user = getUser(issue.getAssignee().getId(), issue.getAssignee().getWebUrl());
+        issue.getAssignee().setPublicEmail(user.getPublicEmail());
+      }
+
+      if (issue.getClosedBy() != null) {
+        User user = getUser(issue.getClosedBy().getId(), issue.getClosedBy().getWebUrl());
+        issue.getClosedBy().setPublicEmail(user.getPublicEmail());
+      }
+
+      for (Assignee assignee : issue.getAssignees()) {
+        User user = getUser(assignee.getId(), assignee.getWebUrl());
+        assignee.setPublicEmail(user.getPublicEmail());
       }
     }
   }
