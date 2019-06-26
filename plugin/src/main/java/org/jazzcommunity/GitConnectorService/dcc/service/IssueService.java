@@ -85,7 +85,7 @@ public class IssueService extends AbstractRestService {
 
       Collection<Issue> page = provider.getPage(pagination.size());
       UserRepository userRepository = new UserRepository(timeout, log);
-      userRepository.addEmails(page);
+      userRepository.mapEmailToIssues(page);
       Issues answer = new Issues();
       answer.addIssues(page);
       answer.setHref(pagination.getNext().toString());
@@ -100,7 +100,7 @@ public class IssueService extends AbstractRestService {
 
       Collection<Issue> page = provider.getPage(pagination.size());
       UserRepository userRepository = new UserRepository(timeout, log);
-      userRepository.addEmails(page);
+      userRepository.mapEmailToIssues(page);
       answer.addIssues(page);
 
       if (page.isEmpty() || page.size() < pagination.size()) {

@@ -22,6 +22,7 @@ import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.dcc.data.PageProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
+import org.jazzcommunity.GitConnectorService.dcc.net.UserRepository;
 import org.jazzcommunity.GitConnectorService.dcc.xml.MergeRequests;
 
 public class MergeRequestService extends AbstractRestService {
@@ -84,6 +85,8 @@ public class MergeRequestService extends AbstractRestService {
           PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, random);
 
       Collection<MergeRequest> page = provider.getPage(pagination.size());
+      UserRepository userRepository = new UserRepository(timeout, log);
+      userRepository.mapEmailToMergeRequests(page);
       MergeRequests answer = new MergeRequests();
       answer.addMergeRequests(page);
       answer.setHref(pagination.getNext().toString());
@@ -97,6 +100,8 @@ public class MergeRequestService extends AbstractRestService {
       MergeRequests answer = new MergeRequests();
 
       Collection<MergeRequest> page = provider.getPage(pagination.size());
+      UserRepository userRepository = new UserRepository(timeout, log);
+      userRepository.mapEmailToMergeRequests(page);
       answer.addMergeRequests(page);
 
       if (page.isEmpty() || page.size() < pagination.size()) {

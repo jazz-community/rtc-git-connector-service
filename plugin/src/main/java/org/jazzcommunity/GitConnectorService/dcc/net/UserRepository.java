@@ -4,6 +4,7 @@ import ch.sbi.minigit.gitlab.GitlabApi;
 import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.issue.Assignee;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
+import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import ch.sbi.minigit.type.gitlab.user.User;
 import java.io.IOException;
 import java.net.URL;
@@ -15,6 +16,8 @@ import org.apache.commons.logging.Log;
 public class UserRepository {
 
   private static Map<Integer, User> USERS = new HashMap<>();
+  private static int REQUEST_COUNT = 0;
+  private static int FETCH_COUNT = 0;
 
   private final int timeout;
   private final Log log;
@@ -24,7 +27,31 @@ public class UserRepository {
     this.log = log;
   }
 
-  public void addEmails(Collection<Issue> issues) {
+  public void mapEmailToMergeRequests(Collection<MergeRequest> requests) {
+    for (MergeRequest request : requests) {
+      if (request.getAuthor() != null) {
+        User user = getUser(request.getAuthor().getId(), request.getAuthor().getWebUrl());
+        request.getAuthor().setPublicEmail(user.getPublicEmail());
+      }
+
+      if (request.getAssignee() != null) {
+        User user = getUser(request.getAssignee().getId(), request.getAssignee().getWebUrl());
+        request.getAssignee().setPublicEmail(user.getPublicEmail());
+      }
+
+      if (request.getMergedBy() != null) {
+        User user = getUser(request.getMergedBy().getId(), request.getMergedBy().getWebUrl());
+        request.getMergedBy().setPublicEmail(user.getPublicEmail());
+      }
+
+      if (request.getClosedBy() != null) {
+        User user = getUser(request.getClosedBy().getId(), request.getClosedBy().getWebUrl());
+        request.getClosedBy().setPublicEmail(user.getPublicEmail());
+      }
+    }
+  }
+
+  public void mapEmailToIssues(Collection<Issue> issues) {
     for (Issue issue : issues) {
       if (issue.getAuthor() != null) {
         User user = getUser(issue.getAuthor().getId(), issue.getAuthor().getWebUrl());
@@ -56,6 +83,7 @@ public class UserRepository {
         GitlabApi api = GitlabWebFactory.getInstance(baseUrl, timeout);
         User user = api.getUser(String.valueOf(id));
         USERS.put(id, user);
+        REQUEST_COUNT += 1;
       } catch (IOException e) {
         String message = String.format("User with id %s not found.", id);
         log.info(message);
