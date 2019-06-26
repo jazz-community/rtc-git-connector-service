@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.dcc.net;
 
 import java.net.URI;
+import java.net.URL;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +14,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
  * library for fetching json data from gitlab/hub
  */
 public class UrlParser {
+
+  private UrlParser() {}
 
   /*
    * starting with anything up until the name of the service
@@ -51,5 +54,9 @@ public class UrlParser {
     String error =
         String.format("Invalid data url. Doesn't contain commit data. URL: %s", uri.toString());
     throw new IllegalArgumentException(error);
+  }
+
+  public static String getBaseUrl(URL url) {
+    return String.format("%s://%s", url.getProtocol(), url.getHost());
   }
 }

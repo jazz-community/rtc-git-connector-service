@@ -1,5 +1,7 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
+import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.ibm.team.git.common.internal.IGitRepositoryRegistrationService;
 import com.ibm.team.git.common.model.IGitRepositoryDescriptor;
@@ -19,6 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.dcc.data.PageProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
+import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
 
 public class IssueService extends AbstractRestService {
@@ -63,7 +66,9 @@ public class IssueService extends AbstractRestService {
       for (IGitRepositoryDescriptor repository : repositories) {
         try {
           URL url = new URL(repository.getUrl());
-          provider.addRepository(url, timeout);
+          String baseUrl = UrlParser.getBaseUrl(url);
+          GitlabApi api = GitlabWebFactory.getInstance(baseUrl, timeout);
+          provider.addRepository(api, url);
         } catch (Exception e) {
           String message =
               String.format(

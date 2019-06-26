@@ -1,5 +1,7 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
+import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.ibm.team.git.common.internal.IGitRepositoryRegistrationService;
 import com.ibm.team.git.common.model.IGitRepositoryDescriptor;
@@ -19,6 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.dcc.data.PageProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
+import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 import org.jazzcommunity.GitConnectorService.dcc.xml.MergeRequests;
 
 public class MergeRequestService extends AbstractRestService {
@@ -63,12 +66,16 @@ public class MergeRequestService extends AbstractRestService {
           service.getAllRegisteredGitRepositories(null, null, true, true);
 
       for (IGitRepositoryDescriptor repository : repositories) {
-        URL url = new URL(repository.getUrl());
         try {
-          provider.addRepository(url, timeout);
+          URL url = new URL(repository.getUrl());
+          String baseUrl = UrlParser.getBaseUrl(url);
+          GitlabApi api = GitlabWebFactory.getInstance(baseUrl, timeout);
+          provider.addRepository(api, url);
         } catch (Exception e) {
           String message =
-              String.format("Repository at '%s' could not be reached: '%s'", url, e.getMessage());
+              String.format(
+                  "Repository at '%s' could not be reached: '%s'",
+                  repository.getUrl(), e.getMessage());
           log.info(message);
         }
       }
