@@ -1,20 +1,22 @@
 package org.jazzcommunity.GitConnectorService.dcc.net;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.user.User;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Map;
 import org.apache.commons.logging.Log;
 
 public class UserRepository {
 
-  private final GitlabApi api;
+  private final int timeout;
   private final Log log;
 
-  public UserRepository(GitlabApi api, Log log) {
-    this.api = api;
+  public UserRepository(int timeout, Log log) {
+    this.timeout = timeout;
     this.log = log;
   }
 
@@ -23,14 +25,16 @@ public class UserRepository {
   public void addEmails(Collection<Issue> issues) {
     for (Issue issue : issues) {
       if (issue.getAuthor() != null) {
-        User author = getUser(issue.getAuthor().getId());
+        User author = getUser(issue.getAuthor().getId(), issue.getAuthor().getWebUrl());
       }
     }
   }
 
-  private User getUser(Integer id) {
+  private User getUser(Integer id, String webUrl) {
     if (!USERS.containsKey(id)) {
       try {
+        URL url = new URL(webUrl);
+        GitlabApi api = GitlabWebFactory.getInstance(url.getHost(), timeout);
         User user = api.getUser(String.valueOf(id));
         USERS.put(id, user);
       } catch (IOException e) {
