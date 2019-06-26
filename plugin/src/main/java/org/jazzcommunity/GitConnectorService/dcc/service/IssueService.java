@@ -22,6 +22,7 @@ import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.dcc.data.PageProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
+import org.jazzcommunity.GitConnectorService.dcc.net.UserRepository;
 import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
 
 public class IssueService extends AbstractRestService {
@@ -83,6 +84,8 @@ public class IssueService extends AbstractRestService {
           PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, random);
 
       Collection<Issue> page = provider.getPage(pagination.size());
+      UserRepository userRepository = new UserRepository(timeout, log);
+      userRepository.addEmails(page);
       Issues answer = new Issues();
       answer.addIssues(page);
       answer.setHref(pagination.getNext().toString());
@@ -96,6 +99,8 @@ public class IssueService extends AbstractRestService {
       Issues answer = new Issues();
 
       Collection<Issue> page = provider.getPage(pagination.size());
+      UserRepository userRepository = new UserRepository(timeout, log);
+      userRepository.addEmails(page);
       answer.addIssues(page);
 
       if (page.isEmpty() || page.size() < pagination.size()) {
