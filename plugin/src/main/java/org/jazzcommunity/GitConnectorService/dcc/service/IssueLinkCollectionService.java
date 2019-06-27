@@ -1,19 +1,29 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
+import org.jazzcommunity.GitConnectorService.common.GitLink;
+import org.jazzcommunity.GitConnectorService.dcc.data.LinkCollector;
+import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLinkFactory;
+import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 import org.jazzcommunity.GitConnectorService.dcc.xml.IssueLink;
-import org.jazzcommunity.GitConnectorService.dcc.xml.IssueLinks;
 
 public class IssueLinkCollectionService extends AbstractRestService {
+  // the default function when getting an unknown id could be the initial collection, which is
+  // currently handled manually
+  private static Cache<String, List<IssueLink>> CACHE =
+      CacheBuilder.newBuilder().expireAfterAccess(15, TimeUnit.MINUTES).build();
 
   public IssueLinkCollectionService(
       Log log,
@@ -27,18 +37,28 @@ public class IssueLinkCollectionService extends AbstractRestService {
 
   @Override
   public void execute() throws Exception {
+
     response.setContentType(ContentType.APPLICATION_XML.toString());
     response.setCharacterEncoding("UTF-8");
 
-    IssueLinks links = new IssueLinks();
+    String id = request.getParameter("id");
 
-    for (int i = 0; i < 10; i += 1) {
-      IssueLink link = new IssueLink("_bla", "123472", 111, i);
-      links.addLink(link);
+    if (id != null) {
+      PaginatedRequest pagination =
+          PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
     }
 
-    Marshaller marshaller = JAXBContext.newInstance(IssueLinks.class).createMarshaller();
-    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    marshaller.marshal(links, response.getWriter());
+    // I know this check is redundant, but this will temporarily stay to keep the structure
+    // the same
+    if (id == null) {
+      boolean includeArchived =
+          request.getParameter("archived") != null
+              ? Boolean.valueOf(request.getParameter("archived"))
+              : false;
+    }
+
+    //    Marshaller marshaller = JAXBContext.newInstance(IssueLinks.class).createMarshaller();
+    //    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    //    marshaller.marshal(links, response.getWriter());
   }
 }
