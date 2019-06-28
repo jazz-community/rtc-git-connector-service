@@ -1,5 +1,8 @@
 package org.jazzcommunity.GitConnectorService.common;
 
+import com.ibm.team.links.common.IReference;
+import com.ibm.team.links.common.IURIReference;
+import com.ibm.team.links.common.registry.IEndPointDescriptor;
 import com.ibm.team.process.common.IProjectArea;
 import com.ibm.team.process.common.IProjectAreaHandle;
 import com.ibm.team.repository.common.IItem;
@@ -18,16 +21,25 @@ import com.ibm.team.workitem.common.expression.Term.Operator;
 import com.ibm.team.workitem.common.internal.util.ItemQueryIterator;
 import com.ibm.team.workitem.common.model.AttributeOperation;
 import com.ibm.team.workitem.common.model.IWorkItem;
+import com.ibm.team.workitem.common.model.IWorkItemReferences;
 import com.ibm.team.workitem.common.query.IQueryResult;
 import com.ibm.team.workitem.common.query.IResolvedResult;
 import com.ibm.team.workitem.service.IAuditableServer;
 import com.ibm.team.workitem.service.IQueryServer;
+import com.ibm.team.workitem.service.IWorkItemServer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLink;
 
 public class LinkController {
   private final GitLink[] linkTypes;
   private final TeamRawService teamService;
+
+  public LinkController(TeamRawService teamService) {
+    this.linkTypes = GitLink.values();
+    this.teamService = teamService;
+  }
 
   public LinkController(GitLink linkType, TeamRawService teamService) {
     this(new GitLink[] {linkType}, teamService);
@@ -38,9 +50,10 @@ public class LinkController {
     this.teamService = teamService;
   }
 
-  public void collect(boolean includeArchived) throws TeamRepositoryException {
+  public Collection<WorkItemLink> collect(boolean includeArchived) throws TeamRepositoryException {
     IQueryServer service = teamService.getService(IQueryServer.class);
     List<IProjectAreaHandle> handles = getProjectAreaHandles();
+    ArrayList<WorkItemLink> links = new ArrayList<>(1 << 4);
 
     for (IProjectAreaHandle handle : handles) {
       IProjectArea area = getProjectArea(handle);
@@ -57,18 +70,46 @@ public class LinkController {
       }
 
       Term query = createLinkQuery(handle);
-      IQueryResult<IResolvedResult<IWorkItem>> results = service
-          .getResolvedExpressionResults(handle, query, IWorkItem.FULL_PROFILE);
+      IQueryResult<IResolvedResult<IWorkItem>> results =
+          service.getResolvedExpressionResults(handle, query, IWorkItem.FULL_PROFILE);
       results.setLimit(Integer.MAX_VALUE);
 
       while (results.hasNext(null)) {
         IResolvedResult<IWorkItem> result = results.next(null);
         IWorkItem item = result.getItem();
 
-        // so now, I really just want to return the actual work item link, and not any additional
-        // data along with it.
+        // yes, this is a bit complicated, but it's what it takes to unwrap work item references
+        IWorkItemServer itemService = teamService.getService(IWorkItemServer.class);
+        IWorkItemReferences references = itemService.resolveWorkItemReferences(item, null);
+        for (IEndPointDescriptor descriptor : references.getTypes()) {
+          for (IReference reference : references.getReferences(descriptor)) {
+            if (reference.isURIReference() && isGitLink(reference)) {
+              IURIReference uriReference = (IURIReference) reference;
+              WorkItemLink link =
+                  new WorkItemLink(
+                      item.getItemId(),
+                      area.getItemId().getUuidValue(),
+                      reference.getLink().getLinkTypeId(),
+                      uriReference.getURI());
+
+              links.add(link);
+            }
+          }
+        }
       }
     }
+
+    return links;
+  }
+
+  private boolean isGitLink(IReference reference) {
+    for (GitLink type : linkTypes) {
+      if (reference.getLink().getLinkTypeId().equals(type.toString())) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private Term createLinkQuery(IProjectAreaHandle handle) throws TeamRepositoryException {

@@ -6,12 +6,16 @@ import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
+import org.jazzcommunity.GitConnectorService.common.GitLink;
+import org.jazzcommunity.GitConnectorService.common.LinkController;
+import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLink;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 import org.jazzcommunity.GitConnectorService.dcc.xml.IssueLink;
 
@@ -33,7 +37,6 @@ public class IssueLinkCollectionService extends AbstractRestService {
 
   @Override
   public void execute() throws Exception {
-
     response.setContentType(ContentType.APPLICATION_XML.toString());
     response.setCharacterEncoding("UTF-8");
 
@@ -51,6 +54,16 @@ public class IssueLinkCollectionService extends AbstractRestService {
           request.getParameter("archived") != null
               ? Boolean.valueOf(request.getParameter("archived"))
               : false;
+    }
+
+    LinkController controller =
+        new LinkController(
+            new GitLink[] {GitLink.GIT_COMMIT, GitLink.GIT_ISSUE, GitLink.GIT_REQUEST},
+            parentService);
+
+    Collection<WorkItemLink> links = controller.collect(false);
+    for (WorkItemLink link : links) {
+      System.out.println(link);
     }
 
     //    Marshaller marshaller = JAXBContext.newInstance(IssueLinks.class).createMarshaller();
