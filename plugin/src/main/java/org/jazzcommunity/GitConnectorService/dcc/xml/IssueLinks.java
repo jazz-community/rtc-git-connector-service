@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "issue-links")
 public class IssueLinks {
   @XmlAttribute private String href;
-  @XmlAttribute private String rel = "next";
+  @XmlAttribute private String rel;
 
   @XmlElement(name = "issue")
   private List<IssueLink> links = new ArrayList<>();

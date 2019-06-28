@@ -7,11 +7,13 @@ import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,24 +56,21 @@ public class IssueLinkCollectionService extends AbstractRestService {
       id = RandomStringUtils.randomAlphanumeric(1 << 5);
     }
 
-    final boolean includeArchived =
-        request.getParameter("archived") != null
-            ? Boolean.valueOf(request.getParameter("archived"))
-            : false;
+    IssueLinks answer = getAnswer(id);
+    response.setContentType(ContentType.APPLICATION_XML.toString());
+    response.setCharacterEncoding("UTF-8");
+    Marshaller marshaller = JAXBContext.newInstance(IssueLinks.class).createMarshaller();
+    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    marshaller.marshal(answer, response.getWriter());
+  }
 
-    Iterator<IssueLink> links =
-        CACHE.get(
-            id,
-            new Callable<Iterator<IssueLink>>() {
-              @Override
-              public Iterator<IssueLink> call() throws Exception {
-                return getIssueLinks(includeArchived);
-              }
-            });
+  private IssueLinks getAnswer(String id) throws ExecutionException, URISyntaxException {
+    final boolean includeArchived = getArchivedValue(request.getParameter("archived"));
 
     PaginatedRequest pagination =
         PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
 
+    Iterator<IssueLink> links = getFromCache(id, includeArchived);
     IssueLinks answer = new IssueLinks();
 
     for (int i = 0; i < pagination.size() && links.hasNext(); i += 1) {
@@ -80,16 +79,26 @@ public class IssueLinkCollectionService extends AbstractRestService {
 
     if (links.hasNext()) {
       answer.setHref(pagination.getNext().toString());
-    } else {
-      answer.setHref(null);
-      answer.setRel(null);
+      answer.setRel("next");
     }
 
-    response.setContentType(ContentType.APPLICATION_XML.toString());
-    response.setCharacterEncoding("UTF-8");
-    Marshaller marshaller = JAXBContext.newInstance(IssueLinks.class).createMarshaller();
-    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    marshaller.marshal(answer, response.getWriter());
+    return answer;
+  }
+
+  private boolean getArchivedValue(String parameter) {
+    return parameter != null ? Boolean.valueOf(parameter) : false;
+  }
+
+  private Iterator<IssueLink> getFromCache(String id, final boolean includeArchived)
+      throws ExecutionException {
+    return CACHE.get(
+            id,
+            new Callable<Iterator<IssueLink>>() {
+              @Override
+              public Iterator<IssueLink> call() throws Exception {
+                return getIssueLinks(includeArchived);
+              }
+            });
   }
 
   private Iterator<IssueLink> getIssueLinks(boolean archived) throws TeamRepositoryException {
