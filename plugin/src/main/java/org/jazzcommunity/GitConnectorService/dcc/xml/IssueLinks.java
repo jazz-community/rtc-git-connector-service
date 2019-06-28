@@ -11,19 +11,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "issue-links")
-public class IssueLinks {
+public class IssueLinks extends PaginatedCollection {
   @XmlAttribute private String href;
   @XmlAttribute private String rel;
 
   @XmlElement(name = "issue")
-  private List<IssueLink> links = new ArrayList<>();
+  private List<XmlLink> links = new ArrayList<>();
 
-  public void addLink(IssueLink link) {
-    this.links.add(link);
+  @Override
+  public void add(XmlLink element) {
+    this.links.add(element);
   }
 
-  public void addLinks(Collection<IssueLink> links) {
-    this.links.addAll(links);
+  @Override
+  public void add(Collection<XmlLink> elements) {
+    this.links.addAll(elements);
   }
 
   public void setHref(String href) {

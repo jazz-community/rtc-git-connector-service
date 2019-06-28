@@ -32,20 +32,20 @@ import java.util.Collection;
 import java.util.List;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLink;
 
-public class LinkController {
+public class WorkItemLinkCollector {
   private final GitLink[] linkTypes;
   private final TeamRawService teamService;
 
-  public LinkController(TeamRawService teamService) {
+  public WorkItemLinkCollector(TeamRawService teamService) {
     this.linkTypes = GitLink.values();
     this.teamService = teamService;
   }
 
-  public LinkController(GitLink linkType, TeamRawService teamService) {
+  public WorkItemLinkCollector(GitLink linkType, TeamRawService teamService) {
     this(new GitLink[] {linkType}, teamService);
   }
 
-  public LinkController(GitLink[] linkTypes, TeamRawService teamService) {
+  public WorkItemLinkCollector(GitLink[] linkTypes, TeamRawService teamService) {
     this.linkTypes = linkTypes;
     this.teamService = teamService;
   }
