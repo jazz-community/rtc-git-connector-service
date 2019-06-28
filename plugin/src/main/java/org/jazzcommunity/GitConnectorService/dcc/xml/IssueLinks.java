@@ -13,11 +13,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "issue-links")
 public class IssueLinks {
   @XmlAttribute private String href;
+  @XmlAttribute private String rel = "next";
 
   @XmlElement(name = "issue")
   private List<IssueLink> links = new ArrayList<>();
-
-  @XmlAttribute private String rel = "next";
 
   public void addLink(IssueLink link) {
     this.links.add(link);
@@ -25,5 +24,13 @@ public class IssueLinks {
 
   public void addLinks(Collection<IssueLink> links) {
     this.links.addAll(links);
+  }
+
+  public void setHref(String href) {
+    this.href = href;
+  }
+
+  public void setRel(String rel) {
+    this.rel = rel;
   }
 }

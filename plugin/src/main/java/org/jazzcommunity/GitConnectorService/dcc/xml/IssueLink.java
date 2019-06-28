@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class IssueLink {
   private final String projectArea;
   private final String workItem;
-  private final Integer projectId;
-  private final Integer issueId;
+  private final String projectId;
+  private final String issueId;
 
-  public IssueLink(String projectArea, String workItem, Integer projectId, Integer issueId) {
+  public IssueLink(String projectArea, String workItem, String projectId, String issueId) {
     this.projectArea = projectArea;
     this.workItem = workItem;
     this.projectId = projectId;
