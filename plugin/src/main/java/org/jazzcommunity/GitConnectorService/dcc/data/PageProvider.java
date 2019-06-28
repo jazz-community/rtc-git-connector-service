@@ -15,7 +15,7 @@ public class PageProvider<T> {
 
   private final String resource;
   private final Class<T[]> type;
-  private Iterable<T> issues = Collections.emptyList();
+  private Iterable<T> iterable = Collections.emptyList();
   private Iterator<T> current;
 
   public PageProvider(String resource, Class<T[]> Type) {
@@ -26,13 +26,13 @@ public class PageProvider<T> {
   public void addRepository(GitlabApi api, URL url) throws IOException {
     String project = encodeProject(url);
     Iterable<T> resource = api.iterateProjectResource(project, this.resource, type);
-    issues = Iterables.concat(issues, resource);
+    iterable = Iterables.concat(iterable, resource);
   }
 
   public Collection<T> getPage(int size) {
     // initiate collection
     if (current == null) {
-      current = issues.iterator();
+      current = iterable.iterator();
     }
 
     ArrayList<T> result = new ArrayList<>(size);
