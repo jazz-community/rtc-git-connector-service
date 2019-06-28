@@ -32,8 +32,6 @@ import org.jazzcommunity.GitConnectorService.dcc.xml.IssueLink;
 import org.jazzcommunity.GitConnectorService.dcc.xml.IssueLinks;
 
 public class IssueLinkCollectionService extends AbstractRestService {
-  // the default function when getting an unknown id could be the initial collection, which is
-  // currently handled manually
   private static Cache<String, Iterator<IssueLink>> CACHE =
       CacheBuilder.newBuilder().expireAfterAccess(15, TimeUnit.MINUTES).build();
 
@@ -67,11 +65,10 @@ public class IssueLinkCollectionService extends AbstractRestService {
   private IssueLinks getAnswer(String id) throws ExecutionException, URISyntaxException {
     final boolean includeArchived = getArchivedValue(request.getParameter("archived"));
 
-    PaginatedRequest pagination =
-        PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
-
     Iterator<IssueLink> links = getFromCache(id, includeArchived);
     IssueLinks answer = new IssueLinks();
+    PaginatedRequest pagination =
+        PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
 
     for (int i = 0; i < pagination.size() && links.hasNext(); i += 1) {
       answer.addLink(links.next());
@@ -92,13 +89,13 @@ public class IssueLinkCollectionService extends AbstractRestService {
   private Iterator<IssueLink> getFromCache(String id, final boolean includeArchived)
       throws ExecutionException {
     return CACHE.get(
-            id,
-            new Callable<Iterator<IssueLink>>() {
-              @Override
-              public Iterator<IssueLink> call() throws Exception {
-                return getIssueLinks(includeArchived);
-              }
-            });
+        id,
+        new Callable<Iterator<IssueLink>>() {
+          @Override
+          public Iterator<IssueLink> call() throws Exception {
+            return getIssueLinks(includeArchived);
+          }
+        });
   }
 
   private Iterator<IssueLink> getIssueLinks(boolean archived) throws TeamRepositoryException {
