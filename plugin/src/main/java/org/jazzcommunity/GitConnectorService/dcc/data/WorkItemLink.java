@@ -16,6 +16,22 @@ public class WorkItemLink {
     this.link = link;
   }
 
+  public UUID getWorkItemId() {
+    return workItemId;
+  }
+
+  public String getProjectAreaId() {
+    return projectAreaId;
+  }
+
+  public String getLinkType() {
+    return linkType;
+  }
+
+  public URI getLink() {
+    return link;
+  }
+
   @Override
   public String toString() {
     return "WorkItemLink{"

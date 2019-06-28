@@ -17,6 +17,8 @@ import org.jazzcommunity.GitConnectorService.common.GitLink;
 import org.jazzcommunity.GitConnectorService.common.LinkController;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLink;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
+import org.jazzcommunity.GitConnectorService.dcc.net.RemoteUrl;
+import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 import org.jazzcommunity.GitConnectorService.dcc.xml.IssueLink;
 
 public class IssueLinkCollectionService extends AbstractRestService {
@@ -56,14 +58,12 @@ public class IssueLinkCollectionService extends AbstractRestService {
               : false;
     }
 
-    LinkController controller =
-        new LinkController(
-            new GitLink[] {GitLink.GIT_COMMIT, GitLink.GIT_ISSUE, GitLink.GIT_REQUEST},
-            parentService);
+    LinkController controller = new LinkController(GitLink.GIT_ISSUE, parentService);
 
     Collection<WorkItemLink> links = controller.collect(false);
     for (WorkItemLink link : links) {
-      System.out.println(link);
+      RemoteUrl url = UrlParser.parseRemote(link.getLink());
+      System.out.println(url);
     }
 
     //    Marshaller marshaller = JAXBContext.newInstance(IssueLinks.class).createMarshaller();
