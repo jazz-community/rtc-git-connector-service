@@ -14,6 +14,7 @@ import org.jazzcommunity.GitConnectorService.ccm.service.resource.ImageService;
 import org.jazzcommunity.GitConnectorService.dcc.service.CommitService;
 import org.jazzcommunity.GitConnectorService.dcc.service.IssueLinkCollectionService;
 import org.jazzcommunity.GitConnectorService.dcc.service.IssueService;
+import org.jazzcommunity.GitConnectorService.dcc.service.MergeRequestLinkCollectionService;
 import org.jazzcommunity.GitConnectorService.dcc.service.MergeRequestService;
 
 /**
@@ -40,8 +41,9 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
   private void addDccRoutes(Router router) {
     router.get("dcc/commits", CommitService.class);
     router.get("dcc/issues", IssueService.class);
-    router.get("dcc/mergerequests", MergeRequestService.class);
+    router.get("dcc/merge-requests", MergeRequestService.class);
     router.get("dcc/links/issues", IssueLinkCollectionService.class);
+    router.get("dcc/links/merge-requests", MergeRequestLinkCollectionService.class);
   }
 
   private void addCcmRoutes(Router router) {
