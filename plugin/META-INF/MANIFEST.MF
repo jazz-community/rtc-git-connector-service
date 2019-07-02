@@ -52,7 +52,7 @@ Bundle-ClassPath: target/dependency/gson-2.8.5.jar,
  target/dependency/mini-git-library-2.0.0-SNAPSHOT.jar,
  target/dependency/commonmark-0.11.0.jar,
  target/dependency/commonmark-ext-gfm-tables-0.11.0.jar,
- target/dependency/modelmapper-2.0.0.jar,
+ target/dependency/modelmapper-2.3.5.jar,
  target/dependency/threetenbp-1.3.6.jar,
  target/java-gen,
  .
