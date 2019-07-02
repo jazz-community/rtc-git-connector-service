@@ -1,13 +1,9 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
-import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
@@ -20,11 +16,8 @@ import org.jazzcommunity.GitConnectorService.common.WorkItemLinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.controller.LinkCollectionController;
 import org.jazzcommunity.GitConnectorService.dcc.xml.IssueLinks;
 import org.jazzcommunity.GitConnectorService.dcc.xml.PaginatedCollection;
-import org.jazzcommunity.GitConnectorService.dcc.xml.XmlLink;
 
 public class IssueLinkCollectionService extends AbstractRestService {
-  private static Cache<String, Iterator<XmlLink>> CACHE =
-      CacheBuilder.newBuilder().expireAfterAccess(15, TimeUnit.MINUTES).build();
 
   public IssueLinkCollectionService(
       Log log,
