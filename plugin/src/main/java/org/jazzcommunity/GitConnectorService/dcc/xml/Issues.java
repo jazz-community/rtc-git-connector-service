@@ -19,7 +19,7 @@ public class Issues {
   @XmlElement(name = "issue")
   private List<Issue> issues = new ArrayList<>();
 
-  @XmlAttribute private String rel = "next";
+  @XmlAttribute private String rel;
 
   public String getHref() {
     return href;

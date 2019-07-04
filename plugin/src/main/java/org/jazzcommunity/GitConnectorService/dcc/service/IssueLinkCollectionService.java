@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.common.GitLink;
+import org.jazzcommunity.GitConnectorService.common.Parameter;
 import org.jazzcommunity.GitConnectorService.common.WorkItemLinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.controller.LinkCollectionController;
 import org.jazzcommunity.GitConnectorService.dcc.xml.IssueLinks;
@@ -31,13 +31,7 @@ public class IssueLinkCollectionService extends AbstractRestService {
 
   @Override
   public void execute() throws Exception {
-    String id = request.getParameter("id");
-
-    // incoming request doesn't have an id yet, so we create a new one to use for the cache
-    if (id == null) {
-      id = RandomStringUtils.randomAlphanumeric(1 << 5);
-    }
-
+    String id = Parameter.handleId(request);
     // collect issues using the collection controller. The link wrapper is injected
     WorkItemLinkCollector collector = new WorkItemLinkCollector(GitLink.GIT_ISSUE, parentService);
     LinkCollectionController controller =

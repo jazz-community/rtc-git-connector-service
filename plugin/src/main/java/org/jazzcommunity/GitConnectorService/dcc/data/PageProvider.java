@@ -44,6 +44,10 @@ public class PageProvider<T> {
     return result;
   }
 
+  public boolean hasMore() {
+    return current.hasNext();
+  }
+
   private static String encodeProject(URL url) throws UnsupportedEncodingException {
     String path = url.getPath();
     // remove leading slash and optional file ending
