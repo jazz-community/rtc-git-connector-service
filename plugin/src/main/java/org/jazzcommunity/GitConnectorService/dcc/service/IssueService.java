@@ -1,7 +1,5 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
-import ch.sbi.minigit.gitlab.GitlabApi;
-import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -12,7 +10,6 @@ import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
-import java.net.URL;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -23,9 +20,9 @@ import javax.xml.bind.Marshaller;
 import org.apache.commons.logging.Log;
 import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.common.Parameter;
+import org.jazzcommunity.GitConnectorService.dcc.controller.RemoteProviderFactory;
 import org.jazzcommunity.GitConnectorService.dcc.data.PageProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
-import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 import org.jazzcommunity.GitConnectorService.dcc.net.UserRepository;
 import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
 
@@ -45,30 +42,14 @@ public class IssueService extends AbstractRestService {
   }
 
   private PageProvider<Issue> getProvider(int timeout) throws TeamRepositoryException {
-    PageProvider<Issue> provider = new PageProvider<>("issues", Issue[].class);
     IGitRepositoryRegistrationService service =
         parentService.getService(IGitRepositoryRegistrationService.class);
 
     IGitRepositoryDescriptor[] repositories =
         service.getAllRegisteredGitRepositories(null, null, true, true);
 
-    for (IGitRepositoryDescriptor repository : repositories) {
-      try {
-        URL url = new URL(repository.getUrl());
-        String baseUrl = UrlParser.getBaseUrl(url);
-        GitlabApi api = GitlabWebFactory.getInstance(baseUrl, timeout);
-        provider.addRepository(api, url);
-      } catch (Exception e) {
-        String message =
-            String.format(
-                "Repository at '%s' could not be reached or is not a gitlab repository: '%s'",
-                repository.getUrl(), e.getMessage());
-
-        log.info(message);
-      }
-    }
-
-    return provider;
+    return new RemoteProviderFactory<>("issues", Issue[].class, timeout, repositories, log)
+        .getProvider();
   }
 
   @Override
