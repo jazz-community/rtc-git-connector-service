@@ -31,4 +31,10 @@ public class Parameter {
       return id;
     }
   }
+
+  // url for testing:
+  // https://localhost:7443/jazz/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/dcc/issues?size=25&modifiedsince=2019-07-01T09%3A14%3A17.704-0500
+  public static String handleModified(HttpServletRequest request) {
+    return request.getParameter("modifiedsince");
+  }
 }

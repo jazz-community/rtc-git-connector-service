@@ -43,6 +43,7 @@ public class IssueService extends AbstractRestService {
   public void execute() throws Exception {
     final String id = Parameter.handleId(request);
     final int timeout = Parameter.handleTimeout(request, 2000);
+    String modified = Parameter.handleModified(request);
 
     PageProvider<Issue> provider =
         CACHE.get(
