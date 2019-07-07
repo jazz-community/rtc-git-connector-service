@@ -15,11 +15,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 import org.apache.commons.logging.Log;
-import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.common.Parameter;
+import org.jazzcommunity.GitConnectorService.common.Response;
 import org.jazzcommunity.GitConnectorService.dcc.controller.RemoteProviderFactory;
 import org.jazzcommunity.GitConnectorService.dcc.data.PageProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
@@ -81,10 +79,6 @@ public class IssueService extends AbstractRestService {
       answer.setRel("next");
     }
 
-    response.setContentType(ContentType.APPLICATION_XML.toString());
-    response.setCharacterEncoding("UTF-8");
-    Marshaller marshaller = JAXBContext.newInstance(Issues.class).createMarshaller();
-    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    marshaller.marshal(answer, response.getWriter());
+    Response.marshallXml(response, answer);
   }
 }
