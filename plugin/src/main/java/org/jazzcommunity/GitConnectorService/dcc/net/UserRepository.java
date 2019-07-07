@@ -6,16 +6,18 @@ import ch.sbi.minigit.type.gitlab.issue.Assignee;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import ch.sbi.minigit.type.gitlab.user.User;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import org.apache.commons.logging.Log;
 
 public class UserRepository {
 
-  private static Map<Integer, User> USERS = new HashMap<>();
+  private static Cache<Integer, User> USERS = CacheBuilder.newBuilder().maximumSize(10_000).build();
 
   private final int timeout;
   private final Log log;
@@ -73,24 +75,43 @@ public class UserRepository {
     }
   }
 
-  private User getUser(Integer id, String webUrl) {
-    if (!USERS.containsKey(id)) {
-      try {
-        URL url = new URL(webUrl);
-        String baseUrl = UrlParser.getBaseUrl(url);
-        GitlabApi api = GitlabWebFactory.getInstance(baseUrl, timeout);
-        User user = api.getUser(String.valueOf(id));
-        USERS.put(id, user);
-      } catch (IOException e) {
-        String message = String.format("User with id %s not found.", id);
-        log.info(message);
-        // add dummy user
-        User user = new User();
-        user.setPublicEmail("");
-        USERS.put(id, user);
-      }
+  private User getUser(final Integer id, final String webUrl) {
+    try {
+      return USERS.get(
+          id,
+          new Callable<User>() {
+            @Override
+            public User call() throws Exception {
+              return lookUpUser(id, webUrl);
+            }
+          });
+    } catch (ExecutionException e) {
+      // this path should never happen, because user lookup doesn't throw. If we reach here,
+      // it's quite likely something weird has happened.
+      String message =
+          String.format(
+              "Unexpected exception occured when lookking up user with id: %s at %s", id, webUrl);
+      log.warn(message);
+      return makeDummyUser();
     }
+  }
 
-    return USERS.get(id);
+  private User lookUpUser(Integer id, String webUrl) {
+    try {
+      URL url = new URL(webUrl);
+      String baseUrl = UrlParser.getBaseUrl(url);
+      GitlabApi api = GitlabWebFactory.getInstance(baseUrl, timeout);
+      return api.getUser(String.valueOf(id));
+    } catch (IOException e) {
+      String message = String.format("User with id %s not found.", id);
+      log.info(message);
+      return makeDummyUser();
+    }
+  }
+
+  private User makeDummyUser() {
+    User user = new User();
+    user.setPublicEmail("");
+    return user;
   }
 }
