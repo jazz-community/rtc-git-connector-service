@@ -90,7 +90,7 @@ public class UserRepository {
       // it's quite likely something weird has happened.
       String message =
           String.format(
-              "Unexpected exception occured when lookking up user with id: %s at %s", id, webUrl);
+              "Unexpected exception occurred when looking up user with id: %s at %s", id, webUrl);
       log.warn(message);
       return makeDummyUser();
     }
