@@ -4,6 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.RandomStringUtils;
 
 public class Parameter {
+  public static boolean handleArchived(HttpServletRequest request) {
+    return Boolean.valueOf(request.getParameter("archived"));
+  }
+
   public static int handleTimeout(HttpServletRequest request, int unset) {
     String timeout = request.getParameter("timeout");
 
