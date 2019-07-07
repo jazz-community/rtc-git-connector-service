@@ -1,31 +1,34 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
-import ch.sbi.minigit.gitlab.GitlabApi;
-import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.ibm.team.git.common.internal.IGitRepositoryRegistrationService;
 import com.ibm.team.git.common.model.IGitRepositoryDescriptor;
+import com.ibm.team.repository.common.TeamRepositoryException;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
-import java.net.URL;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.Log;
-import org.apache.http.entity.ContentType;
+import org.jazzcommunity.GitConnectorService.common.Parameter;
+import org.jazzcommunity.GitConnectorService.common.Response;
+import org.jazzcommunity.GitConnectorService.dcc.controller.RemoteProviderFactory;
 import org.jazzcommunity.GitConnectorService.dcc.data.PageProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
-import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 import org.jazzcommunity.GitConnectorService.dcc.net.UserRepository;
 import org.jazzcommunity.GitConnectorService.dcc.xml.MergeRequests;
 
 public class MergeRequestService extends AbstractRestService {
+
+  private static Cache<String, PageProvider<MergeRequest>> CACHE =
+      CacheBuilder.newBuilder().expireAfterAccess(15, TimeUnit.MINUTES).build();
 
   private static final ConcurrentHashMap<String, PageProvider<MergeRequest>> cache =
       new ConcurrentHashMap<>();
@@ -40,79 +43,47 @@ public class MergeRequestService extends AbstractRestService {
     super(log, request, response, restRequest, parentService, pathParameters);
   }
 
+  private PageProvider<MergeRequest> getProvider(int timeout) throws TeamRepositoryException {
+    IGitRepositoryRegistrationService service =
+        parentService.getService(IGitRepositoryRegistrationService.class);
+
+    IGitRepositoryDescriptor[] repositories =
+        service.getAllRegisteredGitRepositories(null, null, true, true);
+
+    return new RemoteProviderFactory<>(
+            "merge_requests", MergeRequest[].class, timeout, repositories, log)
+        .getProvider();
+  }
+
   @Override
   public void execute() throws Exception {
-    response.setContentType(ContentType.APPLICATION_XML.toString());
-    response.setCharacterEncoding("UTF-8");
-    Marshaller marshaller = JAXBContext.newInstance(MergeRequests.class).createMarshaller();
-    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    String id = Parameter.handleId(request);
+    final int timeout = Parameter.handleTimeout(request, 2000);
 
-    String id = request.getParameter("id");
-    String timeoutParameter = request.getParameter("timeout");
-    // set a sane connection timeout for initial connection request
-    int timeout = timeoutParameter == null ? 2000 : Integer.valueOf(timeoutParameter);
+    PageProvider<MergeRequest> provider =
+        CACHE.get(
+            id,
+            new Callable<PageProvider<MergeRequest>>() {
+              @Override
+              public PageProvider<MergeRequest> call() throws Exception {
+                return getProvider(timeout);
+              }
+            });
 
-    if (id == null) {
-      PageProvider<MergeRequest> provider =
-          new PageProvider<>("merge_requests", MergeRequest[].class);
+    PaginatedRequest pagination =
+        PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), this.request, id);
 
-      // TODO: Extract to pagination controller
-      IGitRepositoryRegistrationService service =
-          parentService.getService(IGitRepositoryRegistrationService.class);
+    MergeRequests answer = new MergeRequests();
+    Collection<MergeRequest> page = provider.getPage(pagination.size());
+    UserRepository repository = new UserRepository(timeout, log);
+    repository.mapEmailToMergeRequests(page);
+    answer.addMergeRequests(page);
 
-      String random = RandomStringUtils.randomAlphanumeric(1 << 5);
-      cache.put(random, provider);
-
-      IGitRepositoryDescriptor[] repositories =
-          service.getAllRegisteredGitRepositories(null, null, true, true);
-
-      for (IGitRepositoryDescriptor repository : repositories) {
-        try {
-          URL url = new URL(repository.getUrl());
-          String baseUrl = UrlParser.getBaseUrl(url);
-          GitlabApi api = GitlabWebFactory.getInstance(baseUrl, timeout);
-          provider.addRepository(api, url);
-        } catch (Exception e) {
-          String message =
-              String.format(
-                  "Repository at '%s' could not be reached: '%s'",
-                  repository.getUrl(), e.getMessage());
-          log.info(message);
-        }
-      }
-
-      PaginatedRequest pagination =
-          PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, random);
-
-      Collection<MergeRequest> page = provider.getPage(pagination.size());
-      UserRepository userRepository = new UserRepository(timeout, log);
-      userRepository.mapEmailToMergeRequests(page);
-      MergeRequests answer = new MergeRequests();
-      answer.addMergeRequests(page);
+    if (provider.hasMore()) {
       answer.setHref(pagination.getNext().toString());
-
-      marshaller.marshal(answer, response.getWriter());
-    } else {
-      PaginatedRequest pagination =
-          PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), this.request, id);
-
-      PageProvider<MergeRequest> provider = cache.get(id);
-      MergeRequests answer = new MergeRequests();
-
-      Collection<MergeRequest> page = provider.getPage(pagination.size());
-      UserRepository userRepository = new UserRepository(timeout, log);
-      userRepository.mapEmailToMergeRequests(page);
-      answer.addMergeRequests(page);
-
-      if (page.isEmpty() || page.size() < pagination.size()) {
-        answer.setHref(null);
-        answer.setRel(null);
-        cache.remove(id);
-      } else {
-        answer.setHref(pagination.getNext().toString());
-      }
-
-      marshaller.marshal(answer, response.getWriter());
+      answer.setRel("next");
     }
+
+    Response.marshallXml(response, answer);
   }
 }

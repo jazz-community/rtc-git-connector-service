@@ -16,8 +16,6 @@ import org.apache.commons.logging.Log;
 public class UserRepository {
 
   private static Map<Integer, User> USERS = new HashMap<>();
-  private static int REQUEST_COUNT = 0;
-  private static int FETCH_COUNT = 0;
 
   private final int timeout;
   private final Log log;
@@ -83,7 +81,6 @@ public class UserRepository {
         GitlabApi api = GitlabWebFactory.getInstance(baseUrl, timeout);
         User user = api.getUser(String.valueOf(id));
         USERS.put(id, user);
-        REQUEST_COUNT += 1;
       } catch (IOException e) {
         String message = String.format("User with id %s not found.", id);
         log.info(message);

@@ -14,7 +14,7 @@ public class MergeRequests {
   @XmlElement(name = "mergerequest")
   private List<MergeRequest> mergeRequests = new ArrayList<>();
 
-  @XmlAttribute private String rel = "next";
+  @XmlAttribute private String rel;
 
   public String getHref() {
     return href;
