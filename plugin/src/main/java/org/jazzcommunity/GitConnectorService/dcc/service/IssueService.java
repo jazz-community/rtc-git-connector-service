@@ -39,17 +39,6 @@ public class IssueService extends AbstractRestService {
     super(log, request, response, restRequest, parentService, pathParameters);
   }
 
-  private PageProvider<Issue> getProvider(int timeout) throws TeamRepositoryException {
-    IGitRepositoryRegistrationService service =
-        parentService.getService(IGitRepositoryRegistrationService.class);
-
-    IGitRepositoryDescriptor[] repositories =
-        service.getAllRegisteredGitRepositories(null, null, true, true);
-
-    return new RemoteProviderFactory<>("issues", Issue[].class, timeout, repositories, log)
-        .getProvider();
-  }
-
   @Override
   public void execute() throws Exception {
     final String id = Parameter.handleId(request);
@@ -80,5 +69,16 @@ public class IssueService extends AbstractRestService {
     }
 
     Response.marshallXml(response, answer);
+  }
+
+  private PageProvider<Issue> getProvider(int timeout) throws TeamRepositoryException {
+    IGitRepositoryRegistrationService service =
+        parentService.getService(IGitRepositoryRegistrationService.class);
+
+    IGitRepositoryDescriptor[] repositories =
+        service.getAllRegisteredGitRepositories(null, null, true, true);
+
+    return new RemoteProviderFactory<>("issues", Issue[].class, timeout, repositories, log)
+        .getProvider();
   }
 }

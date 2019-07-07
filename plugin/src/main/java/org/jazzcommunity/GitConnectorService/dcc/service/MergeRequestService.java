@@ -43,18 +43,6 @@ public class MergeRequestService extends AbstractRestService {
     super(log, request, response, restRequest, parentService, pathParameters);
   }
 
-  private PageProvider<MergeRequest> getProvider(int timeout) throws TeamRepositoryException {
-    IGitRepositoryRegistrationService service =
-        parentService.getService(IGitRepositoryRegistrationService.class);
-
-    IGitRepositoryDescriptor[] repositories =
-        service.getAllRegisteredGitRepositories(null, null, true, true);
-
-    return new RemoteProviderFactory<>(
-            "merge_requests", MergeRequest[].class, timeout, repositories, log)
-        .getProvider();
-  }
-
   @Override
   public void execute() throws Exception {
     String id = Parameter.handleId(request);
@@ -85,5 +73,17 @@ public class MergeRequestService extends AbstractRestService {
     }
 
     Response.marshallXml(response, answer);
+  }
+
+  private PageProvider<MergeRequest> getProvider(int timeout) throws TeamRepositoryException {
+    IGitRepositoryRegistrationService service =
+        parentService.getService(IGitRepositoryRegistrationService.class);
+
+    IGitRepositoryDescriptor[] repositories =
+        service.getAllRegisteredGitRepositories(null, null, true, true);
+
+    return new RemoteProviderFactory<>(
+        "merge_requests", MergeRequest[].class, timeout, repositories, log)
+        .getProvider();
   }
 }
