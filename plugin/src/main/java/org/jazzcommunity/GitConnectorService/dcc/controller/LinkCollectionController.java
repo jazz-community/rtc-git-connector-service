@@ -11,6 +11,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
+import org.jazzcommunity.GitConnectorService.common.Parameter;
 import org.jazzcommunity.GitConnectorService.common.WorkItemLinkCollector;
 import org.jazzcommunity.GitConnectorService.dcc.data.WorkItemLink;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
@@ -34,7 +35,7 @@ public class LinkCollectionController {
   public PaginatedCollection fillPayload(
       HttpServletRequest request, String id, PaginatedCollection payload)
       throws URISyntaxException, ExecutionException {
-    final boolean includeArchived = getArchivedValue(request.getParameter("archived"));
+    final boolean includeArchived = Parameter.handleArchived(request);
 
     Iterator<XmlLink> links = getFromCache(id, includeArchived);
     PaginatedRequest pagination = PaginatedRequest.fromRequest(repositoryUrl, request, id);
@@ -80,9 +81,5 @@ public class LinkCollectionController {
     }
 
     return converted.iterator();
-  }
-
-  private boolean getArchivedValue(String parameter) {
-    return parameter != null ? Boolean.valueOf(parameter) : false;
   }
 }
