@@ -1,6 +1,5 @@
 package org.jazzcommunity.GitConnectorService.dcc.service;
 
-
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.ibm.team.repository.common.TeamRepositoryException;
@@ -12,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,17 +43,9 @@ public class CommitService extends AbstractRestService {
   @Override
   public void execute() throws Exception {
     String id = Parameter.handleId(request);
-    final boolean archived = Parameter.handleArchived(request);
+    boolean archived = Parameter.handleArchived(request);
 
-    Iterator<Commit> iterator =
-        CACHE.get(
-            id,
-            new Callable<Iterator<Commit>>() {
-              @Override
-              public Iterator<Commit> call() throws Exception {
-                return flattenLinks(archived);
-              }
-            });
+    Iterator<Commit> iterator = getIterator(id, archived);
 
     PaginatedRequest pagination =
         PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
@@ -72,9 +64,21 @@ public class CommitService extends AbstractRestService {
     Response.marshallXml(response, answer);
   }
 
+  private Iterator<Commit> getIterator(final String id, final boolean archived)
+      throws ExecutionException {
+    return CACHE.get(
+        id,
+        new Callable<Iterator<Commit>>() {
+          @Override
+          public Iterator<Commit> call() throws Exception {
+            return flattenLinks(archived);
+          }
+        });
+  }
+
   private Iterator<Commit> flattenLinks(boolean archived)
       throws TeamRepositoryException, IOException {
-    log.info(String.format("Inluding archived: %s", archived));
+    log.info(String.format("Including archived: %s", archived));
     ArrayList<Commit> commits = new ArrayList<>();
     ArrayList<WorkItemLinkFactory> links =
         new LinkCollector(GitLink.GIT_COMMIT, this.parentService).collect(archived);

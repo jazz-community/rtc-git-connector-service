@@ -83,7 +83,7 @@ public class MergeRequestService extends AbstractRestService {
         service.getAllRegisteredGitRepositories(null, null, true, true);
 
     return new RemoteProviderFactory<>(
-        "merge_requests", MergeRequest[].class, timeout, repositories, log)
+            "merge_requests", MergeRequest[].class, timeout, repositories, log)
         .getProvider();
   }
 }
