@@ -45,12 +45,10 @@ public class CommitService extends AbstractRestService {
     String id = Parameter.handleId(request);
     boolean archived = Parameter.handleArchived(request);
 
-    Iterator<Commit> iterator = getIterator(id, archived);
-
     PaginatedRequest pagination =
         PaginatedRequest.fromRequest(parentService.getRequestRepositoryURL(), request, id);
-
     Commits answer = new Commits();
+    Iterator<Commit> iterator = getIterator(id, archived);
 
     for (int i = 0; i < pagination.size() && iterator.hasNext(); i += 1) {
       answer.addCommit(iterator.next());
