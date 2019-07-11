@@ -4,8 +4,8 @@ import ch.sbi.minigit.gitlab.GitlabApi;
 import com.google.common.collect.Iterables;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,8 +23,8 @@ public class PageProvider<T> {
     type = Type;
   }
 
-  public void addRepository(GitlabApi api, URL url) throws IOException {
-    String project = encodeProject(url);
+  public void addRepository(GitlabApi api, URL url) throws IOException, URISyntaxException {
+    String project = getProjectSegment(url);
     Iterable<T> resource = api.iterateProjectResource(project, this.resource, type);
     iterable = Iterables.concat(iterable, resource);
   }
@@ -48,11 +48,10 @@ public class PageProvider<T> {
     return current.hasNext();
   }
 
-  private static String encodeProject(URL url) throws UnsupportedEncodingException {
+  private static String getProjectSegment(URL url) throws UnsupportedEncodingException {
     String path = url.getPath();
     // remove leading slash and optional file ending
     path = path.replaceFirst("^\\/", "").replaceAll(".git$", "");
-    // url-encode project path so that it can be used for navigation in gitlab
-    return URLEncoder.encode(path, "UTF-8");
+    return path;
   }
 }

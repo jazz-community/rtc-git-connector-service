@@ -6,6 +6,7 @@ import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.ibm.team.repository.common.UUID;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import org.jazzcommunity.GitConnectorService.dcc.net.RemoteUrl;
 import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedMergeRequest;
@@ -21,7 +22,7 @@ public class MergeRequestResolver implements Resolver<MergeRequest> {
 
   @Override
   public MergeRequest resolve(UUID projectArea) {
-    GitlabApi api = GitlabWebFactory.getInstance("https://" + remoteUrl.getServiceUrl());
+    GitlabApi api = new GitlabWebFactory("https://" + remoteUrl.getServiceUrl()).build();
 
     try {
       MergeRequest original =
@@ -34,7 +35,7 @@ public class MergeRequestResolver implements Resolver<MergeRequest> {
       request.setProjectArea(projectArea.getUuidValue());
 
       return request;
-    } catch (IOException e) {
+    } catch (IOException | URISyntaxException e) {
       e.printStackTrace();
     }
 

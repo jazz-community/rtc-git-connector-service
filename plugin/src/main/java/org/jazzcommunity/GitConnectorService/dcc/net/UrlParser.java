@@ -43,6 +43,8 @@ public class UrlParser {
   }
 
   public static DataUrl parseData(URI uri) {
+    // in newer versions of the library, this variant of the parse method has been deprecated.
+    // once rtc is packaged with a never version, this should be changed.
     List<NameValuePair> parameters = URLEncodedUtils.parse(uri, "UTF-8");
 
     for (NameValuePair parameter : parameters) {

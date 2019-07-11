@@ -9,6 +9,7 @@ import ch.sbi.minigit.type.gitlab.user.User;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.concurrent.Callable;
@@ -100,10 +101,14 @@ public class UserRepository {
     try {
       URL url = new URL(webUrl);
       String baseUrl = UrlParser.getBaseUrl(url);
-      GitlabApi api = GitlabWebFactory.getInstance(baseUrl, timeout);
+      GitlabApi api = new GitlabWebFactory(baseUrl).setTimeout(timeout).build();
       return api.getUser(String.valueOf(id));
     } catch (IOException e) {
       String message = String.format("User with id %s not found.", id);
+      log.info(message);
+      return makeDummyUser();
+    } catch (URISyntaxException e) {
+      String message = String.format("Malformed user url: %s", webUrl);
       log.info(message);
       return makeDummyUser();
     }

@@ -33,7 +33,11 @@ public class RequestPreviewService extends AbstractRestService {
   public void execute() throws Exception {
     URL url = new URL("https://" + pathParameters.get("host"));
     GitlabApi api =
-        GitlabWebFactory.getInstance(url.toString(), TokenHelper.getToken(url, parentService));
+        new GitlabWebFactory(url.toString())
+            .setToken(TokenHelper.getToken(url, parentService))
+            .setTimeout(5000)
+            .build();
+
     MergeRequest mergeRequest =
         api.getMergeRequest(
             pathParameters.getAsInteger("projectId"),

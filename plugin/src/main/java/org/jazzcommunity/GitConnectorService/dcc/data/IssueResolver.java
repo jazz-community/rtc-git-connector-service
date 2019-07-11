@@ -7,6 +7,7 @@ import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.ibm.team.repository.common.UUID;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import org.jazzcommunity.GitConnectorService.dcc.net.RemoteUrl;
 import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
@@ -24,7 +25,7 @@ public class IssueResolver implements Resolver<Issue> {
 
   @Override
   public LinkedIssue resolve(UUID projectArea) {
-    GitlabApi api = GitlabWebFactory.getInstance("https://" + remoteUrl.getServiceUrl());
+    GitlabApi api = new GitlabWebFactory("https://" + remoteUrl.getServiceUrl()).build();
 
     // as well as that, this differentiation should probably be handled by the factory, if we are
     // working with issues or requests or whatever and just try to fetch the proper payload.
@@ -45,7 +46,7 @@ public class IssueResolver implements Resolver<Issue> {
           issue.setProjectArea(projectArea.getUuidValue());
 
           return issue;
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
           e.printStackTrace();
         }
     }

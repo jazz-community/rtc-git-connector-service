@@ -11,6 +11,7 @@ import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +40,7 @@ public class IssueLinkService extends AbstractRestService {
     super(log, request, response, restRequest, parentService, pathParameters);
   }
 
-  public void execute() throws IOException {
+  public void execute() throws IOException, URISyntaxException {
     GitServiceArtifact parameters =
         new GitServiceArtifact(
             pathParameters.get("host"),
@@ -97,10 +98,14 @@ public class IssueLinkService extends AbstractRestService {
     template.render(model, response.getOutputStream());
   }
 
-  private Issue getIssue() throws IOException {
+  private Issue getIssue() throws IOException, URISyntaxException {
     URL url = new URL("https://" + pathParameters.get("host"));
+
     GitlabApi api =
-        GitlabWebFactory.getInstance(url.toString(), TokenHelper.getToken(url, parentService));
+        new GitlabWebFactory(url.toString())
+            .setToken(TokenHelper.getToken(url, parentService))
+            .setTimeout(5000)
+            .build();
 
     return api.getIssue(
         pathParameters.getAsInteger("projectId"), pathParameters.getAsInteger("issueId"));

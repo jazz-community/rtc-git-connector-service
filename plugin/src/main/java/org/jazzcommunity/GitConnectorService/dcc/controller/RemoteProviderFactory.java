@@ -36,7 +36,7 @@ public class RemoteProviderFactory<T> {
       try {
         URL url = new URL(repository.getUrl());
         String baseUrl = UrlParser.getBaseUrl(url);
-        GitlabApi api = GitlabWebFactory.getInstance(baseUrl, timeout);
+        GitlabApi api = new GitlabWebFactory(baseUrl).setTimeout(timeout).build();
         provider.addRepository(api, url);
       } catch (Exception e) {
         String message =
