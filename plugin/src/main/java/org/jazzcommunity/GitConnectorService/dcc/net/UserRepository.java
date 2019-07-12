@@ -108,7 +108,7 @@ public class UserRepository {
       log.info(message);
       return makeDummyUser();
     } catch (URISyntaxException e) {
-      String message = String.format("Malformed user url: %s", webUrl);
+      String message = String.format("Invalid url provided for user %s", id);
       log.info(message);
       return makeDummyUser();
     }

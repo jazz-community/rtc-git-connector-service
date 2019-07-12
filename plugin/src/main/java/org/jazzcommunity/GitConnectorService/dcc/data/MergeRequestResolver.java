@@ -11,6 +11,7 @@ import org.jazzcommunity.GitConnectorService.dcc.net.RemoteUrl;
 import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedMergeRequest;
 
+@Deprecated
 public class MergeRequestResolver implements Resolver<MergeRequest> {
   private final UUID parent;
   private final RemoteUrl remoteUrl;
@@ -22,7 +23,14 @@ public class MergeRequestResolver implements Resolver<MergeRequest> {
 
   @Override
   public MergeRequest resolve(UUID projectArea) {
-    GitlabApi api = new GitlabWebFactory("https://" + remoteUrl.getServiceUrl()).build();
+    String host = "https://" + remoteUrl.getServiceUrl();
+    GitlabApi api = null;
+    try {
+      api = new GitlabWebFactory(host).build();
+    } catch (URISyntaxException e) {
+      String message = String.format("Invalid issue url provided: %s", host);
+      System.out.println(message);
+    }
 
     try {
       MergeRequest original =
@@ -35,7 +43,7 @@ public class MergeRequestResolver implements Resolver<MergeRequest> {
       request.setProjectArea(projectArea.getUuidValue());
 
       return request;
-    } catch (IOException | URISyntaxException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
 

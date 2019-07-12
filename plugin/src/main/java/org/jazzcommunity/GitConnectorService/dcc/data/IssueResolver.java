@@ -13,6 +13,7 @@ import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
 import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
 
 // this is just until I fix it properly
+@Deprecated
 public class IssueResolver implements Resolver<Issue> {
 
   private final UUID parent;
@@ -25,7 +26,14 @@ public class IssueResolver implements Resolver<Issue> {
 
   @Override
   public LinkedIssue resolve(UUID projectArea) {
-    GitlabApi api = new GitlabWebFactory("https://" + remoteUrl.getServiceUrl()).build();
+    String host = "https://" + remoteUrl.getServiceUrl();
+    GitlabApi api = null;
+    try {
+      api = new GitlabWebFactory(host).build();
+    } catch (URISyntaxException e) {
+      String message = String.format("Invalid issue url provided: %s", host);
+      System.out.println(message);
+    }
 
     // as well as that, this differentiation should probably be handled by the factory, if we are
     // working with issues or requests or whatever and just try to fetch the proper payload.
@@ -46,7 +54,7 @@ public class IssueResolver implements Resolver<Issue> {
           issue.setProjectArea(projectArea.getUuidValue());
 
           return issue;
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
           e.printStackTrace();
         }
     }
