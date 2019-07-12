@@ -8,7 +8,6 @@ import com.ibm.team.git.common.model.IGitRepositoryDescriptor;
 import com.ibm.team.repository.common.TeamRepositoryException;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
-import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.util.Collection;
 import java.util.concurrent.Callable;
@@ -30,13 +29,13 @@ public class IssueService extends AbstractRestService {
       CacheBuilder.newBuilder().expireAfterAccess(15, TimeUnit.MINUTES).build();
 
   public IssueService(
+      String uri,
       Log log,
       HttpServletRequest request,
       HttpServletResponse response,
-      RestRequest restRequest,
       TeamRawService parentService,
       PathParameters pathParameters) {
-    super(log, request, response, restRequest, parentService, pathParameters);
+    super(uri, log, request, response, parentService, pathParameters);
   }
 
   @Override

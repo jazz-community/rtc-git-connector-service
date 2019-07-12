@@ -36,7 +36,7 @@ Require-Bundle:
  com.ibm.team.git.service,
  com.ibm.team.git.common
 Bundle-ClassPath: target/dependency/gson-2.8.5.jar,
- target/dependency/com.siemens.bt.jazz.services.base-3.0.3-SNAPSHOT.jar,
+ target/dependency/com.siemens.bt.jazz.services.base-4.0.0-SNAPSHOT.jar,
  target/dependency/com.siemens.bt.jazz.services.PersonalTokenService-1.0.2-SNAPSHOT.jar,
  target/dependency/asm-5.0.3.jar,
  target/dependency/asm-analysis-5.0.3.jar,

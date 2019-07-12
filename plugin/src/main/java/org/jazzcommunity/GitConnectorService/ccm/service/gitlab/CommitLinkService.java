@@ -2,7 +2,6 @@ package org.jazzcommunity.GitConnectorService.ccm.service.gitlab;
 
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
-import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -21,13 +20,13 @@ public class CommitLinkService extends AbstractRestService {
   private final ResourceBundle messages;
 
   public CommitLinkService(
+      String uri,
       Log log,
       HttpServletRequest request,
       HttpServletResponse response,
-      RestRequest restRequest,
       TeamRawService parentService,
       PathParameters pathParameters) {
-    super(log, request, response, restRequest, parentService, pathParameters);
+    super(uri, log, request, response, parentService, pathParameters);
     this.messages = ResourceBundle.getBundle("messages");
   }
 

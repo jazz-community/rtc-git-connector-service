@@ -8,7 +8,6 @@ import com.ibm.team.process.common.IProcessAreaHandle;
 import com.ibm.team.repository.common.TeamRepositoryException;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
-import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import com.siemens.bt.jazz.services.base.utils.RequestReader;
 import java.net.URL;
@@ -24,13 +23,13 @@ public class RegisterRepositoryService extends AbstractRestService {
   private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
   public RegisterRepositoryService(
+      String uri,
       Log log,
       HttpServletRequest request,
       HttpServletResponse response,
-      RestRequest restRequest,
       TeamRawService parentService,
       PathParameters pathParameters) {
-    super(log, request, response, restRequest, parentService, pathParameters);
+    super(uri, log, request, response, parentService, pathParameters);
   }
 
   @Override

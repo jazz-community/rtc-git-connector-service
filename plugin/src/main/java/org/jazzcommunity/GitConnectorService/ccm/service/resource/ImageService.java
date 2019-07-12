@@ -5,7 +5,6 @@ import com.google.common.io.Resources;
 import com.google.common.net.MediaType;
 import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
-import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +14,13 @@ import org.apache.http.HttpStatus;
 
 public class ImageService extends AbstractRestService {
   public ImageService(
+      String uri,
       Log log,
       HttpServletRequest request,
       HttpServletResponse response,
-      RestRequest restRequest,
       TeamRawService parentService,
       PathParameters pathParameters) {
-    super(log, request, response, restRequest, parentService, pathParameters);
+    super(uri, log, request, response, parentService, pathParameters);
   }
 
   @Override
