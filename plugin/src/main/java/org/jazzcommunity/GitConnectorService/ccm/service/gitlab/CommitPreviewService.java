@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.ccm.service.gitlab;
 
 import com.ibm.team.repository.service.TeamRawService;
+import com.siemens.bt.jazz.services.base.configuration.Configuration;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.IOException;
@@ -22,9 +23,10 @@ public class CommitPreviewService extends AbstractRestService {
       Log log,
       HttpServletRequest request,
       HttpServletResponse response,
+      Configuration configuration,
       TeamRawService parentService,
       PathParameters pathParameters) {
-    super(uri, log, request, response, parentService, pathParameters);
+    super(uri, log, request, response, configuration, parentService, pathParameters);
   }
 
   public void execute() throws IOException {

@@ -5,6 +5,7 @@ import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.google.common.net.MediaType;
 import com.ibm.team.repository.service.TeamRawService;
+import com.siemens.bt.jazz.services.base.configuration.Configuration;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.net.URL;
@@ -18,14 +19,16 @@ import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
 public class RequestPreviewService extends AbstractRestService {
+
   public RequestPreviewService(
       String uri,
       Log log,
       HttpServletRequest request,
       HttpServletResponse response,
+      Configuration configuration,
       TeamRawService parentService,
       PathParameters pathParameters) {
-    super(uri, log, request, response, parentService, pathParameters);
+    super(uri, log, request, response, configuration, parentService, pathParameters);
   }
 
   @Override
