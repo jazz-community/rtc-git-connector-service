@@ -1,7 +1,12 @@
 package org.jazzcommunity.GitConnectorService;
 
 import com.siemens.bt.jazz.services.base.BaseService;
+import com.siemens.bt.jazz.services.base.configuration.Configuration;
+import com.siemens.bt.jazz.services.base.configuration.preset.ContentConfigurator;
+import com.siemens.bt.jazz.services.base.configuration.preset.EncodingConfigurator;
 import com.siemens.bt.jazz.services.base.router.Router;
+import java.nio.charset.StandardCharsets;
+import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.ccm.inject.LinkTypeInjector;
 import org.jazzcommunity.GitConnectorService.ccm.service.VersionService;
 import org.jazzcommunity.GitConnectorService.ccm.service.development.RegisterRepositoryService;
@@ -39,11 +44,15 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
   }
 
   private void addDccRoutes(Router router) {
-    router.get("dcc/commits", CommitService.class);
-    router.get("dcc/issues", IssueService.class);
-    router.get("dcc/merge-requests", MergeRequestService.class);
-    router.get("dcc/links/issues", IssueLinkCollectionService.class);
-    router.get("dcc/links/merge-requests", MergeRequestLinkCollectionService.class);
+    EncodingConfigurator utf = new EncodingConfigurator(StandardCharsets.UTF_8.name());
+    ContentConfigurator xml = new ContentConfigurator(ContentType.APPLICATION_XML.toString());
+    Configuration response = new Configuration(utf, xml);
+    
+    router.get("dcc/commits", CommitService.class, response);
+    router.get("dcc/issues", IssueService.class, response);
+    router.get("dcc/merge-requests", MergeRequestService.class, response);
+    router.get("dcc/links/issues", IssueLinkCollectionService.class, response);
+    router.get("dcc/links/merge-requests", MergeRequestLinkCollectionService.class, response);
   }
 
   private void addCcmRoutes(Router router) {
