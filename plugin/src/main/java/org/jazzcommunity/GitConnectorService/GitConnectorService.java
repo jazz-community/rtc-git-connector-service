@@ -47,7 +47,7 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
     EncodingConfigurator utf = new EncodingConfigurator(StandardCharsets.UTF_8.name());
     ContentConfigurator xml = new ContentConfigurator(ContentType.APPLICATION_XML.toString());
     Configuration response = new Configuration(utf, xml);
-    
+
     router.get("dcc/commits", CommitService.class, response);
     router.get("dcc/issues", IssueService.class, response);
     router.get("dcc/merge-requests", MergeRequestService.class, response);

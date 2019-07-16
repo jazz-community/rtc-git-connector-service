@@ -35,6 +35,12 @@ public class Parameter {
   // url for testing:
   // https://localhost:7443/jazz/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/dcc/issues?size=25&modifiedsince=2019-07-01T09%3A14%3A17.704-0500
   public static String handleModified(HttpServletRequest request) {
-    return request.getParameter("modifiedsince");
+    String modified = request.getParameter("modifiedsince");
+
+    if (modified == null) {
+      return "";
+    } else {
+      return modified;
+    }
   }
 }

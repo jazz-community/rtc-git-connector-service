@@ -44,7 +44,7 @@ public class IssueService extends AbstractRestService {
   public void execute() throws Exception {
     final String id = Parameter.handleId(request);
     final int timeout = Parameter.handleTimeout(request, 2000);
-    String modified = Parameter.handleModified(request);
+    final String modified = Parameter.handleModified(request);
 
     PageProvider<Issue> provider =
         CACHE.get(
@@ -52,7 +52,7 @@ public class IssueService extends AbstractRestService {
             new Callable<PageProvider<Issue>>() {
               @Override
               public PageProvider<Issue> call() throws Exception {
-                return getProvider(timeout);
+                return getProvider(timeout, modified);
               }
             });
 
@@ -73,14 +73,16 @@ public class IssueService extends AbstractRestService {
     Response.marshallXml(response, answer);
   }
 
-  private PageProvider<Issue> getProvider(int timeout) throws TeamRepositoryException {
+  private PageProvider<Issue> getProvider(int timeout, String modified)
+      throws TeamRepositoryException {
     IGitRepositoryRegistrationService service =
         parentService.getService(IGitRepositoryRegistrationService.class);
 
     IGitRepositoryDescriptor[] repositories =
         service.getAllRegisteredGitRepositories(null, null, true, true);
 
-    return new RemoteProviderFactory<>("issues", Issue[].class, timeout, repositories, log)
+    return new RemoteProviderFactory<>(
+            "issues", Issue[].class, timeout, modified, repositories, log)
         .getProvider();
   }
 }

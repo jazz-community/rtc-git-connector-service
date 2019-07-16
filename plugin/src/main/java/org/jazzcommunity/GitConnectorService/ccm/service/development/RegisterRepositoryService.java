@@ -10,7 +10,6 @@ import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.configuration.Configuration;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
-import com.siemens.bt.jazz.services.base.utils.RequestReader;
 import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,8 +47,7 @@ public class RegisterRepositoryService extends AbstractRestService {
     IGitRepositoryRegistrationService service =
         parentService.getService(IGitRepositoryRegistrationService.class);
 
-    String raw = RequestReader.readAsString(request);
-    GitRepository[] repositories = gson.fromJson(raw, GitRepository[].class);
+    GitRepository[] repositories = gson.fromJson(request.getReader(), GitRepository[].class);
     IProcessAreaHandle dummyOwner = getDummyOwner();
     for (GitRepository repository : repositories) {
       try {

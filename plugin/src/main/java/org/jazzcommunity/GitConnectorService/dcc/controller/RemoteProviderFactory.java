@@ -13,6 +13,7 @@ public class RemoteProviderFactory<T> {
   private final int timeout;
   private final String type;
   private final Class<T[]> collectionType;
+  private final String modified;
   private final IGitRepositoryDescriptor[] repositories;
   private final Log log;
 
@@ -20,11 +21,13 @@ public class RemoteProviderFactory<T> {
       String type,
       Class<T[]> collectionType,
       int timeout,
+      String modified,
       IGitRepositoryDescriptor[] repositories,
       Log log) {
     this.timeout = timeout;
     this.type = type;
     this.collectionType = collectionType;
+    this.modified = modified;
     this.repositories = repositories;
     this.log = log;
   }
@@ -36,7 +39,11 @@ public class RemoteProviderFactory<T> {
       try {
         URL url = new URL(repository.getUrl());
         String baseUrl = UrlParser.getBaseUrl(url);
-        GitlabApi api = new GitlabWebFactory(baseUrl).setTimeout(timeout).build();
+        GitlabApi api =
+            new GitlabWebFactory(baseUrl)
+                .setTimeout(timeout)
+                .addQueryParameter("updated_after", modified)
+                .build();
         provider.addRepository(api, url);
       } catch (Exception e) {
         String message =

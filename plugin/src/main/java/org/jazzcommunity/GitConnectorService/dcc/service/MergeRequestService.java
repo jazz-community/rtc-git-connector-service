@@ -44,6 +44,7 @@ public class MergeRequestService extends AbstractRestService {
   public void execute() throws Exception {
     String id = Parameter.handleId(request);
     final int timeout = Parameter.handleTimeout(request, 2000);
+    final String modified = Parameter.handleModified(request);
 
     PageProvider<MergeRequest> provider =
         CACHE.get(
@@ -51,7 +52,7 @@ public class MergeRequestService extends AbstractRestService {
             new Callable<PageProvider<MergeRequest>>() {
               @Override
               public PageProvider<MergeRequest> call() throws Exception {
-                return getProvider(timeout);
+                return getProvider(timeout, modified);
               }
             });
 
@@ -72,7 +73,8 @@ public class MergeRequestService extends AbstractRestService {
     Response.marshallXml(response, answer);
   }
 
-  private PageProvider<MergeRequest> getProvider(int timeout) throws TeamRepositoryException {
+  private PageProvider<MergeRequest> getProvider(int timeout, String modified)
+      throws TeamRepositoryException {
     IGitRepositoryRegistrationService service =
         parentService.getService(IGitRepositoryRegistrationService.class);
 
@@ -80,7 +82,7 @@ public class MergeRequestService extends AbstractRestService {
         service.getAllRegisteredGitRepositories(null, null, true, true);
 
     return new RemoteProviderFactory<>(
-            "merge_requests", MergeRequest[].class, timeout, repositories, log)
+            "merge_requests", MergeRequest[].class, timeout, modified, repositories, log)
         .getProvider();
   }
 }
