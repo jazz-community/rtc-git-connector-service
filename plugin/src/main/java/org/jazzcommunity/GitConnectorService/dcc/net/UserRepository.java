@@ -14,11 +14,13 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 
 public class UserRepository {
 
-  private static Cache<Integer, User> USERS = CacheBuilder.newBuilder().maximumSize(10_000).build();
+  private static Cache<Integer, User> USERS =
+      CacheBuilder.newBuilder().maximumSize(10_000).expireAfterAccess(24, TimeUnit.HOURS).build();
 
   private final int timeout;
   private final Log log;
