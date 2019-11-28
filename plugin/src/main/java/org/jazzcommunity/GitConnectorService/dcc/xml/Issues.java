@@ -38,6 +38,8 @@ public class Issues {
   }
 
   public void addIssues(Collection<Issue> issues) {
+    // might as well fix description here until I have time to refactor
+    // I should probably consider title as well
     this.issues.addAll(issues);
   }
 
