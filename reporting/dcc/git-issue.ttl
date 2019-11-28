@@ -1,0 +1,42 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix dcc: <http://jazz.net/ns/dcc#>.
+
+<http://jazz.net/ns/dcc/mapGroup#GitIssue>
+	a dcc:MapGroup;
+	dcterms:title "Git Issues";
+	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_issues>;
+    # we are going to need another one for the assignment mapping of users
+    # not sure if we need this one here
+	dcc:dependency <http://jazz.net/ns/dcc/mapGroup#JFS_ODS>;
+    # will need a dependency on Resource here, to map author
+    # dcc:dependency <http://jazz.net/ns/dcc/mapGroup#RTC_Workitem>;
+	dcc:schedule "ods";
+	dcc:enabled "true".
+
+<http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_ISSUE>
+    a dcc:TableInfo;
+    dcc:schemaName "ODS";
+    dcc:tableName "GIT_ISSUE";
+    dcc:surrogateKey [ dcc:column "ID_PK" ]
+    .
+    
+<http://jazz.net/ns/dcc/resourceInfo#git_issue>
+	a dcc:ResourceInfo;
+	dcc:baseResourceGroup <http://jazz.net/ns/dcc/baseResourceGroup#RTCBaseResourceGroup>;
+	dcc:executionOrder "100";
+	dcc:version "6.0.1,6.0.2,6.0.3,6.0.4,6.0.5,6.0.6,6.0.7";
+    dcc:relativeURL "/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/dcc/issues?size=25";
+	dcc:baseXPath "/issues".
+
+<http://jazz.net/ns/dcc/ODSTableMap#git_issues>
+	a dcc:ODSTableMap;
+	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_issue>;
+    rr:logicalTable [
+        dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_ISSUE>;
+		dcc:deliveryKey [ rr:column "IID"; rr:column "PROJECT_ID" ];
+        dcc:needLock "TRUE";
+    ]
+
