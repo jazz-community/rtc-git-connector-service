@@ -5,8 +5,6 @@ import com.siemens.bt.jazz.services.base.configuration.Configuration;
 import com.siemens.bt.jazz.services.base.configuration.preset.ContentConfigurator;
 import com.siemens.bt.jazz.services.base.configuration.preset.EncodingConfigurator;
 import com.siemens.bt.jazz.services.base.router.Router;
-import java.nio.charset.StandardCharsets;
-import org.apache.http.entity.ContentType;
 import org.jazzcommunity.GitConnectorService.ccm.inject.LinkTypeInjector;
 import org.jazzcommunity.GitConnectorService.ccm.service.VersionService;
 import org.jazzcommunity.GitConnectorService.ccm.service.development.RegisterRepositoryService;
@@ -44,9 +42,10 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
   }
 
   private void addDccRoutes(Router router) {
-    EncodingConfigurator utf = new EncodingConfigurator(StandardCharsets.UTF_8.name());
-    ContentConfigurator xml = new ContentConfigurator(ContentType.APPLICATION_XML.toString());
-    Configuration response = new Configuration(utf, xml);
+    EncodingConfigurator utf = new EncodingConfigurator("UTF-8");
+    ContentConfigurator xml = new ContentConfigurator("application/xml");
+    //    ContentConfigurator xml = new ContentConfigurator("application/xml;charset=utf-8");
+    Configuration response = new Configuration(xml, utf);
 
     router.get("dcc/commits", CommitService.class, response);
     router.get("dcc/issues", IssueService.class, response);

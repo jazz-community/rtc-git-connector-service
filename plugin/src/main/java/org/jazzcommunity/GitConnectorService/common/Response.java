@@ -13,6 +13,7 @@ public final class Response {
       throws JAXBException, IOException {
     Marshaller marshaller = JAXBContext.newInstance(answer.getClass()).createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
     marshaller.marshal(answer, response.getWriter());
   }
 }

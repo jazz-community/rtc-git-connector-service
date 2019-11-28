@@ -12,7 +12,7 @@
     # not sure if we need this one here
 	dcc:dependency <http://jazz.net/ns/dcc/mapGroup#JFS_ODS>;
     # will need a dependency on Resource here, to map author
-    # dcc:dependency <http://jazz.net/ns/dcc/mapGroup#RTC_Workitem>;
+    dcc:dependency <http://jazz.net/ns/dcc/mapGroup#RTC_Workitem>;
 	dcc:schedule "ods";
 	dcc:enabled "true".
 
@@ -38,5 +38,6 @@
         dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_ISSUE>;
 		dcc:deliveryKey [ rr:column "IID"; rr:column "PROJECT_ID" ];
         dcc:needLock "TRUE";
-    ]
+    ];
+    .
 
