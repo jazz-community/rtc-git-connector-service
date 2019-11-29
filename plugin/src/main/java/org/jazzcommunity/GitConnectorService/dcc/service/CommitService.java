@@ -60,7 +60,7 @@ public class CommitService extends AbstractRestService {
       answer.setRel("next");
     }
 
-    Response.marshallXml(response, answer);
+    Response.xmlMarshallFactory(Commits.class).marshal(answer, response.getWriter());
   }
 
   private Iterator<Commit> getIterator(final String id, final boolean archived)

@@ -36,6 +36,6 @@ public class MergeRequestLinkCollectionService extends AbstractRestService {
         new LinkCollectionController(collector, parentService.getRequestRepositoryURL());
     PaginatedCollection answer = controller.fillPayload(request, id, new MergeRequestLinks());
 
-    Response.marshallXml(response, answer);
+    Response.xmlMarshallFactory(PaginatedCollection.class).marshal(answer, response.getWriter());
   }
 }

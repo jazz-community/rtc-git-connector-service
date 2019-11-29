@@ -19,18 +19,6 @@ public final class Response {
 
   private Response() {}
 
-  // turn this into a factory method for use from different services
-  @Deprecated
-  public static <T> void marshallXml(HttpServletResponse response, T answer)
-      throws JAXBException, IOException {
-    Marshaller marshaller =
-        JAXBContextFactory.createContext(new Class[] {answer.getClass()}, Collections.emptyMap())
-            .createMarshaller();
-    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-    marshaller.marshal(answer, response.getWriter());
-  }
-
   public static <T> Marshaller xmlMarshallFactory(Class<T> type) throws JAXBException {
     // This _must_ use the org.eclipse.persistence JAXB Context for additional features
     if (!CONTEXTS.containsKey(type)) {

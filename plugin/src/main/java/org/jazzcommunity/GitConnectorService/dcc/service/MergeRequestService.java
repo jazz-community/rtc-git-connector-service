@@ -70,7 +70,7 @@ public class MergeRequestService extends AbstractRestService {
       answer.setRel("next");
     }
 
-    Response.marshallXml(response, answer);
+    Response.xmlMarshallFactory(MergeRequests.class).marshal(answer, response.getWriter());
   }
 
   private PageProvider<MergeRequest> getProvider(int timeout, String modified)
