@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlRootElement(name = "commit")
@@ -12,6 +13,7 @@ public class Commit {
 
   @Expose
   @SerializedName("c")
+  @XmlCDATA
   private String comment;
 
   // this really needs to be a datetime data type, but somehow, parsing seems to fail

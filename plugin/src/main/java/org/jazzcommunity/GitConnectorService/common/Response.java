@@ -1,10 +1,8 @@
 package org.jazzcommunity.GitConnectorService.common;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import org.eclipse.persistence.jaxb.JAXBContext;
