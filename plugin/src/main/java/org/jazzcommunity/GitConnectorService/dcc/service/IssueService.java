@@ -64,7 +64,7 @@ public class IssueService extends AbstractRestService {
     Collection<Issue> page = provider.getPage(pagination.size());
     UserRepository userRepository = new UserRepository(timeout, log);
     userRepository.mapEmailToIssues(page);
-    stripAndTruncateXml(page);
+    stripXml(page);
     answer.addIssues(page);
 
     if (provider.hasMore()) {
@@ -72,12 +72,13 @@ public class IssueService extends AbstractRestService {
       answer.setRel("next");
     }
 
-    // TODO: Description still needs to be truncated probably
     Response.xmlMarshallFactory(Issues.class).marshal(answer, response.getWriter());
   }
 
-  private void stripAndTruncateXml(Collection<Issue> issues) {
+  private void stripXml(Collection<Issue> issues) {
+    // TODO: Description still needs to be truncated probably, not sure how db reacts
     for (Issue issue : issues) {
+      issue.setTitle(XmlSanitizer.stripIllegalXml(issue.getTitle()));
       issue.setDescription(XmlSanitizer.stripIllegalXml(issue.getDescription()));
     }
   }
