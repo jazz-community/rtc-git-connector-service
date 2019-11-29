@@ -70,7 +70,7 @@ public class IssueService extends AbstractRestService {
       answer.setRel("next");
     }
 
-    Response.marshallXml(response, answer);
+    Response.xmlMarshallFactory(Issues.class).marshal(answer, response.getWriter());
   }
 
   private PageProvider<Issue> getProvider(int timeout, String modified)

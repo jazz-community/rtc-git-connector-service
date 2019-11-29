@@ -9,15 +9,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "issues")
 public class Issues {
 
   @XmlAttribute private String href;
-
-  @XmlCDATA private String test = "This is a test";
 
   @XmlElement(name = "issue")
   private List<Issue> issues = new ArrayList<>();
