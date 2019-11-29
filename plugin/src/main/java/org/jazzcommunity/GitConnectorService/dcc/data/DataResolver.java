@@ -8,7 +8,7 @@ import java.net.URI;
 import java.text.DateFormat;
 import org.jazzcommunity.GitConnectorService.dcc.net.DataUrl;
 import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
-import org.jazzcommunity.GitConnectorService.dcc.xml.XmlCleaner;
+import org.jazzcommunity.GitConnectorService.dcc.xml.XmlSanitizer;
 
 public class DataResolver implements Resolver<Commit> {
 
@@ -31,9 +31,9 @@ public class DataResolver implements Resolver<Commit> {
     // TODO: this validation process should go into a custom jaxb marshaller usable with all
     // payloads
     Commit commit = gson.fromJson(decoded, Commit.class);
-    commit.setComment(XmlCleaner.stripIllegalXml(commit.getComment()));
-    commit.setCommiterName(XmlCleaner.stripIllegalXml(commit.getCommiterName()));
-    commit.setCommiterEmail(XmlCleaner.stripIllegalXml(commit.getCommiterEmail()));
+    commit.setComment(XmlSanitizer.stripIllegalXml(commit.getComment()));
+    commit.setCommiterName(XmlSanitizer.stripIllegalXml(commit.getCommiterName()));
+    commit.setCommiterEmail(XmlSanitizer.stripIllegalXml(commit.getCommiterEmail()));
     // maybe this should check the other properties of commit as well, and then exclude any commits
     // that have obviously invalid decoded date completely.
     commit.setLinkedFrom(parent.getUuidValue());

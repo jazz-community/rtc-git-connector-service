@@ -9,12 +9,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "issues")
 public class Issues {
 
   @XmlAttribute private String href;
+
+  @XmlCDATA private String test = "This is a test";
 
   @XmlElement(name = "issue")
   private List<Issue> issues = new ArrayList<>();
@@ -38,8 +41,6 @@ public class Issues {
   }
 
   public void addIssues(Collection<Issue> issues) {
-    // might as well fix description here until I have time to refactor
-    // I should probably consider title as well
     this.issues.addAll(issues);
   }
 

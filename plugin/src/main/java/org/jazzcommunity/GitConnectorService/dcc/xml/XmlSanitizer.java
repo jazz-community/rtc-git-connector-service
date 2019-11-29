@@ -1,6 +1,6 @@
 package org.jazzcommunity.GitConnectorService.dcc.xml;
 
-public final class XmlCleaner {
+public final class XmlSanitizer {
   /**
    * Removes illegal xml characters from a utf-16 string.
    *
