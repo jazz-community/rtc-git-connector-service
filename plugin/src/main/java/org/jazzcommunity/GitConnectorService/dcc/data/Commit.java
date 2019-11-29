@@ -13,7 +13,6 @@ public class Commit {
 
   @Expose
   @SerializedName("c")
-  @XmlCDATA
   private String comment;
 
   // this really needs to be a datetime data type, but somehow, parsing seems to fail
@@ -48,6 +47,7 @@ public class Commit {
 
   private String projectArea;
 
+  @XmlCDATA
   public String getComment() {
     return comment;
   }
