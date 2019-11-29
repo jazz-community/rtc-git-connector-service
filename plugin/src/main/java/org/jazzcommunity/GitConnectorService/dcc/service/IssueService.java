@@ -23,6 +23,7 @@ import org.jazzcommunity.GitConnectorService.dcc.data.PageProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
 import org.jazzcommunity.GitConnectorService.dcc.net.UserRepository;
 import org.jazzcommunity.GitConnectorService.dcc.xml.Issues;
+import org.jazzcommunity.GitConnectorService.dcc.xml.XmlSanitizer;
 
 public class IssueService extends AbstractRestService {
 
@@ -63,6 +64,7 @@ public class IssueService extends AbstractRestService {
     Collection<Issue> page = provider.getPage(pagination.size());
     UserRepository userRepository = new UserRepository(timeout, log);
     userRepository.mapEmailToIssues(page);
+    stripXml(page);
     answer.addIssues(page);
 
     if (provider.hasMore()) {
@@ -70,7 +72,14 @@ public class IssueService extends AbstractRestService {
       answer.setRel("next");
     }
 
+    // TODO: Description still needs to be truncated probably
     Response.xmlMarshallFactory(Issues.class).marshal(answer, response.getWriter());
+  }
+
+  private void stripXml(Collection<Issue> issues) {
+    for (Issue issue : issues) {
+      issue.setDescription(XmlSanitizer.stripIllegalXml(issue.getDescription()));
+    }
   }
 
   private PageProvider<Issue> getProvider(int timeout, String modified)
