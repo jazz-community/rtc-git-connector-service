@@ -25,10 +25,12 @@ CREATE TABLE RIODS.GIT_ISSUE (
     -- labeled as a surrogate key in the ttl file. This will then generate pks
     -- when the dcc job runs. Additional abstraction layer.
     ID_PK INTEGER NOT NULL, 
-    CONSTRAINT GIT_ISSUE_PK PRIMARY KEY (ID_PK)
+    CONSTRAINT GIT_ISSUE_PK PRIMARY KEY (ID_PK),
 
 
     -- foreign key references
     -- author
+    RTC_USER INTEGER DEFAULT -1 NOT NULL,
+    CONSTRAINT RESOURCE_FK FOREIGN KEY (RTC_USER) REFERENCES RIODS.RESOURCE(RESOURCE_ID)
     -- assignee needs to be n:m mapped
 )

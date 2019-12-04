@@ -38,6 +38,7 @@
 	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_issue>;
     rr:logicalTable [
         dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_ISSUE>;
+        # this could probably just be id as well
 		dcc:deliveryKey [ rr:column "IID"; rr:column "PROJECT_ID" ];
         dcc:needLock "TRUE";
     ];
@@ -77,4 +78,16 @@
         rr:predicateMap [ dcc:XPath "/issue/webUrl" ];
         rr:objectMap [ rr:column "WEB_URL" ]
     ];
+    # FK to author
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/author/publicEmail" ];
+        rr:objectMap [
+            # I should document how to find out which tablemap needs to be referenced here
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_CONTRIBUTOR>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#DEFAULT>;
+            dcc:lookupKey "NAME";
+            # parent is *this* table, and child is the other table we're referencing from here.
+            rr:joinCondition [ rr:child "RESOURCE_ID"; rr:parent "RTC_USER" ];
+        ];
+    ]
     .
