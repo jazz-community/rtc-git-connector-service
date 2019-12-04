@@ -1,5 +1,6 @@
 CREATE VIEW RIDW.VW_GIT_ISSUE (
     NAME,
+    URL,
     EXTERNAL_LINK,
     DESCRIPTION,
     AUTHOR_EMAIL,
@@ -14,6 +15,7 @@ CREATE VIEW RIDW.VW_GIT_ISSUE (
     PK
 ) AS ( SELECT
         I.TITLE,
+        I.RICH_HOVER_URL,
         I.WEB_URL,
         I.DESCRIPTION,
         R.NAME,
