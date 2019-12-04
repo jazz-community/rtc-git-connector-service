@@ -10,12 +10,16 @@ import com.ibm.team.repository.service.TeamRawService;
 import com.siemens.bt.jazz.services.base.configuration.Configuration;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
+import org.jazzcommunity.GitConnectorService.ccm.net.GitServiceArtifact;
+import org.jazzcommunity.GitConnectorService.ccm.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.common.Parameter;
 import org.jazzcommunity.GitConnectorService.common.Response;
 import org.jazzcommunity.GitConnectorService.dcc.controller.RemoteProviderFactory;
@@ -64,6 +68,7 @@ public class IssueService extends AbstractRestService {
     Collection<Issue> page = provider.getPage(pagination.size());
     UserRepository userRepository = new UserRepository(timeout, log);
     userRepository.mapEmailToIssues(page);
+    addRichHoverLinks(page);
     stripXml(page);
     answer.addIssues(page);
 
@@ -94,5 +99,16 @@ public class IssueService extends AbstractRestService {
     return new RemoteProviderFactory<>(
             "issues", Issue[].class, timeout, modified, repositories, log)
         .getProvider();
+  }
+
+  private void addRichHoverLinks(Collection<Issue> issues) throws MalformedURLException {
+    for (Issue issue : issues) {
+      URL url = new URL(issue.getWebUrl());
+      GitServiceArtifact artifact =
+          new GitServiceArtifact(
+              url.getHost(), issue.getProjectId().toString(), issue.getIid().toString());
+      URL target = UrlBuilder.getPreviewUrl(this.parentService, artifact, "issue");
+      issue.getLinks().setRtc(target.toString());
+    }
   }
 }
