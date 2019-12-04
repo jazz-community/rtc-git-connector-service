@@ -26,6 +26,8 @@
 <http://jazz.net/ns/dcc/resourceInfo#git_issue>
 	a dcc:ResourceInfo;
 	dcc:baseResourceGroup <http://jazz.net/ns/dcc/baseResourceGroup#RTCBaseResourceGroup>;
+    # this will be important for linked issues, because they need to run after
+    # all issues have been imported
 	dcc:executionOrder "100";
 	dcc:version "6.0.1,6.0.2,6.0.3,6.0.4,6.0.5,6.0.6,6.0.7";
     dcc:relativeURL "/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/dcc/issues?size=25";
@@ -39,5 +41,40 @@
 		dcc:deliveryKey [ rr:column "IID"; rr:column "PROJECT_ID" ];
         dcc:needLock "TRUE";
     ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/id" ];
+        rr:objectMap [ rr:column "ID" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/iid" ];
+        rr:objectMap [ rr:column "IID" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/projectId" ];
+        rr:objectMap [ rr:column "PROJECT_ID" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/title" ];
+        rr:objectMap [ rr:column "TITLE" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/description" ];
+        rr:objectMap [ rr:column "DESCRIPTION" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/state" ];
+        rr:objectMap [ rr:column "STATE" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/createdAt" ];
+        rr:objectMap [ rr:column "CREATED" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/updatedAt" ];
+        rr:objectMap [ rr:column "UPDATED" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/webUrl" ];
+        rr:objectMap [ rr:column "WEB_URL" ]
+    ];
     .
-
