@@ -83,11 +83,11 @@
         rr:predicateMap [ dcc:XPath "/issue/author/publicEmail" ];
         rr:objectMap [
             # I should document how to find out which tablemap needs to be referenced here
-            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_CONTRIBUTOR>;
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_Contributor>;
 			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#DEFAULT>;
             dcc:lookupKey "NAME";
-            # parent is *this* table, and child is the other table we're referencing from here.
-            rr:joinCondition [ rr:child "RESOURCE_ID"; rr:parent "RTC_USER" ];
+            # child is *this* table, and parent is the other table we're referencing from here.
+            rr:joinCondition [ rr:child "RTC_AUTHOR" ; rr:parent "RESOURCE_ID" ];
         ];
     ]
     .
