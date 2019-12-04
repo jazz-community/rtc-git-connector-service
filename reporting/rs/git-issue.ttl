@@ -13,7 +13,7 @@
 map:RIDW_VW_GIT_ISSUE a d2rq:ClassMap;
     jrs:primaryKey "RIDW.VW_GIT_ISSUE.EXTERNAL_LINK";
     d2rq:dataStorage map:database;
-    d2rq:uriColumn "RIDW.VW_GIT_ISSUE.EXTERNAL_LINK";
+    d2rq:uriColumn "RIDW.VW_GIT_ISSUE.URL";
     d2rq:class ridw:RIDW_VW_GIT_ISSUE;
     jrs:table "RIDW.VW_GIT_ISSUE";
     jrs:metaModel "METRICS_CM";
@@ -26,6 +26,13 @@ map:RIDW_VW_GIT_ISSUE_NAME a d2rq:PropertyBridge;
     d2rq:property ridw:RIDW_VW_GIT_ISSUE_NAME;
     d2rq:column "RIDW.VW_GIT_ISSUE.NAME";
     d2rq:propertyDefinitionLabel "Title";
+    .
+
+map:RIDW_VW_GIT_ISSUE_URL a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
+    d2rq:property ridw:RIDW_VW_GIT_ISSUE_URL;
+    d2rq:column "RIDW.VW_GIT_ISSUE.URL";
+    d2rq:propertyDefinitionLabel "URL";
     .
 
 map:RIDW_VW_GIT_ISSUE_EXTERNAL_LINK a d2rq:PropertyBridge;
