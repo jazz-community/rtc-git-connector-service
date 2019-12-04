@@ -9,11 +9,8 @@
 	dcterms:title "Git Issues";
 	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_issues>;
 	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_issues_assignees>;
-    # we are going to need another one for the assignment mapping of users
-    # not sure if we need this one here
 	dcc:dependency <http://jazz.net/ns/dcc/mapGroup#JFS_ODS>;
-    # will need a dependency on Resource here, to map author
-    dcc:dependency <http://jazz.net/ns/dcc/mapGroup#RTC_Workitem>;
+    #dcc:dependency <http://jazz.net/ns/dcc/mapGroup#RTC_Workitem>;
 	dcc:schedule "ods";
 	dcc:enabled "true".
 
@@ -125,7 +122,7 @@
             rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_Contributor>;
 			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
             dcc:lookupKey "NAME";
-            rr:joinCondition [ rr:child "ISSUE_ID"; rr:parent "RESOURCE_ID" ];
+            rr:joinCondition [ rr:child "ASSIGNEE_ID"; rr:parent "RESOURCE_ID" ];
         ];
     ].
     
