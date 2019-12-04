@@ -11,9 +11,9 @@
 
 # Table RIDW.VW_GIT_ISSUE
 map:RIDW_VW_GIT_ISSUE a d2rq:ClassMap;
-    jrs:primaryKey "RIDW.VW_GIT_ISSUE.URL";
+    jrs:primaryKey "RIDW.VW_GIT_ISSUE.EXTERNAL_LINK";
     d2rq:dataStorage map:database;
-    d2rq:uriColumn "RIDW.VW_GIT_ISSUE.URL";
+    d2rq:uriColumn "RIDW.VW_GIT_ISSUE.EXTERNAL_LINK";
     d2rq:class ridw:RIDW_VW_GIT_ISSUE;
     jrs:table "RIDW.VW_GIT_ISSUE";
     jrs:metaModel "METRICS_CM";
@@ -99,10 +99,18 @@ map:RIDW_VW_GIT_ISSUE_UPDATED a d2rq:PropertyBridge;
     d2rq:propertyDefinitionLabel "Updated At";
     .
 
-map:RIDW_VW_GIT_ISSUE_AUTHOR_ID__ref a d2rq:PropertyBridge;
+
+map:RIDW_VW_GIT_ISSUE_PK a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
-    d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_ID;
-    d2rq:refersToClassMap map:RIDW_VW_RESOURCE;
-    d2rq:join "RIDW.VW_GIT_ISSUE.AUTHOR_ID => RIDW.VW_RESOURCE.RESOURCE_ID";
+    d2rq:property ridw:RIDW_VW_GIT_ISSUE_PK;
+    d2rq:column "RIDW.VW_GIT_ISSUE.PK";
+    d2rq:propertyDefinitionLabel "Primary Key";
     .
+
+#map:RIDW_VW_GIT_ISSUE_AUTHOR_ID__ref a d2rq:PropertyBridge;
+#    d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
+#    d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_ID;
+#    d2rq:refersToClassMap map:RIDW_VW_RESOURCE;
+#    d2rq:join "RIDW.VW_GIT_ISSUE.AUTHOR_ID => RIDW.VW_RESOURCE.RESOURCE_ID";
+#    .
     
