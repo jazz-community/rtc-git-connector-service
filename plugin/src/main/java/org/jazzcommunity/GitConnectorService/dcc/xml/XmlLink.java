@@ -5,12 +5,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XmlLink {
-  private final String projectArea;
-  private final String workItem;
-  private final String type;
-  private final String url;
-  private final String projectId;
-  private final String artifactId;
+  private String projectArea;
+  private String workItem;
+  private String type;
+  private String url;
+  private String projectId;
+  private String artifactId;
+
+  // zero argument constructor to make moxy happyt
+  public XmlLink() {}
 
   public XmlLink(
       String projectArea,

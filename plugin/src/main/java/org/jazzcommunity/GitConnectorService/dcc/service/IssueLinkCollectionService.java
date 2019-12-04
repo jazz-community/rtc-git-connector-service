@@ -37,7 +37,6 @@ public class IssueLinkCollectionService extends AbstractRestService {
         new LinkCollectionController(collector, parentService.getRequestRepositoryURL());
     PaginatedCollection answer = controller.fillPayload(request, id, new IssueLinks());
 
-    Response.xmlMarshallFactory(PaginatedCollection.class).marshal(answer, response.getWriter());
-    ;
+    Response.xmlMarshallFactory(IssueLinks.class).marshal(answer, response.getWriter());
   }
 }
