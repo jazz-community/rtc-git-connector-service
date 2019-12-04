@@ -82,6 +82,10 @@
         rr:predicateMap [ dcc:XPath "/issue/webUrl" ];
         rr:objectMap [ rr:column "WEB_URL" ]
     ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/links/rtc" ];
+        rr:objectMap [ rr:column "RICH_HOVER_URL" ]
+    ];
     # FK to author
     rr:predicateObjectMap [
         rr:predicateMap [ dcc:XPath "/issue/author/publicEmail" ];
@@ -96,7 +100,6 @@
     ]
     .
 
-# assignee mapping will have to go here somewhere
 <http://jazz.net/ns/dcc/ODSTableMap#git_issues_assignees>
     a dcc:ODSTableMap;
 	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_issue>;
