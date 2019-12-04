@@ -30,6 +30,9 @@ public final class XmlSanitizer {
    * @return The input string with illegal xml sequences removed
    */
   public static String stripIllegalXml(String input) {
+    if (input == null) {
+      return null;
+    }
     // this is taken straight from
     // https://stackoverflow.com/questions/4237625/removing-invalid-xml-characters-from-a-string-in-java
     // XML 1.0
