@@ -8,6 +8,7 @@
 	a dcc:MapGroup;
 	dcterms:title "Git Issues";
 	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_issues>;
+	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_issues_assignees>;
     # we are going to need another one for the assignment mapping of users
     # not sure if we need this one here
 	dcc:dependency <http://jazz.net/ns/dcc/mapGroup#JFS_ODS>;
@@ -21,6 +22,12 @@
     dcc:schemaName "ODS";
     dcc:tableName "GIT_ISSUE";
     dcc:surrogateKey [ dcc:column "ID_PK" ]
+    .
+
+<http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_ISSUE_ASSIGNEE>
+    a dcc:TableInfo;
+    dcc:schemaName "ODS";
+    dcc:tableName "GIT_ISSUE_ASSIGNEE";
     .
     
 <http://jazz.net/ns/dcc/resourceInfo#git_issue>
@@ -93,3 +100,32 @@
     .
 
 # assignee mapping will have to go here somewhere
+<http://jazz.net/ns/dcc/ODSTableMap#git_issues_assignees>
+    a dcc:ODSTableMap;
+	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_issue>;
+	rr:logicalTable [ 
+		dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_ISSUE_ASSIGNEE>; 
+		dcc:deliveryKey [ rr:column "ASSIGNEE_ID"; rr:column "ISSUE_ID" ];
+        dcc:needLock "TRUE";
+    ];
+    # FK insert to git issue
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/id" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#git_issues>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
+            dcc:lookupKey "ID";
+            rr:joinCondition [ rr:child "ISSUE_ID"; rr:parent "ID_PK" ];
+        ];
+    ];
+    # FK insert to resource (user / assignee)
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/assignees/assignee/publicEmail" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_Contributor>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
+            dcc:lookupKey "NAME";
+            rr:joinCondition [ rr:child "ISSUE_ID"; rr:parent "RESOURCE_ID" ];
+        ];
+    ].
+    
