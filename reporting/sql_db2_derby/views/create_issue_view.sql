@@ -18,7 +18,7 @@ CREATE VIEW RIDW.VW_GIT_ISSUE (
         I.DESCRIPTION,
         R.NAME,
         R.FULL_NAME,
-        R.RESOURCE_ID,
+        I.RTC_AUTHOR,
         I.STATE,
         I.ID,
         I.PROJECT_ID,
