@@ -69,15 +69,19 @@ public class LinkCollectionController {
     Collection<XmlLink> converted = new ArrayList<>();
 
     for (WorkItemLink link : links) {
-      RemoteUrl url = UrlParser.parseRemote(link.getLink());
-      converted.add(
-          new XmlLink(
-              link.getProjectAreaId(),
-              link.getWorkItemId().getUuidValue(),
-              url.getArtifact(),
-              link.getLink().toString(),
-              url.getProjectId(),
-              url.getArtifactId()));
+      try {
+        RemoteUrl url = UrlParser.parseRemote(link.getLink());
+        converted.add(
+            new XmlLink(
+                link.getProjectAreaId(),
+                link.getWorkItemId().getUuidValue(),
+                url.getArtifact(),
+                link.getLink().toString(),
+                url.getProjectId(),
+                url.getArtifactId()));
+      } catch (Exception e) {
+        // TODO: Log error, these are invalid links that are found
+      }
     }
 
     return converted.iterator();

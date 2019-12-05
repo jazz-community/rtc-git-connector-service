@@ -30,20 +30,16 @@ public class UrlParser {
       ".*\\/([^\\/]*)\\/([^\\/]*)\\/project\\/([^\\/]*)\\/([^\\/]*)\\/([^\\/]*)\\/link$";
 
   public static RemoteUrl parseRemote(URI uri) {
-    try {
-      Pattern pattern = Pattern.compile(REMOTE_PATTERN);
-      Matcher matcher = pattern.matcher(uri.getPath());
-      matcher.find();
-      return new RemoteUrl(
-          uri,
-          matcher.group(1),
-          matcher.group(2),
-          matcher.group(3),
-          matcher.group(4),
-          matcher.group(5));
-    } catch (Exception e) {
-      return new RemoteUrl(uri, "invalid", "invalid", "invalid", "invalid", "invalid");
-    }
+    Pattern pattern = Pattern.compile(REMOTE_PATTERN);
+    Matcher matcher = pattern.matcher(uri.getPath());
+    matcher.find();
+    return new RemoteUrl(
+        uri,
+        matcher.group(1),
+        matcher.group(2),
+        matcher.group(3),
+        matcher.group(4),
+        matcher.group(5));
   }
 
   public static DataUrl parseData(URI uri) {
