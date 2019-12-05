@@ -1,0 +1,7 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix dcc: <http://jazz.net/ns/dcc#>.
+
+# maybe this actually belongs together with git issues. I think it does.
