@@ -162,12 +162,3 @@ map:RIDW_VW_REQUEST_GIT_COMMIT_LOOKUP_REQUEST__link a d2rq:PropertyBridge;
     d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
     d2rq:propertyDefinitionLabel "Linked to";
     .
-
-map:RIDW_VW_REQUEST_GIT_COMMIT_LOOKUP_COMMIT__link a d2rq:PropertyBridge;
-    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT;
-    d2rq:property ridw:RIDW_VW_REQUEST_GIT_COMMIT_LINKED_FROM;
-    d2rq:refersToClassMap map:RIDW_VW_GIT_COMMIT;
-    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
-    d2rq:join "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID => RIDW.VW_GIT_COMMIT.PK";
-    d2rq:propertyDefinitionLabel "Linked from";
-    .

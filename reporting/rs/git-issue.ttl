@@ -165,6 +165,8 @@ map:RIDW_VW_GIT_ISSUE_RELATION_PROJECT__ref a d2rq:PropertyBridge;
 # Links in UI?
 
 # this doesn't show up... no idea.
+# It seems that it's not easy to have bidirectional links with different names,
+# not sure how report builder does this for other ttl files.
 #map:RIDW_VW_GIT_ISSUE_RELATION_ISSUE__link a d2rq:PropertyBridge;
 #    d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
 #    d2rq:property ridw:RIDW_VW_REQUEST_GIT_ISSUE_LINKED_FROM;
