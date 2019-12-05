@@ -151,6 +151,38 @@
 	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_issues_links>;
     rr:logicalTable [
         dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_ISSUE_RELATION>;
-		dcc:deliveryKey [ rr:column "ISSUE_ID", rr:column "REQUEST_ID", rr:column "PROJECT_ID" ];
+		dcc:deliveryKey [ rr:column "ISSUE_ID"; rr:column "REQUEST_ID"; rr:column "PROJECT_ID" ];
         dcc:needLock "TRUE";
     ];
+    # FK insert to project area
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/projectArea" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_ProjectArea>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;								
+            dcc:lookupKey "EXTERNAL_KEY2";
+            rr:joinCondition [ rr:child "PROJECT_ID"; rr:parent "PROJECT_ID" ];
+        ];
+    ];
+    # FK insert to work item
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/issue/workItem" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#RTC_Workitem>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;								
+            dcc:lookupKey "EXTERNAL_KEY2";
+            rr:joinCondition [ rr:child "REQUEST_ID"; rr:parent "REQUEST_ID" ];
+        ];
+    ];
+    # FK insert to git issue
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:name "project"; dcc:XPath "/issue/projectId" ];
+        rr:predicateMap [ dcc:name "iid"; dcc:XPath "/issue/artifactId" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#git_issues>;
+            dcc:needLock "TRUE";
+            dcc:predicateColumnLookup [ dcc:predicateName "project"; rr:column "PROJECT_ID" ];
+            dcc:predicateColumnLookup [ dcc:predicateName "iid"; rr:column "IID" ];
+            rr:joinCondition [ rr:child "ISSUE_ID"; rr:parent "ID_PK" ];
+        ];
+    ].
