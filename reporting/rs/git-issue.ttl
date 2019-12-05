@@ -170,14 +170,14 @@ map:RIDW_VW_GIT_ISSUE_RELATION_REQUEST__link a d2rq:PropertyBridge;
     d2rq:propertyDefinitionLabel "Linked to";
     .
 
-map:RIDW_VW_GIT_ISSUE_RELATION_ISSUE__link a d2rq:PropertyBridge;
-    d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
-    d2rq:property ridw:RIDW_VW_REQUEST_GIT_ISSUE_LINKED_FROM;
-    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
-    d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
-    d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.ISSUE_ID => RIDW.VW_GIT_ISSUE.PK";
-    d2rq:propertyDefinitionLabel "Linked From";
-    .
+#map:RIDW_VW_GIT_ISSUE_RELATION_ISSUE__link a d2rq:PropertyBridge;
+#    d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
+#    d2rq:property ridw:RIDW_VW_REQUEST_GIT_ISSUE_LINKED_FROM;
+#    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
+#    d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+#    d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.ISSUE_ID => RIDW.VW_GIT_ISSUE.PK";
+#    d2rq:propertyDefinitionLabel "Linked From";
+#    .
 
 # this doesn't show up because PA is not a reportable artifact
 map:RIDW_VW_GIT_ISSUE_RELATION_PROJECT__link a d2rq:PropertyBridge;
