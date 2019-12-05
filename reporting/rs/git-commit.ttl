@@ -124,6 +124,7 @@ map:RIDW_VW_GIT_COMMIT_LOOKUP__label a d2rq:PropertyBridge;
     d2rq:propertyDefinitionLabel "Git Commit Link";
     .
 
+# I have a feeling these next 2 are actually irrelevant, but I'm not sure...
 map:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT_ID
     d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
     d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT_ID;
