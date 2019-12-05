@@ -91,7 +91,6 @@ map:RIDW_VW_GIT_ISSUE_UPDATED a d2rq:PropertyBridge;
     d2rq:propertyDefinitionLabel "Updated At";
     .
 
-
 map:RIDW_VW_GIT_ISSUE_PK a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
     d2rq:property ridw:RIDW_VW_GIT_ISSUE_PK;
@@ -127,3 +126,4 @@ map:RIDW_VW_GIT_ISSUE_AUTHOR_ID__ref a d2rq:PropertyBridge;
     d2rq:join "RIDW.VW_GIT_ISSUE.AUTHOR_ID => RIDW.VW_RESOURCE.RESOURCE_ID";
     .
     
+# multidirectional relationship
