@@ -159,7 +159,7 @@
         rr:predicateMap [ dcc:XPath "/issue/projectArea" ];
         rr:objectMap [
             rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_ProjectArea>;
-			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;								
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
             dcc:lookupKey "EXTERNAL_KEY2";
             rr:joinCondition [ rr:child "PROJECT_ID"; rr:parent "PROJECT_ID" ];
         ];
@@ -169,7 +169,7 @@
         rr:predicateMap [ dcc:XPath "/issue/workItem" ];
         rr:objectMap [
             rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#RTC_Workitem>;
-			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;								
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
             dcc:lookupKey "EXTERNAL_KEY2";
             rr:joinCondition [ rr:child "REQUEST_ID"; rr:parent "REQUEST_ID" ];
         ];
@@ -180,6 +180,7 @@
         rr:predicateMap [ dcc:name "iid"; dcc:XPath "/issue/artifactId" ];
         rr:objectMap [
             rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#git_issues>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
             dcc:needLock "TRUE";
             dcc:predicateColumnLookup [ dcc:predicateName "project"; rr:column "PROJECT_ID" ];
             dcc:predicateColumnLookup [ dcc:predicateName "iid"; rr:column "IID" ];
