@@ -12,7 +12,7 @@ public class XmlLink {
   private String projectId;
   private String artifactId;
 
-  // zero argument constructor to make moxy happyt
+  // zero argument constructor to make moxy happy
   public XmlLink() {}
 
   public XmlLink(
