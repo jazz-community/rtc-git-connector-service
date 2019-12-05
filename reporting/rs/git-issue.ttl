@@ -119,12 +119,14 @@ map:RIDW_VW_GIT_ISSUE_AUTHOR_EMAIL a d2rq:PropertyBridge;
     d2rq:propertyDefinitionLabel "Issue Author E-Mail";
     .
 
-map:RIDW_VW_GIT_ISSUE_AUTHOR_ID__ref a d2rq:PropertyBridge;
-    d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
-    d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_ID;
-    d2rq:refersToClassMap map:RIDW_VW_RESOURCE;
-    d2rq:join "RIDW.VW_GIT_ISSUE.AUTHOR_ID => RIDW.VW_RESOURCE.RESOURCE_ID";
-    .
+# this seems to really confuse report builder
+#map:RIDW_VW_GIT_ISSUE_AUTHOR_ID__ref a d2rq:PropertyBridge;
+#    d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
+#    d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_ID;
+#    d2rq:refersToClassMap map:RIDW_VW_RESOURCE;
+#    d2rq:join "RIDW.VW_GIT_ISSUE.AUTHOR_ID => RIDW.VW_RESOURCE.RESOURCE_ID";
+#    d2rq:propertyDefinitionLabel "Author Reference";
+#    .
     
 # multidirectional relationship
 map:RIDW_VW_GIT_ISSUE_RELATION a d2rq:ClassMap;
@@ -161,25 +163,28 @@ map:RIDW_VW_GIT_ISSUE_RELATION_PROJECT__ref a d2rq:PropertyBridge;
     .
 
 # Links in UI?
+
+# this doesn't show up... no idea.
+map:RIDW_VW_GIT_ISSUE_RELATION_ISSUE__link a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
+    d2rq:property ridw:RIDW_VW_REQUEST_GIT_ISSUE_LINKED_FROM;
+    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
+    d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+    d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.ISSUE_ID => RIDW.VW_GIT_ISSUE.PK";
+    d2rq:propertyDefinitionLabel "Linked From";
+    .
+    
 map:RIDW_VW_GIT_ISSUE_RELATION_REQUEST__link a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
     d2rq:property ridw:RIDW_VW_REQUEST_GIT_ISSUE_LINKED_TO;
     d2rq:refersToClassMap map:RIDW_VW_GIT_ISSUE;
-    d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.ISSUE_ID => RIDW.VW_GIT_ISSUE.PK";
     d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+    d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.ISSUE_ID => RIDW.VW_GIT_ISSUE.PK";
     d2rq:propertyDefinitionLabel "Linked to";
     .
 
-#map:RIDW_VW_GIT_ISSUE_RELATION_ISSUE__link a d2rq:PropertyBridge;
-#    d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
-#    d2rq:property ridw:RIDW_VW_REQUEST_GIT_ISSUE_LINKED_FROM;
-#    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
-#    d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
-#    d2rq:join "RIDW.VW_GIT_ISSUE_RELATION.ISSUE_ID => RIDW.VW_GIT_ISSUE.PK";
-#    d2rq:propertyDefinitionLabel "Linked From";
-#    .
-
 # this doesn't show up because PA is not a reportable artifact
+# this might only affect access... but not sure.
 map:RIDW_VW_GIT_ISSUE_RELATION_PROJECT__link a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_PROJECT;
     d2rq:property ridw:RIDW_VW_REQUEST_GIT_ISSUE_RELATION;
