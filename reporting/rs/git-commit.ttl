@@ -124,18 +124,20 @@ map:RIDW_VW_GIT_COMMIT_LOOKUP__label a d2rq:PropertyBridge;
     d2rq:propertyDefinitionLabel "Git Commit Link";
     .
 
-# I have a feeling these next 2 are actually irrelevant, but I'm not sure...
-map:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT_ID
-    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
-    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT_ID;
-    d2rq:column "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID";
-    .
-
-map:RIDW_VW_GIT_COMMIT_LOOKUP_REQUEST_ID
-    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
-    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP_REQUEST_ID;
-    d2rq:column "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID";
-    .
+## I have a feeling these next 2 are actually irrelevant, but I'm not sure...
+## Commented out for now until further testing shows that these really
+## don't matter. So far, nothing has changed.
+#map:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT_ID
+#    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
+#    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP_COMMIT_ID;
+#    d2rq:column "RIDW.VW_GIT_COMMIT_LOOKUP.COMMIT_ID";
+#    .
+#
+#map:RIDW_VW_GIT_COMMIT_LOOKUP_REQUEST_ID
+#    d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
+#    d2rq:property ridw:RIDW_VW_GIT_COMMIT_LOOKUP_REQUEST_ID;
+#    d2rq:column "RIDW.VW_GIT_COMMIT_LOOKUP.REQUEST_ID";
+#    .
 
 map:RIDW_VW_GIT_COMMIT_LOOKUP_REQUEST__ref a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_GIT_COMMIT_LOOKUP;
