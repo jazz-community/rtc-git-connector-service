@@ -1,0 +1,24 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix dcc: <http://jazz.net/ns/dcc#>.
+
+<http://jazz.net/ns/dcc/mapGroup#GitIssue>
+	a dcc:MapGroup;
+	dcterms:title "Git Merge Requests";
+	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests>;
+	#dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_request_assignees>;
+	#dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_request_relations>;
+	dcc:dependency <http://jazz.net/ns/dcc/mapGroup#JFS_ODS>;
+    dcc:dependency <http://jazz.net/ns/dcc/mapGroup#RTC_Workitem>;
+	dcc:schedule "ods";
+	dcc:enabled "true".
+
+<http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_MERGE_REQUEST>
+    a dcc:TableInfo;
+    dcc:schemaName "ODS";
+    dcc:tableName "GIT_MERGE_REQUEST";
+    dcc:surrogateKey [ dcc:column "ID_PK" ]
+    .
+
