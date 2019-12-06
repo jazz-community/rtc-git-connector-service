@@ -81,8 +81,6 @@ public class IssueService extends AbstractRestService {
   }
 
   private void stripXml(Collection<Issue> issues) {
-    // TODO: Description still needs to be truncated probably, not sure how db reacts
-    // Derby just truncates, still need to test with db2
     for (Issue issue : issues) {
       issue.setTitle(XmlSanitizer.stripIllegalXml(issue.getTitle()));
       issue.setDescription(XmlSanitizer.stripIllegalXml(issue.getDescription()));
