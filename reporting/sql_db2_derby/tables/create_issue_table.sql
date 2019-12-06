@@ -10,9 +10,8 @@ CREATE TABLE RIODS.GIT_ISSUE (
     -- Maximum length in IBM DB2 for varchar is 32704, however, gitlab
     -- issue descriptions can be longer. This _will_ truncate data if
     -- description is longer.
-    --DESCRIPTION VARCHAR(32704),
-    -- 32672 is the maximum size for derby, lower than db2
-    DESCRIPTION VARCHAR(32672),
+    -- 4000 is chosen as default size, same as the request table
+    DESCRIPTION VARCHAR(4000),
     STATE VARCHAR(50),
     CREATED TIMESTAMP,
     UPDATED TIMESTAMP,
@@ -32,4 +31,4 @@ CREATE TABLE RIODS.GIT_ISSUE (
     -- author
     RTC_AUTHOR INTEGER DEFAULT -1 NOT NULL,
     CONSTRAINT RESOURCE_FK FOREIGN KEY (RTC_AUTHOR) REFERENCES RIODS.RESOURCE(RESOURCE_ID)
-)
+);
