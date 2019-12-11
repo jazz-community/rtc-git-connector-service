@@ -160,3 +160,43 @@ map:RIDW_VW_GIT_MERGE_REQUEST_PK a d2rq:PropertyBridge;
     d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.PK";
     d2rq:propertyDefinitionLabel "Primary Key";
     .
+
+# multidirectional relationship
+map:RIDW_VW_GIT_MERGE_REQUEST_RELATION a d2rq:ClassMap;
+    d2rq:dataStorage map:database;
+    d2rq:class ridw:RIDW_VW_GIT_MERGE_REQUEST_RELATION;
+    jrs:table "RIDW.VW_GIT_MERGE_REQUEST_RELATION";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_RELATION_MERGE_REQUEST__ref a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST_RELATION;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_RELATION_MERGE_REQUEST;
+    d2rq:refersToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:join "RIDW.VW_GIT_MERGE_REQUEST_RELATION.MERGE_REQUEST_ID => RIDW.VW_GIT_MERGE_REQUEST.PK";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_RELATION_REQUEST__ref a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST_RELATION;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_RELATION_REQUEST;
+    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
+    d2rq:join "RIDW.VW_GIT_MERGE_REQUEST_RELATION.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_RELATION_PROJECT__ref a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST_RELATION;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_RELATION_PROJECT;
+    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
+    d2rq:join "RIDW.VW_GIT_MERGE_REQUEST_RELATION.PROJECT_ID => RIDW.VW_PROJECT.PROJECT_ID";
+    .
+
+# UI link
+    
+map:RIDW_VW_GIT_MERGE_REQUEST_RELATION_REQUEST__link a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
+    d2rq:property ridw:RIDW_VW_REQUEST_GIT_MERGE_REQUEST_LINKED_TO;
+    d2rq:refersToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:join "RIDW.VW_GIT_MERGE_REQUEST_RELATION.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+    d2rq:join "RIDW.VW_GIT_MERGE_REQUEST_RELATION.MERGE_REQUEST_ID => RIDW.VW_GIT_MERGE_REQUEST.PK";
+    d2rq:propertyDefinitionLabel "Linked to";
+    .
+
