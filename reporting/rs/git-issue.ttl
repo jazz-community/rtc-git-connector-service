@@ -46,7 +46,7 @@ map:RIDW_VW_GIT_ISSUE_DESCRIPTION a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
     d2rq:property ridw:RIDW_VW_GIT_ISSUE_DESCRIPTION;
     d2rq:column "RIDW.VW_GIT_ISSUE.DESCRIPTION";
-    d2rq:propertyDefinitionLabel "Issue Description";
+    d2rq:propertyDefinitionLabel "Description";
     .
 
 map:RIDW_VW_GIT_ISSUE_STATE a d2rq:PropertyBridge;
@@ -60,7 +60,7 @@ map:RIDW_VW_GIT_ISSUE_ID a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
     d2rq:property ridw:RIDW_VW_GIT_ISSUE_ID;
     d2rq:column "RIDW.VW_GIT_ISSUE.ID";
-    d2rq:propertyDefinitionLabel "Issue ID";
+    d2rq:propertyDefinitionLabel "ID";
     .
 
 map:RIDW_VW_GIT_ISSUE_PROJECT_ID a d2rq:PropertyBridge;
@@ -102,21 +102,21 @@ map:RIDW_VW_GIT_ISSUE_AUTHOR_ID a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
     d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_ID;
     d2rq:column "RIDW.VW_GIT_ISSUE.AUTHOR_ID";
-    d2rq:propertyDefinitionLabel "Issue Author ID";
+    d2rq:propertyDefinitionLabel "Author ID";
     .
 
 map:RIDW_VW_GIT_ISSUE_AUTHOR_NAME a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
     d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_NAME;
     d2rq:column "RIDW.VW_GIT_ISSUE.AUTHOR_NAME";
-    d2rq:propertyDefinitionLabel "Issue Author";
+    d2rq:propertyDefinitionLabel "Author";
     .
 
 map:RIDW_VW_GIT_ISSUE_AUTHOR_EMAIL a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
     d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_EMAIL;
     d2rq:column "RIDW.VW_GIT_ISSUE.AUTHOR_EMAIL";
-    d2rq:propertyDefinitionLabel "Issue Author E-Mail";
+    d2rq:propertyDefinitionLabel "Author E-Mail";
     .
 
 # this seems to really confuse report builder
