@@ -1,4 +1,15 @@
 CREATE VIEW RIDW.VW_GIT_MERGE_REQUEST_ASSIGNEE (
+    MERGE_REQUEST_ID,
+    MERGE_REQUEST_NAME,
+    RESOURCE_ID,
+    RESOURCE_NAME
 ) AS (SELECT
+        request.ID_PK,
+        request.TITLE,
+        assignee.RESOURCE_ID,
+        assignee.NAME
+    FROM RIODS.GIT_MERGE_REQUEST_ASSIGNEE assignment
+    JOIN RIODS.GIT_MERGE_REQUEST request ON assignment.MERGE_REQUEST_ID = request.ID_PK
+    JOIN RIODS.RESOURCE assignee ON assignment.ASSIGNEE_ID = assignee.RESOURCE_ID
 );
 
