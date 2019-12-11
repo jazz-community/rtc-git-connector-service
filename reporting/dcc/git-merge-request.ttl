@@ -22,7 +22,7 @@
     dcc:surrogateKey [ dcc:column "ID_PK" ]
     .
 
-<http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_MERGE_REQUEST>
+<http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_MERGE_REQUEST_ASSIGNEE>
     a dcc:TableInfo;
     dcc:schemaName "ODS";
     dcc:tableName "GIT_MERGE_REQUEST_ASSIGNEE";
