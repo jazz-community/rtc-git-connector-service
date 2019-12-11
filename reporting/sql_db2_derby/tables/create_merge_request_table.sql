@@ -1,6 +1,6 @@
 -- the create issue table has additional comments on certain
 -- column specifications
-CREATE TABLE RIODS.GIT_MERGE_REQUEST(
+CREATE TABLE RIODS.GIT_MERGE_REQUEST (
     -- Reference to gitlab merge request
     ID BIGINT NOT NULL,
     -- Project-local merge request reference
