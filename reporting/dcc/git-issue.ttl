@@ -27,7 +27,7 @@
     dcc:schemaName "ODS";
     dcc:tableName "GIT_ISSUE_ASSIGNEE";
     .
-    
+
 <http://jazz.net/ns/dcc/resourceInfo#git_issue>
 	a dcc:ResourceInfo;
 	dcc:baseResourceGroup <http://jazz.net/ns/dcc/baseResourceGroup#RTCBaseResourceGroup>;
