@@ -48,5 +48,80 @@
         rr:predicateMap [ dcc:XPath "/mergerequest/id" ];
         rr:objectMap [ rr:column "ID" ]
     ];
-    
-    
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/iid" ];
+        rr:objectMap [ rr:column "IID" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/projectId" ];
+        rr:objectMap [ rr:column "PROJECT_ID" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/title" ];
+        rr:objectMap [ rr:column "TITLE" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/description" ];
+        rr:objectMap [ rr:column "DESCRIPTION" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/state" ];
+        rr:objectMap [ rr:column "STATE" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/mergedAt" ];
+        rr:objectMap [ rr:column "MERGED_AT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/createdAt" ];
+        rr:objectMap [ rr:column "CREATED_AT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/updatedAt" ];
+        rr:objectMap [ rr:column "UPDATED_AT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/targetBranch" ];
+        rr:objectMap [ rr:column "TARGET_BRANCH" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/sourceBranch" ];
+        rr:objectMap [ rr:column "SOURCE_BRANCH" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/targetProject" ];
+        rr:objectMap [ rr:column "TARGET_PROJECT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/sourceProject" ];
+        rr:objectMap [ rr:column "SOURCE_PROJECT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/workInProgress" ];
+        rr:objectMap [ rr:column "IN_PROGRESS" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/mergeWhenPipelineSucceeds" ];
+        rr:objectMap [ rr:column "MERGE_SUCCESS" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/mergeStatus" ];
+        rr:objectMap [ rr:column "MERGE_STATUS" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/sha" ];
+        rr:objectMap [ rr:column "SHA" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/mergeCommitSha" ];
+        rr:objectMap [ rr:column "MERGE_COMMIT_SHA" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/webUrl" ];
+        rr:objectMap [ rr:column "WEB_URL" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/rtcRichHover" ];
+        rr:objectMap [ rr:column "RICH_HOVER_URL" ]
+    ];
+    .
