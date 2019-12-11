@@ -6,7 +6,8 @@ CREATE VIEW RIDW.VW_GIT_MERGE_REQUEST (
     -- web url
     EXTERNAL_LINK,
     DESCRIPTION,
-    AUTHOR_EMAIL,
+    AUTHOR_USER_REFERENCE,
+    AUTHOR_USER_NAME,
     AUTHOR_NAME,
     AUTHOR_ID,
     IN_PROGRESS,
@@ -27,6 +28,7 @@ CREATE VIEW RIDW.VW_GIT_MERGE_REQUEST (
         request.RICH_HOVER_URL,
         request.WEB_URL,
         request.DESCRIPTION,
+        resource.REFERENCE_ID,
         resource.NAME,
         resource.FULL_NAME,
         resource.RESOURCE_ID,
