@@ -8,8 +8,8 @@
 	a dcc:MapGroup;
 	dcterms:title "Git Merge Requests";
 	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests>;
-	#dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests_assignees>;
-	#dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests_relations>;
+	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests_assignees>;
+	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests_relations>;
 	dcc:dependency <http://jazz.net/ns/dcc/mapGroup#JFS_ODS>;
     dcc:dependency <http://jazz.net/ns/dcc/mapGroup#RTC_Workitem>;
 	dcc:schedule "ods";
@@ -89,20 +89,20 @@
         rr:objectMap [ rr:column "SOURCE_BRANCH" ]
     ];
     rr:predicateObjectMap [
-        rr:predicateMap [ dcc:XPath "/mergerequest/targetProject" ];
+        rr:predicateMap [ dcc:XPath "/mergerequest/targetProjectId" ];
         rr:objectMap [ rr:column "TARGET_PROJECT" ]
     ];
     rr:predicateObjectMap [
-        rr:predicateMap [ dcc:XPath "/mergerequest/sourceProject" ];
+        rr:predicateMap [ dcc:XPath "/mergerequest/sourceProjectId" ];
         rr:objectMap [ rr:column "SOURCE_PROJECT" ]
     ];
     rr:predicateObjectMap [
-        rr:predicateMap [ dcc:XPath "/mergerequest/workInProgress" ];
-        rr:objectMap [ rr:column "IN_PROGRESS" ]
+        rr:predicateMap [ dcc:name "inProgress"; dcc:XPath "/mergerequest/workInProgress" ];
+        rr:objectMap [ rr:column "IN_PROGRESS"; dcc:localTransform "parseBoolean(?inProgress)"]
     ];
     rr:predicateObjectMap [
-        rr:predicateMap [ dcc:XPath "/mergerequest/mergeWhenPipelineSucceeds" ];
-        rr:objectMap [ rr:column "MERGE_SUCCESS" ]
+        rr:predicateMap [ dcc:name "mergeOnSuccess"; dcc:XPath "/mergerequest/mergeWhenPipelineSucceeds" ];
+        rr:objectMap [ rr:column "MERGE_SUCCESS"; dcc:localTransform "parseBoolean(?mergeOnSuccess)"]
     ];
     rr:predicateObjectMap [
         rr:predicateMap [ dcc:XPath "/mergerequest/mergeStatus" ];
@@ -177,7 +177,7 @@
 <http://jazz.net/ns/dcc/resourceInfo#git_merge_requests_links>
 	a dcc:ResourceInfo;
 	dcc:baseResourceGroup <http://jazz.net/ns/dcc/baseResourceGroup#RTCBaseResourceGroup>;
-    # this will be important for linked issues, because they need to run after
+    # this will be important for linked requests, because they need to run after
     # all merge requests have been imported
 	dcc:executionOrder "101";
 	dcc:version "6.0.1,6.0.2,6.0.3,6.0.4,6.0.5,6.0.6,6.0.7";
@@ -213,7 +213,7 @@
             rr:joinCondition [ rr:child "REQUEST_ID"; rr:parent "REQUEST_ID" ];
         ];
     ];
-    # FK insert to git issue
+    # FK insert to git merge request
     rr:predicateObjectMap [
         rr:predicateMap [ dcc:name "project"; dcc:XPath "/merge-request/projectId" ];
         rr:predicateMap [ dcc:name "iid"; dcc:XPath "/merge-request/artifactId" ];
