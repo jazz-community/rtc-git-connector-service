@@ -129,7 +129,6 @@
     ].
     
 # now, seperate resource info etc. for the issue relations stuff
-
 <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_ISSUE_RELATION>
     a dcc:TableInfo;
     dcc:schemaName "ODS";
