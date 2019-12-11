@@ -105,17 +105,24 @@ map:RIDW_VW_GIT_ISSUE_AUTHOR_ID a d2rq:PropertyBridge;
     d2rq:propertyDefinitionLabel "Author ID";
     .
 
+map:RIDW_VW_GIT_ISSUE_AUTHOR_USER_NAME a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
+    d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_USER_NAME;
+    d2rq:column "RIDW.VW_GIT_ISSUE.AUTHOR_USER_NAME";
+    d2rq:propertyDefinitionLabel "Author User Name";
+    .
+
 map:RIDW_VW_GIT_ISSUE_AUTHOR_NAME a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
     d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_NAME;
     d2rq:column "RIDW.VW_GIT_ISSUE.AUTHOR_NAME";
-    d2rq:propertyDefinitionLabel "Author";
+    d2rq:propertyDefinitionLabel "Author Name";
     .
 
-map:RIDW_VW_GIT_ISSUE_AUTHOR_EMAIL a d2rq:PropertyBridge;
+map:RIDW_VW_GIT_ISSUE_AUTHOR_USER_REFERENCE a d2rq:PropertyBridge;
     d2rq:belongsToClassMap map:RIDW_VW_GIT_ISSUE;
-    d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_EMAIL;
-    d2rq:column "RIDW.VW_GIT_ISSUE.AUTHOR_EMAIL";
+    d2rq:property ridw:RIDW_VW_GIT_ISSUE_AUTHOR_USER_REFERENCE;
+    d2rq:column "RIDW.VW_GIT_ISSUE.AUTHOR_USER_REFERENCE";
     d2rq:propertyDefinitionLabel "Author E-Mail";
     .
 
