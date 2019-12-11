@@ -1,0 +1,22 @@
+@prefix map: <#> .
+@prefix db: <> .
+@prefix ridw: <http://jazz.net/ns/reporting/dwse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+@prefix jdbc: <http://d2rq.org/terms/jdbc/> .
+@prefix jrs: <http://jazz.net/jrs/reportbuilder/datawarehouse#> .
+@prefix sg: <http://jazz.net/ns/reporting/sparqlgateway#> .
+
+# Table RIDW.VW_GIT_MERGE_REQUEST
+map:RIDW_VW_GIT_MERGE_REQUEST a d2rq:ClassMap;
+    jrs:primaryKey "RIDW.VW_GIT_MERGE_REQUEST.EXTERNAL_LINK";
+    d2rq:dataStorage map:database;
+    d2rq:uriColumn "RIDW.VW_GIT_MERGE_REQUEST.URL";
+    d2rq:class ridw:RIDW_VW_GIT_MERGE_REQUEST;
+    jrs:table "RIDW.VW_GIT_MERGE_REQUEST";
+    jrs:metaModel "METRICS_CM";
+    d2rq:classDefinitionLabel "Git Merge Request";
+    .
+
