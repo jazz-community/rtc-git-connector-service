@@ -10,13 +10,13 @@ db2 connect to db2inst1
 /home/db2inst1/sqllib/bin/db2 CREATE SCHEMA RIDW
 
 # create commit tables
-/home/db2inst1/sqllib/bin/db2 -tvf tables/create_commit_table.sql
-/home/db2inst1/sqllib/bin/db2 -tvf tables/create_commit_lookup_table.sql
+/home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_commit_table.sql
+/home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_commit_lookup_table.sql
 # create issue tables
-/home/db2inst1/sqllib/bin/db2 -tvf tables/create_issue_table.sql
-/home/db2inst1/sqllib/bin/db2 -tvf tables/create_issue_assignee_table.sql
-/home/db2inst1/sqllib/bin/db2 -tvf tables/create_issue_relation_table.sql
+/home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_issue_table.sql
+/home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_issue_assignee_table.sql
+/home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_issue_relation_table.sql
 # create merge request tables
-/home/db2inst1/sqllib/bin/db2 -tvf tables/create_merge_request_table.sql
-/home/db2inst1/sqllib/bin/db2 -tvf tables/create_merge_request_assignee_table.sql
-/home/db2inst1/sqllib/bin/db2 -tvf tables/create_merge_request_relation_table.sql
+/home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_merge_request_table.sql
+/home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_merge_request_assignee_table.sql
+/home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_merge_request_relation_table.sql
