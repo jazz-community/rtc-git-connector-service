@@ -1,6 +1,8 @@
 # this script is for testing that schema, views and migrations
 # are valid db2 syntax.
 
+su - db2inst1
+
 # create reporting databases
 db2 CREATE DATABASE RIODS
 db2 CREATE DATABASE RIDW
