@@ -1,11 +1,13 @@
 # this script is for testing that schema, views and migrations
 # are valid db2 syntax.
 
+# run scripts with db user and against the default database
 su - db2inst1
+db2 connect to db2inst1
 
-# create reporting databases
-/home/db2inst1/sqllib/bin/db2 CREATE DATABASE RIODS
-/home/db2inst1/sqllib/bin/db2 CREATE DATABASE RIDW
+# create reporting schemas
+/home/db2inst1/sqllib/bin/db2 CREATE SCHEMA RIODS
+/home/db2inst1/sqllib/bin/db2 CREATE SCHEMA RIDW
 
 # create commit tables
 /home/db2inst1/sqllib/bin/db2 -tvf tables/create_commit_table.sql
