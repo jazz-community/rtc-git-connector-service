@@ -14,4 +14,4 @@ COPY tables/ var/custom/tables
 COPY views/ var/custom/views
 COPY setup.sh /var/custom
 # make db2 script runnable
-#RUN chmod a+x /var/custom/setup.sh
+RUN chmod a+x /var/custom/setup.sh
