@@ -12,6 +12,6 @@ RUN mkdir -p /var/custom/views
 # copy all sql files
 COPY tables/ var/custom/tables
 COPY views/ var/custom/views
-COPY setup.sh /var/custom
+COPY docker/setup.sh /var/custom
 # make db2 script runnable
 RUN chmod a+x /var/custom/setup.sh

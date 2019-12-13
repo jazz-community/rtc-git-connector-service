@@ -1,1 +1,1 @@
-docker build . -t db2integration
+docker build .. -t db2integration

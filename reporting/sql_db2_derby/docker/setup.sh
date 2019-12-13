@@ -7,7 +7,7 @@
 #. /home/db2inst1/sqllib/db2profile
 #/home/db2inst1/sqllib/bin/db2 connect to db2inst1
 
-/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin
+echo "admin" | su - dbinst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin"
 
 # create reporting schemas
 /home/db2inst1/sqllib/bin/db2 CREATE SCHEMA RIODS
