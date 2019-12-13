@@ -7,11 +7,9 @@
 #. /home/db2inst1/sqllib/db2profile
 #/home/db2inst1/sqllib/bin/db2 connect to db2inst1
 
-echo "admin" | su - dbinst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin"
-
-# create reporting schemas
-/home/db2inst1/sqllib/bin/db2 CREATE SCHEMA RIODS
-/home/db2inst1/sqllib/bin/db2 CREATE SCHEMA RIDW
+echo "admin" | su - db2inst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin && \
+    /home/db2inst1/sqllib/bin/db2 CREATE SCHEMA RIODS && \
+    /home/db2inst1/sqllib/bin/db2 CREATE SCHEMA RIDW"
 
 # # create commit tables
 # /home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_commit_table.sql
@@ -25,4 +23,4 @@ echo "admin" | su - dbinst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst
 # /home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_merge_request_assignee_table.sql
 # /home/db2inst1/sqllib/bin/db2 -tvf /var/custom/tables/create_merge_request_relation_table.sql
 
-/home/db2inst1/sqllib/bin/db2 connect reset
+#echo "admin" | su - db2inst1 -c "home/db2inst1/sqllib/bin/db2 connect reset"
