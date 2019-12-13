@@ -47,15 +47,21 @@ The required SQL Files are in the `reporting/sql_db2_derby/` folder of this repo
 
 1. Using a SQL Client / database administration tool, connect to the Data Warehouse Database.
 2. Run the `create_commit_table.sql` file to create the `RIODS.GIT_COMMIT` table.
-3. Run the `create_commit_lookup_table.sql` file to create the `RIODS.GIT_COMMIT_LOOKUP` table.
-3. Run the `create_ìssue_table.sql` file to create the `RIODS.GIT_ÌSSUE` table.
-3. Run the `create_ìssue_table_assignee.sql` file to create the `RIODS.GIT_ÌSSUE_ASSIGNEE` table.
-3. Run the `create_ìssue_table_relation.sql` file to create the `RIODS.GIT_ÌSSUE_RELATION` table.
-3. Run the `create_merge_request_table.sql` file to create the `RIODS.GIT_MERGE_REQUEST` table.
-3. Run the `create_merge_request_table_assignee.sql` file to create the `RIODS.GIT_MERGE_REQUEST_ASSIGNEE` table.
-3. Run the `create_merge_request_table_relation.sql` file to create the `RIODS.GIT_MERGE_REQUEST_RELATION` table.
-4. Run the `create_commit_view.sql` file to create the `RIDW.VW_GIT_COMMIT` view.
-5. Run the `create_commit_lookup_view.sql` file to create the `RIDW.VW_GIT_COMMIT_LOOKUP` view.
+4. Run the `create_commit_lookup_table.sql` file to create the `RIODS.GIT_COMMIT_LOOKUP` table.
+5. Run the `create_ìssue_table.sql` file to create the `RIODS.GIT_ÌSSUE` table.
+6. Run the `create_ìssue_table_assignee.sql` file to create the `RIODS.GIT_ÌSSUE_ASSIGNEE` table.
+7. Run the `create_ìssue_table_relation.sql` file to create the `RIODS.GIT_ÌSSUE_RELATION` table.
+8. Run the `create_merge_request_table.sql` file to create the `RIODS.GIT_MERGE_REQUEST` table.
+9. Run the `create_merge_request_table_assignee.sql` file to create the `RIODS.GIT_MERGE_REQUEST_ASSIGNEE` table.
+10. Run the `create_merge_request_table_relation.sql` file to create the `RIODS.GIT_MERGE_REQUEST_RELATION` table.
+11. Run the `create_commit_view.sql` file to create the `RIDW.VW_GIT_COMMIT` view.
+12. Run the `create_commit_lookup_view.sql` file to create the `RIDW.VW_GIT_COMMIT_LOOKUP` view.
+13. Run the `create_issue_view.sql` file to create the `RIDW.VW_GIT_ISSUE` view.
+14. Run the `create_issue_assignee_view.sql` file to create the `RIDW.VW_GIT_ISSUE_ASSIGNEE_ISSUE` view.
+15. Run the `create_issue_relation_view.sql` file to create the `RIDW.VW_GIT_ISSUE_RELATION_ISSUE` view.
+16. Run the `create_merge_request_view.sql` file to create the `RIDW.VW_GIT_MERGE_REQUEST` view.
+17. Run the `create_merge_request_assignee_view.sql` file to create the `RIDW.VW_GIT_MERGE_REQUEST_ASSIGNEE_ISSUE` view.
+18. Run the `create_merge_request_relation_view.sql` file to create the `RIDW.VW_GIT_MERGE_REQUEST_RELATION_ISSUE` view.
 
 ### Deploy Data Collection Files
 
