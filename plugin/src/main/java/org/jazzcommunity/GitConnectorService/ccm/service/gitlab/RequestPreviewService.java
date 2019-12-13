@@ -1,11 +1,12 @@
 package org.jazzcommunity.GitConnectorService.ccm.service.gitlab;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.google.common.net.MediaType;
 import com.ibm.team.repository.service.TeamRawService;
+import com.siemens.bt.jazz.services.base.configuration.Configuration;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
-import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
@@ -18,20 +19,27 @@ import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
 public class RequestPreviewService extends AbstractRestService {
+
   public RequestPreviewService(
+      String uri,
       Log log,
       HttpServletRequest request,
       HttpServletResponse response,
-      RestRequest restRequest,
+      Configuration configuration,
       TeamRawService parentService,
       PathParameters pathParameters) {
-    super(log, request, response, restRequest, parentService, pathParameters);
+    super(uri, log, request, response, configuration, parentService, pathParameters);
   }
 
   @Override
   public void execute() throws Exception {
     URL url = new URL("https://" + pathParameters.get("host"));
-    GitlabApi api = new GitlabApi(url.toString(), TokenHelper.getToken(url, parentService));
+    GitlabApi api =
+        new GitlabWebFactory(url.toString())
+            .setToken(TokenHelper.getToken(url, parentService))
+            .setTimeout(5000)
+            .build();
+
     MergeRequest mergeRequest =
         api.getMergeRequest(
             pathParameters.getAsInteger("projectId"),

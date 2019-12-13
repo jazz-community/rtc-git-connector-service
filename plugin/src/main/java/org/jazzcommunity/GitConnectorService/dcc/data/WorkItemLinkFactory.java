@@ -1,13 +1,14 @@
 package org.jazzcommunity.GitConnectorService.dcc.data;
 
-import ch.sbi.minigit.type.gitlab.issue.Issue;
-import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.ibm.team.foundation.common.text.XMLString;
 import com.ibm.team.repository.common.UUID;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.apache.commons.logging.Log;
+import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
+import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedMergeRequest;
 
 /**
  * Currently, this class just includes link data and potential resolution endpoints for how to fetch
@@ -20,16 +21,18 @@ public class WorkItemLinkFactory {
   private final int id;
   private final UUID itemId;
   private final XMLString summary;
+  private Log log;
 
   private final ArrayList<Link<Commit>> commits = new ArrayList<>();
-  private final ArrayList<Link<Issue>> issues = new ArrayList<>();
-  private final ArrayList<Link<MergeRequest>> requests = new ArrayList<>();
+  private final ArrayList<Link<LinkedIssue>> issues = new ArrayList<>();
+  private final ArrayList<Link<LinkedMergeRequest>> requests = new ArrayList<>();
 
-  public WorkItemLinkFactory(String projectArea, int id, UUID itemId, XMLString summary) {
+  public WorkItemLinkFactory(String projectArea, int id, UUID itemId, XMLString summary, Log log) {
     this.projectArea = projectArea;
     this.id = id;
     this.itemId = itemId;
     this.summary = summary;
+    this.log = log;
   }
 
   public void addLink(String comment, URI uri, UUID projectArea) {
@@ -50,17 +53,32 @@ public class WorkItemLinkFactory {
       return;
     }
 
-    //    if (uri.getPath().contains("issue")) {
-    //      Link link = new Link<>(comment, uri, new UrlResolver(uri));
-    //      issues.add(link);
-    //      return;
-    //    }
-    //
-    //    if (uri.getPath().contains("merge-request")) {
-    //      Link link = new Link<>(comment, uri, new UrlResolver(uri));
-    //      requests.add(link);
-    //      return;
-    //    }
+    if (uri.getPath().contains("IGitConnectorService") && uri.getPath().contains("issue")) {
+      try {
+        IssueResolver resolver = new IssueResolver(this.itemId, uri);
+        Link link = new Link<>(comment, uri, projectArea, resolver);
+        issues.add(link);
+      } catch (Exception e) {
+        this.log.warn(
+            String.format(
+                "Could not parse issue link from %s with uri %s", this.itemId, uri.getPath()));
+      }
+      return;
+    }
+
+    if (uri.getPath().contains("IGitConnectorService") && uri.getPath().contains("merge-request")) {
+      try {
+        MergeRequestResolver resolver = new MergeRequestResolver(this.itemId, uri);
+        Link link = new Link<>(comment, uri, projectArea, resolver);
+        requests.add(link);
+      } catch (Exception e) {
+        this.log.warn(
+            String.format(
+                "Could not parse merge request link from %s with uri %s",
+                this.itemId, uri.getPath()));
+      }
+      return;
+    }
 
     // TODO: This should just log a warning
     //    throw new IllegalArgumentException("Supplied link is not a valid git link type");
@@ -85,6 +103,14 @@ public class WorkItemLinkFactory {
     for (Link request : requests) {
       request.resolve();
     }
+  }
+
+  public Collection<Link<LinkedMergeRequest>> getRequests() {
+    return this.requests;
+  }
+
+  public Collection<Link<LinkedIssue>> getIssues() {
+    return this.issues;
   }
 
   public int getId() {

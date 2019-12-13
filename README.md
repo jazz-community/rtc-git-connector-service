@@ -49,9 +49,21 @@ The required SQL Files are in the `reporting/sql_db2_derby/` folder of this repo
 
 1. Using a SQL Client / database administration tool, connect to the Data Warehouse Database.
 2. Run the `create_commit_table.sql` file to create the `RIODS.GIT_COMMIT` table.
-3. Run the `create_commit_lookup_table.sql` file to create the `RIODS.GIT_COMMIT_LOOKUP` table.
-4. Run the `create_commit_view.sql` file to create the `RIDW.VW_GIT_COMMIT` view.
-5. Run the `create_commit_lookup_view.sql` file to create the `RIDW.VW_GIT_COMMIT_LOOKUP` view.
+4. Run the `create_commit_lookup_table.sql` file to create the `RIODS.GIT_COMMIT_LOOKUP` table.
+5. Run the `create_ìssue_table.sql` file to create the `RIODS.GIT_ÌSSUE` table.
+6. Run the `create_ìssue_table_assignee.sql` file to create the `RIODS.GIT_ÌSSUE_ASSIGNEE` table.
+7. Run the `create_ìssue_table_relation.sql` file to create the `RIODS.GIT_ÌSSUE_RELATION` table.
+8. Run the `create_merge_request_table.sql` file to create the `RIODS.GIT_MERGE_REQUEST` table.
+9. Run the `create_merge_request_table_assignee.sql` file to create the `RIODS.GIT_MERGE_REQUEST_ASSIGNEE` table.
+10. Run the `create_merge_request_table_relation.sql` file to create the `RIODS.GIT_MERGE_REQUEST_RELATION` table.
+11. Run the `create_commit_view.sql` file to create the `RIDW.VW_GIT_COMMIT` view.
+12. Run the `create_commit_lookup_view.sql` file to create the `RIDW.VW_GIT_COMMIT_LOOKUP` view.
+13. Run the `create_issue_view.sql` file to create the `RIDW.VW_GIT_ISSUE` view.
+14. Run the `create_issue_assignee_view.sql` file to create the `RIDW.VW_GIT_ISSUE_ASSIGNEE_ISSUE` view.
+15. Run the `create_issue_relation_view.sql` file to create the `RIDW.VW_GIT_ISSUE_RELATION_ISSUE` view.
+16. Run the `create_merge_request_view.sql` file to create the `RIDW.VW_GIT_MERGE_REQUEST` view.
+17. Run the `create_merge_request_assignee_view.sql` file to create the `RIDW.VW_GIT_MERGE_REQUEST_ASSIGNEE_ISSUE` view.
+18. Run the `create_merge_request_relation_view.sql` file to create the `RIDW.VW_GIT_MERGE_REQUEST_RELATION_ISSUE` view.
 
 ### Deploy Data Collection Files
 
@@ -86,7 +98,7 @@ The required SQL Files are in the `reporting/sql_db2_derby/` folder of this repo
 ## Update
 If you have previously deployed the reporting capabilities, please follow these instructions **before** cleanly deploying by following the instructions in the [Deployment](#deployment) section. This step is required to avoid inconsistencies in the reporting process, and will ensure that data is reliably stored and reported against.
 
-**Running these scripts will delete all! data.** However, that is not an issue as running dcc again will collect the same data.
+**Running these scripts will delete all! data.** However, that is not an issue as running dcc again will collect the same data when running a full import.
 
 Run the `drop_before_update.sql` located in the `sql_db2_derby` folder with a sql tool of your choice.
 
@@ -115,8 +127,20 @@ This example shows how deployment of the reporting capabilities can be done with
 ```
 db2 -tvf .\tables\create_commit_table.sql
 db2 -tvf .\tables\create_commit_lookup_table.sql
+db2 -tvf .\tables\create_issue_table.sql
+db2 -tvf .\tables\create_issue_assginee_table.sql
+db2 -tvf .\tables\create_issue_relation_table.sql
+db2 -tvf .\tables\create_merge_request_table.sql
+db2 -tvf .\tables\create_merge_request_assginee_table.sql
+db2 -tvf .\tables\create_merge_request_relation_table.sql
 db2 -tvf .\views\create_commit_view.sql
 db2 -tvf .\views\create_commit_lookup_view.sql
+db2 -tvf .\views\create_issue_view.sql
+db2 -tvf .\views\create_issue_assignee_view.sql
+db2 -tvf .\views\create_issue_relation_view.sql
+db2 -tvf .\views\create_merge_request_view.sql
+db2 -tvf .\views\create_merge_request_assignee_view.sql
+db2 -tvf .\views\create_merge_request_relation_view.sql
 ```
 
 6. Disconnect the command line session
@@ -127,7 +151,7 @@ db2 -tvf .\views\create_commit_lookup_view.sql
 
 1. Copy the files in `reporting/dcc` to `server/conf/dcc/mapping`
 
-`cp .\dcc\git-commit.ttl D:\IBM\JazzLiberty_DCC_606\server\conf\dcc\mapping`
+`cp .\dcc\* D:\IBM\JazzLiberty_DCC_606\server\conf\dcc\mapping`
 
 2. Import data collection definitions as shown in the [instructions](#deploy-data-collection-files)
     1. Open DCC Web, eg. from `https://jazz-home-uri/dcc/web`
@@ -137,7 +161,7 @@ db2 -tvf .\views\create_commit_lookup_view.sql
 
 1. Copy the files in `reporting/rs` to `server/conf/rs/metadata`
 
-`cp .\rs\git-commit.ttl D:\IBM\JazzLiberty_RS_606\server\conf\rs\metadata`
+`cp .\rs\* D:\IBM\JazzLiberty_RS_606\server\conf\rs\metadata`
 
 2. Reload the report definitions as shown in the [instructions](#deploy-report-builder-definitions)
     1. Open report builder, eg. from `https://jazz-home-uri/rs/reports`

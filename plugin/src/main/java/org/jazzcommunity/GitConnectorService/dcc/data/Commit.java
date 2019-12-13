@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlRootElement(name = "commit")
@@ -46,6 +47,7 @@ public class Commit {
 
   private String projectArea;
 
+  @XmlCDATA
   public String getComment() {
     return comment;
   }

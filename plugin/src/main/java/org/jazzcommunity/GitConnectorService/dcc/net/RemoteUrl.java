@@ -1,7 +1,10 @@
 package org.jazzcommunity.GitConnectorService.dcc.net;
 
+import java.net.URI;
+
 public class RemoteUrl {
 
+  private final URI original;
   private final String serviceName;
   private final String serviceUrl;
   private final String projectId;
@@ -9,7 +12,13 @@ public class RemoteUrl {
   private final String artifactId;
 
   public RemoteUrl(
-      String serviceName, String serviceUrl, String projectId, String artifact, String artifactId) {
+      URI uri,
+      String serviceName,
+      String serviceUrl,
+      String projectId,
+      String artifact,
+      String artifactId) {
+    original = uri;
     this.serviceName = serviceName;
     this.serviceUrl = serviceUrl;
     this.projectId = projectId;
@@ -35,6 +44,10 @@ public class RemoteUrl {
 
   public String getArtifactId() {
     return artifactId;
+  }
+
+  public String asPreview() {
+    return original.toString().replaceFirst("/link$", "/preview");
   }
 
   @Override

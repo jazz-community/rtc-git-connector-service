@@ -19,7 +19,7 @@ public class Commits {
   @XmlElement(name = "commit")
   private List<Commit> commits = new ArrayList<>();
 
-  @XmlAttribute private String rel = "next";
+  @XmlAttribute private String rel;
 
   public String getHref() {
     return href;
