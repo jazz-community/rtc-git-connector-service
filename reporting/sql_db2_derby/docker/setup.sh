@@ -11,19 +11,32 @@ echo "admin" | su - db2inst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2ins
 echo "admin" | su - db2inst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin && \
     /home/db2inst1/sqllib/bin/db2 -tvf /var/custom/mocks/create_mocks.sql "
 
-# # create commit tables
+# create commit tables
 echo "admin" | su - db2inst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin && \
     db2 -tvf /var/custom/tables/create_commit_table.sql && \
     db2 -tvf /var/custom/tables/create_commit_lookup_table.sql"
-# # create issue tables
+# create issue tables
 echo "admin" | su - db2inst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin && \
     db2 -tvf /var/custom/tables/create_issue_table.sql && \
     db2 -tvf /var/custom/tables/create_issue_assignee_table.sql && \
     db2 -tvf /var/custom/tables/create_issue_relation_table.sql"
-# # create merge request tables
+# create merge request tables
 echo "admin" | su - db2inst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin && \
     db2 -tvf /var/custom/tables/create_merge_request_table.sql && \
     db2 -tvf /var/custom/tables/create_merge_request_assignee_table.sql && \
     db2 -tvf /var/custom/tables/create_merge_request_relation_table.sql"
 
-#echo "admin" | su - db2inst1 -c "home/db2inst1/sqllib/bin/db2 connect reset"
+# create commit views
+echo "admin" | su - db2inst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin && \
+    db2 -tvf /var/custom/views/create_commit_view.sql && \
+    db2 -tvf /var/custom/views/create_commit_lookup_view.sql"
+# create issue views
+echo "admin" | su - db2inst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin && \
+    db2 -tvf /var/custom/views/create_issue_view.sql && \
+    db2 -tvf /var/custom/views/create_issue_assignee_view.sql && \
+    db2 -tvf /var/custom/views/create_issue_relation_view.sql"
+# create merge request views
+echo "admin" | su - db2inst1 -c "/home/db2inst1/sqllib/bin/db2 connect to db2inst1 user db2inst1 using admin && \
+    db2 -tvf /var/custom/views/create_merge_request_view.sql && \
+    db2 -tvf /var/custom/views/create_merge_request_assignee_view.sql && \
+    db2 -tvf /var/custom/views/create_merge_request_relation_view.sql"
