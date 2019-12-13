@@ -18,6 +18,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
  */
 public final class PaginatedRequest {
 
+  private static final String DEFAULT_SIZE = "25";
+
   private final String baseUrl;
   private final HttpServletRequest request;
   private final String cacheId;
@@ -31,6 +33,10 @@ public final class PaginatedRequest {
     this.cacheId = cacheId;
     this.start = start;
     this.end = end;
+  }
+
+  public int size() {
+    return end - start;
   }
 
   public int getStart() {
@@ -57,7 +63,6 @@ public final class PaginatedRequest {
         .setPath(request.getRequestURI())
         .setParameters(pairs)
         .setParameter("size", String.valueOf(end - start))
-        // TODO: This might have to be end + 1
         .setParameter("pos", String.valueOf(end))
         .setParameter("id", cacheId)
         .build();
@@ -70,8 +75,8 @@ public final class PaginatedRequest {
 
   public static PaginatedRequest fromRequest(
       String baseUrl, HttpServletRequest request, String cacheId) {
-    // TODO: This already has a better solution, just have to consolidate size parameter handling
-    String size = request.getParameter("size") != null ? request.getParameter("size") : "25";
+    String size =
+        request.getParameter("size") != null ? request.getParameter("size") : DEFAULT_SIZE;
     String pos = request.getParameter("pos");
 
     if (size == null) {

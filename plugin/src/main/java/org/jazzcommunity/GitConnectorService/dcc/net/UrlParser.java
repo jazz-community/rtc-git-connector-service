@@ -1,6 +1,7 @@
 package org.jazzcommunity.GitConnectorService.dcc.net;
 
 import java.net.URI;
+import java.net.URL;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +14,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
  * library for fetching json data from gitlab/hub
  */
 public class UrlParser {
+
+  private UrlParser() {}
 
   /*
    * starting with anything up until the name of the service
@@ -31,10 +34,17 @@ public class UrlParser {
     Matcher matcher = pattern.matcher(uri.getPath());
     matcher.find();
     return new RemoteUrl(
-        matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5));
+        uri,
+        matcher.group(1),
+        matcher.group(2),
+        matcher.group(3),
+        matcher.group(4),
+        matcher.group(5));
   }
 
   public static DataUrl parseData(URI uri) {
+    // in newer versions of the library, this variant of the parse method has been deprecated.
+    // once rtc is packaged with a never version, this should be changed.
     List<NameValuePair> parameters = URLEncodedUtils.parse(uri, "UTF-8");
 
     for (NameValuePair parameter : parameters) {
@@ -46,5 +56,9 @@ public class UrlParser {
     String error =
         String.format("Invalid data url. Doesn't contain commit data. URL: %s", uri.toString());
     throw new IllegalArgumentException(error);
+  }
+
+  public static String getBaseUrl(URL url) {
+    return String.format("%s://%s", url.getProtocol(), url.getHost());
   }
 }

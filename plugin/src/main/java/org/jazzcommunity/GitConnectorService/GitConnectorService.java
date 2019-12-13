@@ -1,9 +1,13 @@
 package org.jazzcommunity.GitConnectorService;
 
 import com.siemens.bt.jazz.services.base.BaseService;
+import com.siemens.bt.jazz.services.base.configuration.Configuration;
+import com.siemens.bt.jazz.services.base.configuration.preset.ContentConfigurator;
+import com.siemens.bt.jazz.services.base.configuration.preset.EncodingConfigurator;
 import com.siemens.bt.jazz.services.base.router.Router;
 import org.jazzcommunity.GitConnectorService.ccm.inject.LinkTypeInjector;
 import org.jazzcommunity.GitConnectorService.ccm.service.VersionService;
+import org.jazzcommunity.GitConnectorService.ccm.service.development.RegisterRepositoryService;
 import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.IssueLinkService;
 import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.IssuePreviewService;
 import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.RequestLinkService;
@@ -11,6 +15,10 @@ import org.jazzcommunity.GitConnectorService.ccm.service.gitlab.RequestPreviewSe
 import org.jazzcommunity.GitConnectorService.ccm.service.proxy.ProxyService;
 import org.jazzcommunity.GitConnectorService.ccm.service.resource.ImageService;
 import org.jazzcommunity.GitConnectorService.dcc.service.CommitService;
+import org.jazzcommunity.GitConnectorService.dcc.service.IssueLinkCollectionService;
+import org.jazzcommunity.GitConnectorService.dcc.service.IssueService;
+import org.jazzcommunity.GitConnectorService.dcc.service.MergeRequestLinkCollectionService;
+import org.jazzcommunity.GitConnectorService.dcc.service.MergeRequestService;
 
 /**
  * Entry point for the Service, called by the Jazz class loader.
@@ -34,7 +42,17 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
   }
 
   private void addDccRoutes(Router router) {
-    router.get("dcc/commits", CommitService.class);
+    // Don't change the order of these configurators, otherwise you will run into a bug with the
+    // apache http client underlying the servlet configuration.
+    ContentConfigurator xml = new ContentConfigurator("application/xml");
+    EncodingConfigurator utf = new EncodingConfigurator("UTF-8");
+    Configuration response = new Configuration(xml, utf);
+
+    router.get("dcc/commits", CommitService.class, response);
+    router.get("dcc/issues", IssueService.class, response);
+    router.get("dcc/merge-requests", MergeRequestService.class, response);
+    router.get("dcc/links/issues", IssueLinkCollectionService.class, response);
+    router.get("dcc/links/merge-requests", MergeRequestLinkCollectionService.class, response);
   }
 
   private void addCcmRoutes(Router router) {
@@ -55,6 +73,9 @@ public class GitConnectorService extends BaseService implements IGitConnectorSer
 
     router.get("proxy/{host}", ProxyService.class);
     router.post("proxy/{host}", ProxyService.class);
+
+    // this service should only work in debug modes
+    router.post("repositories", RegisterRepositoryService.class);
 
     /**
      * This code is purposely commented out and not deleted! We have decided to use the IBM rich

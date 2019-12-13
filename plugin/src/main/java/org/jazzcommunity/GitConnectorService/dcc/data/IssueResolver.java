@@ -1,40 +1,39 @@
 package org.jazzcommunity.GitConnectorService.dcc.data;
 
 import ch.sbi.minigit.gitlab.GitlabApi;
+import ch.sbi.minigit.gitlab.GitlabWebFactory;
 import ch.sbi.minigit.type.gitlab.issue.Issue;
 import ch.sbi.minigit.type.gitlab.mergerequest.MergeRequest;
 import com.ibm.team.repository.common.UUID;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import org.jazzcommunity.GitConnectorService.dcc.net.RemoteUrl;
 import org.jazzcommunity.GitConnectorService.dcc.net.UrlParser;
+import org.jazzcommunity.GitConnectorService.dcc.xml.LinkedIssue;
 
 // this is just until I fix it properly
-public class UrlResolver implements Resolver<Object> {
+@Deprecated
+public class IssueResolver implements Resolver<Issue> {
 
+  private final UUID parent;
   private final RemoteUrl remoteUrl;
 
-  public UrlResolver(URI uri) {
+  public IssueResolver(UUID parent, URI uri) {
+    this.parent = parent;
     remoteUrl = UrlParser.parseRemote(uri);
   }
 
   @Override
-  public Object resolve(UUID projectArea) {
-    // this will fetch data from gitlab/hub or wherever, and return a data object. Which data will
-    // be used for what payloads hasn't been defined yet, so this will just print some data instead
-    // for now.
-    // Most likely, this will be integrated with the git connector service, and therefor api keys
-    // will be retrieved locally. The token saved here is just for development, and to be removed
-    // before open sourcing / merging into the service.
-    // If key retrieval were a library, *cough*, or custom service retrieval were actually possible,
-    // (no, it's not...), this would be super easy.
-    String token = "gT9maFSo4VjTQqu6eXeb";
-    // also, make the api always handle the protocol, if it is not part of the passed in url. Should
-    // always be https anyway.
-    // also, probably, the api should have a factory for which kind of service is being accessed,
-    // github
-    // or gitlab.
-    GitlabApi api = new GitlabApi("https://" + remoteUrl.getServiceUrl(), token);
+  public LinkedIssue resolve(UUID projectArea) {
+    String host = "https://" + remoteUrl.getServiceUrl();
+    GitlabApi api = null;
+    try {
+      api = new GitlabWebFactory(host).build();
+    } catch (URISyntaxException e) {
+      String message = String.format("Invalid issue url provided: %s", host);
+      System.out.println(message);
+    }
 
     // as well as that, this differentiation should probably be handled by the factory, if we are
     // working with issues or requests or whatever and just try to fetch the proper payload.
@@ -44,32 +43,26 @@ public class UrlResolver implements Resolver<Object> {
     switch (remoteUrl.getArtifact()) {
       case "issue":
         try {
-          Issue issue =
+          Issue original =
               api.getIssue(
                   Integer.valueOf(remoteUrl.getProjectId()),
                   Integer.valueOf(remoteUrl.getArtifactId()));
-          System.out.println(issueToString(issue));
+
+          LinkedIssue issue = LinkedIssue.fromIssue(original);
+          issue.setLinkedFrom(parent.getUuidValue());
+          issue.setLinkUrl(remoteUrl.asPreview());
+          issue.setProjectArea(projectArea.getUuidValue());
+
+          return issue;
         } catch (IOException e) {
           e.printStackTrace();
         }
-        break;
-      case "merge-request":
-        try {
-          MergeRequest request =
-              api.getMergeRequest(
-                  Integer.valueOf(remoteUrl.getProjectId()),
-                  Integer.valueOf(remoteUrl.getArtifactId()));
-          System.out.println(requestToString(request));
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-        break;
     }
 
     return null;
   }
 
-  private static String issueToString(Issue issue) {
+  public static String issueToString(Issue issue) {
     return "Issue {"
         + "\n\tIid: "
         + issue.getIid()
@@ -80,7 +73,7 @@ public class UrlResolver implements Resolver<Object> {
         + "\n}";
   }
 
-  private static String requestToString(MergeRequest request) {
+  public static String requestToString(MergeRequest request) {
     return "Issue {"
         + "\n\tIid: "
         + request.getIid()

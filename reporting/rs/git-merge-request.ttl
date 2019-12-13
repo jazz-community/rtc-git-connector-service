@@ -1,0 +1,210 @@
+@prefix map: <#> .
+@prefix db: <> .
+@prefix ridw: <http://jazz.net/ns/reporting/dwse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+@prefix jdbc: <http://d2rq.org/terms/jdbc/> .
+@prefix jrs: <http://jazz.net/jrs/reportbuilder/datawarehouse#> .
+@prefix sg: <http://jazz.net/ns/reporting/sparqlgateway#> .
+
+# Table RIDW.VW_GIT_MERGE_REQUEST
+map:RIDW_VW_GIT_MERGE_REQUEST a d2rq:ClassMap;
+    jrs:primaryKey "RIDW.VW_GIT_MERGE_REQUEST.EXTERNAL_LINK";
+    d2rq:dataStorage map:database;
+    d2rq:uriColumn "RIDW.VW_GIT_MERGE_REQUEST.URL";
+    d2rq:class ridw:RIDW_VW_GIT_MERGE_REQUEST;
+    jrs:table "RIDW.VW_GIT_MERGE_REQUEST";
+    jrs:metaModel "METRICS_CM";
+    d2rq:classDefinitionLabel "Git Merge Request";
+    .
+
+# property mapping
+map:RIDW_VW_GIT_MERGE_REQUEST_NAME a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_NAME;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.NAME";
+    d2rq:propertyDefinitionLabel "Title";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_URL a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_URL;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.URL";
+    d2rq:propertyDefinitionLabel "URL";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_EXTERNAL_LINK a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_EXTERNAL_LINK;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.EXTERNAL_LINK";
+    d2rq:propertyDefinitionLabel "External Link Url";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_DESCRIPTION a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_DESCRIPTION;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.DESCRIPTION";
+    d2rq:propertyDefinitionLabel "Description";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_AUTHOR_USER_REFERENCE a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_AUTHOR_USER_REFERENCE;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.AUTHOR_USER_REFERENCE";
+    d2rq:propertyDefinitionLabel "Author E-Mail";
+    .
+
+
+map:RIDW_VW_GIT_MERGE_REQUEST_AUTHOR_USER_NAME a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_AUTHOR_USER_NAME;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.AUTHOR_USER_NAME";
+    d2rq:propertyDefinitionLabel "Author User Name";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_AUTHOR_NAME a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_AUTHOR_NAME;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.AUTHOR_NAME";
+    d2rq:propertyDefinitionLabel "Author Name";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_IN_PROGRESS a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_IN_PROGRESS;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.IN_PROGRESS";
+    d2rq:propertyDefinitionLabel "In Progress";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_STATE a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_STATE;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.STATE";
+    d2rq:propertyDefinitionLabel "State";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_MERGE_STATUS a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_MERGE_STATUS;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.MERGE_STATUS";
+    d2rq:propertyDefinitionLabel "Merge Status";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_MERGED_AT a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_MERGED_AT;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.MERGED_AT";
+    d2rq:propertyDefinitionLabel "Merged At";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_CREATED_AT a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_CREATED_AT;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.CREATED_AT";
+    d2rq:propertyDefinitionLabel "Created At";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_CREATED_AT a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_CREATED_AT;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.CREATED_AT";
+    d2rq:propertyDefinitionLabel "Created At";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_UPDATED_AT a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_UPDATED_AT;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.UPDATED_AT";
+    d2rq:propertyDefinitionLabel "Updated At";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_TARGET_BRANCH a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_TARGET_BRANCH;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.TARGET_BRANCH";
+    d2rq:propertyDefinitionLabel "Target Branch";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_SOURCE_BRANCH a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_SOURCE_BRANCH;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.SOURCE_BRANCH";
+    d2rq:propertyDefinitionLabel "Source Branch";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_TARGET_PROJECT a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_TARGET_PROJECT;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.TARGET_PROJECT";
+    d2rq:propertyDefinitionLabel "Target Project";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_SOURCE_PROJECT a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_SOURCE_PROJECT;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.SOURCE_PROJECT";
+    d2rq:propertyDefinitionLabel "Source Project";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_SHA a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_SHA;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.SHA";
+    d2rq:propertyDefinitionLabel "SHA";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_MERGE_COMMIT_SHA a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_MERGE_COMMIT_SHA;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.MERGE_COMMIT_SHA";
+    d2rq:propertyDefinitionLabel "Merge Commit SHA";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_PK a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_PK;
+    d2rq:column "RIDW.VW_GIT_MERGE_REQUEST.PK";
+    d2rq:propertyDefinitionLabel "Primary Key";
+    .
+
+# multidirectional relationship
+map:RIDW_VW_GIT_MERGE_REQUEST_RELATION a d2rq:ClassMap;
+    d2rq:dataStorage map:database;
+    d2rq:class ridw:RIDW_VW_GIT_MERGE_REQUEST_RELATION;
+    jrs:table "RIDW.VW_GIT_MERGE_REQUEST_RELATION";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_RELATION_MERGE_REQUEST__ref a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST_RELATION;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_RELATION_MERGE_REQUEST;
+    d2rq:refersToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:join "RIDW.VW_GIT_MERGE_REQUEST_RELATION.MERGE_REQUEST_ID => RIDW.VW_GIT_MERGE_REQUEST.PK";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_RELATION_REQUEST__ref a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST_RELATION;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_RELATION_REQUEST;
+    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
+    d2rq:join "RIDW.VW_GIT_MERGE_REQUEST_RELATION.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+    .
+
+map:RIDW_VW_GIT_MERGE_REQUEST_RELATION_PROJECT__ref a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_GIT_MERGE_REQUEST_RELATION;
+    d2rq:property ridw:RIDW_VW_GIT_MERGE_REQUEST_RELATION_PROJECT;
+    d2rq:refersToClassMap map:RIDW_VW_REQUEST;
+    d2rq:join "RIDW.VW_GIT_MERGE_REQUEST_RELATION.PROJECT_ID => RIDW.VW_PROJECT.PROJECT_ID";
+    .
+
+# UI link
+    
+map:RIDW_VW_GIT_MERGE_REQUEST_RELATION_REQUEST__link a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:RIDW_VW_REQUEST;
+    d2rq:property ridw:RIDW_VW_REQUEST_GIT_MERGE_REQUEST_LINKED_TO;
+    d2rq:refersToClassMap map:RIDW_VW_GIT_MERGE_REQUEST;
+    d2rq:join "RIDW.VW_GIT_MERGE_REQUEST_RELATION.REQUEST_ID => RIDW.VW_REQUEST.REQUEST_ID";
+    d2rq:join "RIDW.VW_GIT_MERGE_REQUEST_RELATION.MERGE_REQUEST_ID => RIDW.VW_GIT_MERGE_REQUEST.PK";
+    d2rq:propertyDefinitionLabel "Linked to";
+    .
+

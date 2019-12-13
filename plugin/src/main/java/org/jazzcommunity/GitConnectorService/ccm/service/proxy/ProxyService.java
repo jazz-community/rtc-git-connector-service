@@ -3,8 +3,8 @@ package org.jazzcommunity.GitConnectorService.ccm.service.proxy;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.ibm.team.repository.service.TeamRawService;
+import com.siemens.bt.jazz.services.base.configuration.Configuration;
 import com.siemens.bt.jazz.services.base.rest.parameters.PathParameters;
-import com.siemens.bt.jazz.services.base.rest.parameters.RestRequest;
 import com.siemens.bt.jazz.services.base.rest.service.AbstractRestService;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,13 +22,14 @@ import org.apache.commons.logging.Log;
 public class ProxyService extends AbstractRestService {
 
   public ProxyService(
+      String uri,
       Log log,
       HttpServletRequest request,
       HttpServletResponse response,
-      RestRequest restRequest,
+      Configuration configuration,
       TeamRawService parentService,
       PathParameters pathParameters) {
-    super(log, request, response, restRequest, parentService, pathParameters);
+    super(uri, log, request, response, configuration, parentService, pathParameters);
   }
 
   @Override

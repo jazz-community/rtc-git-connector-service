@@ -1,0 +1,229 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix dcc: <http://jazz.net/ns/dcc#>.
+
+<http://jazz.net/ns/dcc/mapGroup#GitMergeRequest>
+	a dcc:MapGroup;
+	dcterms:title "Git Merge Requests";
+	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests>;
+	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests_assignees>;
+	dcc:ODSTableMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests_relations>;
+	dcc:dependency <http://jazz.net/ns/dcc/mapGroup#JFS_ODS>;
+    dcc:dependency <http://jazz.net/ns/dcc/mapGroup#RTC_Workitem>;
+	dcc:schedule "ods";
+	dcc:enabled "true".
+
+<http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_MERGE_REQUEST>
+    a dcc:TableInfo;
+    dcc:schemaName "ODS";
+    dcc:tableName "GIT_MERGE_REQUEST";
+    dcc:surrogateKey [ dcc:column "ID_PK" ]
+    .
+
+<http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_MERGE_REQUEST_ASSIGNEE>
+    a dcc:TableInfo;
+    dcc:schemaName "ODS";
+    dcc:tableName "GIT_MERGE_REQUEST_ASSIGNEE";
+    .
+
+<http://jazz.net/ns/dcc/resourceInfo#git_merge_request>
+	a dcc:ResourceInfo;
+	dcc:baseResourceGroup <http://jazz.net/ns/dcc/baseResourceGroup#RTCBaseResourceGroup>;
+	dcc:executionOrder "100";
+	dcc:version "6.0.1,6.0.2,6.0.3,6.0.4,6.0.5,6.0.6,6.0.7";
+    dcc:relativeURL "/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/dcc/merge-requests?size=25";
+	dcc:baseXPath "/mergerequests".
+
+<http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests>
+	a dcc:ODSTableMap;
+	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_merge_request>;
+    rr:logicalTable [
+        dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_MERGE_REQUEST>;
+		dcc:deliveryKey [ rr:column "IID"; rr:column "PROJECT_ID" ];
+        dcc:needLock "TRUE";
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/id" ];
+        rr:objectMap [ rr:column "ID" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/iid" ];
+        rr:objectMap [ rr:column "IID" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/projectId" ];
+        rr:objectMap [ rr:column "PROJECT_ID" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/title" ];
+        rr:objectMap [ rr:column "TITLE" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/description" ];
+        rr:objectMap [ rr:column "DESCRIPTION" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/state" ];
+        rr:objectMap [ rr:column "STATE" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/mergedAt" ];
+        rr:objectMap [ rr:column "MERGED_AT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/createdAt" ];
+        rr:objectMap [ rr:column "CREATED_AT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/updatedAt" ];
+        rr:objectMap [ rr:column "UPDATED_AT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/targetBranch" ];
+        rr:objectMap [ rr:column "TARGET_BRANCH" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/sourceBranch" ];
+        rr:objectMap [ rr:column "SOURCE_BRANCH" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/targetProjectId" ];
+        rr:objectMap [ rr:column "TARGET_PROJECT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/sourceProjectId" ];
+        rr:objectMap [ rr:column "SOURCE_PROJECT" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:name "inProgress"; dcc:XPath "/mergerequest/workInProgress" ];
+        rr:objectMap [ rr:column "IN_PROGRESS"; dcc:localTransform "parseBoolean(?inProgress)"]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:name "mergeOnSuccess"; dcc:XPath "/mergerequest/mergeWhenPipelineSucceeds" ];
+        rr:objectMap [ rr:column "MERGE_SUCCESS"; dcc:localTransform "parseBoolean(?mergeOnSuccess)"]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/mergeStatus" ];
+        rr:objectMap [ rr:column "MERGE_STATUS" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/sha" ];
+        rr:objectMap [ rr:column "SHA" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/mergeCommitSha" ];
+        rr:objectMap [ rr:column "MERGE_COMMIT_SHA" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/webUrl" ];
+        rr:objectMap [ rr:column "WEB_URL" ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/rtcRichHover" ];
+        rr:objectMap [ rr:column "RICH_HOVER_URL" ]
+    ];
+    # FK to author
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/author/publicEmail" ];
+        rr:objectMap [
+            # I should document how to find out which tablemap needs to be referenced here
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_Contributor>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#DEFAULT>;
+            dcc:lookupKey "REFERENCE_ID";
+            # child is *this* table, and parent is the other table we're referencing from here.
+            rr:joinCondition [ rr:child "RTC_AUTHOR" ; rr:parent "RESOURCE_ID" ];
+        ];
+    ]
+    .
+
+<http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests_assignees>
+    a dcc:ODSTableMap;
+	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_merge_request>;
+	rr:logicalTable [ 
+		dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_MERGE_REQUEST_ASSIGNEE>; 
+		dcc:deliveryKey [ rr:column "ASSIGNEE_ID"; rr:column "MERGE_REQUEST_ID" ];
+        dcc:needLock "TRUE";
+    ];
+    # FK insert to git merge request
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/id" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
+            dcc:lookupKey "ID";
+            rr:joinCondition [ rr:child "MERGE_REQUEST_ID"; rr:parent "ID_PK" ];
+        ];
+    ];
+    # FK insert to resource (user / assignee)
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/mergerequest/assignees/assignee/publicEmail" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_Contributor>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
+            dcc:lookupKey "NAME";
+            rr:joinCondition [ rr:child "ASSIGNEE_ID"; rr:parent "RESOURCE_ID" ];
+        ];
+    ].
+
+# seperate resource info etc. for the relations stuff
+<http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_MERGE_REQUEST_RELATION>
+    a dcc:TableInfo;
+    dcc:schemaName "ODS";
+    dcc:tableName "GIT_MERGE_REQUEST_RELATION";
+    .
+    
+<http://jazz.net/ns/dcc/resourceInfo#git_merge_requests_links>
+	a dcc:ResourceInfo;
+	dcc:baseResourceGroup <http://jazz.net/ns/dcc/baseResourceGroup#RTCBaseResourceGroup>;
+    # this will be important for linked requests, because they need to run after
+    # all merge requests have been imported
+	dcc:executionOrder "101";
+	dcc:version "6.0.1,6.0.2,6.0.3,6.0.4,6.0.5,6.0.6,6.0.7";
+    dcc:relativeURL "/service/org.jazzcommunity.GitConnectorService.IGitConnectorService/dcc/links/merge-requests?size=25";
+	dcc:baseXPath "/merge-request-links".
+    
+    
+<http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests_relations>
+	a dcc:ODSTableMap;
+	dcc:resourceInfo <http://jazz.net/ns/dcc/resourceInfo#git_merge_requests_links>;
+    rr:logicalTable [
+        dcc:tableInfo <http://jazz.net/ns/dcc/tableInfo#RIODS_GIT_MERGE_REQUEST_RELATION>;
+		dcc:deliveryKey [ rr:column "MERGE_REQUEST_ID"; rr:column "REQUEST_ID"; rr:column "PROJECT_ID" ];
+        dcc:needLock "TRUE";
+    ];
+    # FK insert to project area
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/merge-request/projectArea" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#JFS_ProjectArea>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
+            dcc:lookupKey "EXTERNAL_KEY2";
+            rr:joinCondition [ rr:child "PROJECT_ID"; rr:parent "PROJECT_ID" ];
+        ];
+    ];
+    # FK insert to work item
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:XPath "/merge-request/workItem" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#RTC_Workitem>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
+            dcc:lookupKey "EXTERNAL_KEY2";
+            rr:joinCondition [ rr:child "REQUEST_ID"; rr:parent "REQUEST_ID" ];
+        ];
+    ];
+    # FK insert to git merge request
+    rr:predicateObjectMap [
+        rr:predicateMap [ dcc:name "project"; dcc:XPath "/merge-request/projectId" ];
+        rr:predicateMap [ dcc:name "iid"; dcc:XPath "/merge-request/artifactId" ];
+        rr:objectMap [
+            rr:parentTriplesMap <http://jazz.net/ns/dcc/ODSTableMap#git_merge_requests>;
+			dcc:lookupNotMatch <http://jazz.net/ns/dcc/lookupNotMatch#REJECT>;
+            dcc:needLock "TRUE";
+            dcc:predicateColumnLookup [ dcc:predicateName "project"; rr:column "PROJECT_ID" ];
+            dcc:predicateColumnLookup [ dcc:predicateName "iid"; rr:column "IID" ];
+            rr:joinCondition [ rr:child "MERGE_REQUEST_ID"; rr:parent "ID_PK" ];
+        ];
+    ].
+    

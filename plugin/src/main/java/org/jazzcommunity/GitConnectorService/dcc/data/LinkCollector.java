@@ -30,34 +30,21 @@ import com.ibm.team.workitem.service.IQueryServer;
 import com.ibm.team.workitem.service.IWorkItemServer;
 import java.util.ArrayList;
 import java.util.List;
+import org.jazzcommunity.GitConnectorService.common.GitLink;
 
 public class LinkCollector {
-  /**
-   * Currently available git link types which map to queryable attributes. Maybe create an api
-   * endpoint for this instead? And sort of keep track of this using the collector service?
-   *
-   * <p>TODO: Extract to Enum
-   */
-  private final String[] linkTypes = {
-    "link:com.ibm.team.git.workitem.linktype.gitCommit:target",
-    //    "link:org.jazzcommunity.git.link.git_issue:target",
-    //    "link:org.jazzcommunity.git.link.git_mergerequest:target"
-  };
+
+  private final GitLink[] linkTypes;
 
   private TeamRawService teamService;
 
-  public LinkCollector(TeamRawService teamService) {
-    this.teamService = teamService;
+  public LinkCollector(GitLink linkType, TeamRawService teamService) {
+    this(new GitLink[] {linkType}, teamService);
   }
 
-  private void logProjectArea(IProjectArea pa) {
-    String initialized = pa.isInitialized() ? "initialized" : "uninitialized";
-    String archived = pa.isArchived() ? "archived" : "not archived";
-    String message =
-        String.format(
-            "Project Area '%s %s' is %s and %s",
-            pa.getName(), pa.getItemId(), initialized, archived);
-    teamService.getLog().warn(message);
+  public LinkCollector(GitLink[] linkTypes, TeamRawService teamService) {
+    this.linkTypes = linkTypes;
+    this.teamService = teamService;
   }
 
   // TODO: Replace flag by Enum / Filter Options
@@ -113,7 +100,11 @@ public class LinkCollector {
         // object for aggregating link data
         WorkItemLinkFactory workItemLinkFactory =
             new WorkItemLinkFactory(
-                area.getName(), item.getId(), item.getItemId(), item.getHTMLSummary());
+                area.getName(),
+                item.getId(),
+                item.getItemId(),
+                item.getHTMLSummary(),
+                teamService.getLog());
         // adding this shouldn't be manual, and probably the whole data structure(s) used here
         // should be a lot more refined
         links.add(workItemLinkFactory);
@@ -223,9 +214,10 @@ public class LinkCollector {
     List<IQueryableAttribute> attributes = new ArrayList<>();
     IQueryableAttributeFactory factory = QueryableAttributes.getFactory(IWorkItem.ITEM_TYPE);
 
-    for (String type : linkTypes) {
+    for (GitLink type : linkTypes) {
       IQueryableAttribute attribute =
-          factory.findAttribute(handle, type, teamService.getService(IAuditableServer.class), null);
+          factory.findAttribute(
+              handle, type.asTarget(), teamService.getService(IAuditableServer.class), null);
       attributes.add(attribute);
     }
 
@@ -243,5 +235,15 @@ public class LinkCollector {
     ItemQueryIterator<IProjectAreaHandle> iterator =
         new ItemQueryIterator<>(server, query, null, null, ReadMode.COMMITTED);
     return iterator.toList(null);
+  }
+
+  private void logProjectArea(IProjectArea pa) {
+    String initialized = pa.isInitialized() ? "initialized" : "uninitialized";
+    String archived = pa.isArchived() ? "archived" : "not archived";
+    String message =
+        String.format(
+            "Project Area '%s %s' is %s and %s",
+            pa.getName(), pa.getItemId(), initialized, archived);
+    teamService.getLog().info(message);
   }
 }
