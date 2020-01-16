@@ -13,7 +13,7 @@ public final class Response {
   // Creating marshallers on the other hand is cheap, so this is used as a cache for created
   // marshallers
   // https://stackoverflow.com/questions/7400422/jaxb-creating-context-and-marshallers-cost
-  private static final Map<Class, JAXBContext> CONTEXTS = new HashMap<>();
+  private static final Map<Class<?>, JAXBContext> CONTEXTS = new HashMap<>();
 
   private Response() {}
 
