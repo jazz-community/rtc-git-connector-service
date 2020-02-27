@@ -22,6 +22,7 @@ import org.jazzcommunity.GitConnectorService.ccm.net.GitServiceArtifact;
 import org.jazzcommunity.GitConnectorService.ccm.net.UrlBuilder;
 import org.jazzcommunity.GitConnectorService.common.Parameter;
 import org.jazzcommunity.GitConnectorService.common.Response;
+import org.jazzcommunity.GitConnectorService.common.Token;
 import org.jazzcommunity.GitConnectorService.dcc.controller.RemoteProviderFactory;
 import org.jazzcommunity.GitConnectorService.dcc.data.PageProvider;
 import org.jazzcommunity.GitConnectorService.dcc.net.PaginatedRequest;
@@ -88,9 +89,11 @@ public class MergeRequestService extends AbstractRestService {
     IGitRepositoryDescriptor[] repositories =
         service.getAllRegisteredGitRepositories(null, null, true, true);
 
+    String token = Token.get();
+
     return new RemoteProviderFactory<>(
             "merge_requests", MergeRequest[].class, timeout, modified, repositories, log)
-        .getProvider();
+        .getProvider(token);
   }
 
   private void addRichHoverLinks(Collection<MergeRequest> requests) throws MalformedURLException {

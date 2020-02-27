@@ -23,6 +23,9 @@
         <requiredService interface="com.ibm.team.workitem.service.IAuditableServer"/>
         <requiredService interface="com.ibm.team.workitem.service.IWorkItemServer"/>
         <requiredService interface="com.ibm.team.git.common.internal.IGitRepositoryRegistrationService"/>
+        <configurationProperties>
+          <configurationProperty accessPolicy="SENSITIVE" default="" description="Access token for inner source gitlab project resolution" displayableName="Gitlab API Token" name="access_token" required="false" type="STRING" updatePolicy="NO_RESTART_REQUIRED"/>
+        </configurationProperties>
       </prerequisites>
     </serviceProvider>
   </extension>
